@@ -4,7 +4,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-<title>Ceyteq Admin | පරිපාලක | Admin</title><style>
+<title>Ceyteq Admin | පරිපාලක | Admin</title>
+<meta name="description" content="Ceyteq admin panel — flyers database management. | පරිපාලක පුවිසුම.">
+<meta name="author" content="Ceylon Technology — Ceyteq">
+<meta name="theme-color" content="#0c1e21">
+<link rel="canonical" href="https://www.ceyteq.linkpc.net/admin.html">
+<link rel="icon" type="image/png" href="assets/logo-transparent.png">
+<link rel="apple-touch-icon" href="assets/logo-transparent.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CEYTEQ Digital Race">
+<meta property="og:title" content="Ceyteq Admin | පරිපාලක | Admin">
+<meta property="og:description" content="Ceyteq admin panel — flyers database management. | පරිපාලක පුවිසුම.">
+<meta property="og:url" content="https://www.ceyteq.linkpc.net/admin.html">
+<meta property="og:image" content="https://www.ceyteq.linkpc.net/flyers/flyer-01-program-intro.png">
+<meta property="og:image:width" content="1080">
+<meta property="og:image:height" content="1350">
+<meta property="og:locale" content="si_LK">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ceyteq Admin | පරිපාලක | Admin">
+<meta name="twitter:description" content="Ceyteq admin panel — flyers database management. | පරිපාලක පුවිසුම.">
+<meta name="twitter:image" content="https://www.ceyteq.linkpc.net/flyers/flyer-01-program-intro.png">
+<style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#ecf0f0;--card:#fff;--ink:#0c1e21;--mut:#364e52;--mut2:#67787a;--cyan:#27a3c9;
 --cyanb:#27a3c9;--navy:#0c1e21;--deep:#18292c;--tint:#d8e5e5;--tint2:#cee0e0;--line:#c9d1d1;
@@ -225,6 +246,7 @@ border:1px solid var(--line);box-shadow:0 18px 44px rgba(12,30,33,.14);margin:22
 <script>
 var ADMIN_SIG='YWRtaW46OmNleXRlcUAyMDI2';
 var SHEET_ID='1iT7QmbY0b-u5xjmGcaHBw8vOOpu2xNb5GTuKaPVBaKw';
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function LM(){return document.body.getAttribute('data-langmode')||'si'}
 function T(si,en,fr){var m=LM();return m==='si'?si:(m==='fr'?fr:en)}
 function showDash(s){document.getElementById('loginBox').style.display=s?'none':'block';document.getElementById('dashBox').style.display=s?'block':'none';if(s)loadSheet()}
@@ -246,7 +268,7 @@ var h='',n=0;
 for(var i=s;i<rows.length;i++){var r=rows[i];if(!(r[0]||'').trim())continue;n++;
 var v=(r[4]||'').toString().trim().toLowerCase();
 var hid=(v==='no'||v==='false'||v==='0'||v==='hide'||v==='hidden'||v==='off');
-h+='<tr><td>'+n+'</td><td><code class="k">'+r[0]+'</code></td><td>'+(r[1]||'')+'</td><td>'+(r[2]||'')+'</td><td>'+(r[3]||'')+'</td><td>'+(hid?'<span class="pill-no">NO</span>':'<span class="pill-ok">YES</span>')+'</td></tr>'}
+h+='<tr><td>'+n+'</td><td><code class="k">'+esc(r[0])+'</code></td><td>'+esc(r[1]||'')+'</td><td>'+esc(r[2]||'')+'</td><td>'+esc(r[3]||'')+'</td><td>'+(hid?'<span class="pill-no">NO</span>':'<span class="pill-ok">YES</span>')+'</td></tr>'}
 if(!n){st.innerHTML='<span class="pill-no">EMPTY</span>';tb.innerHTML='';return}
 st.innerHTML='<span class="pill-ok">CONNECTED</span>';ct.textContent=' • '+n+' rows';
 tb.innerHTML=h;

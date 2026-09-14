@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+# Backups / temp
+*.bak
+*.tmp
+*~
+# Backend runtime (added later)
+data/*.db
+data/*.db-journal
+data/*.sqlite3
+uploads/
+.env
+# OS
+.DS_Store
+Thumbs.db

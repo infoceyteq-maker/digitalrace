@@ -1,4 +1,4 @@
-CEYTEQ DIGITAL RACE — Website Pack v2.4 (2026-09-14)
+CEYTEQ DIGITAL RACE — Website Pack v2.6 (2026-09-14)
 ================================================
 UI SKIN: Hotelmate-matched design language (inspiration only, no content
 copied): Mona Sans font, primary #27A3C9, dark teal #0c1e21, page bg
@@ -14,7 +14,7 @@ LANGUAGES (exclusive, default Full Sinhala):
 HOME = zero package details (except general $1-2/day ad-spend FAQ).
 CONTACT lives on sub-pages (esp. Packages).
 
-PAGES (6) — open index.html, use top menu:
+PAGES (7) — open index.html, use top menu:
   index.html    = HOME (no prices, no contact block):
                   Hero (Digital Race + Alien Method highlight)
                   -> What is Digital Race? -> Quick Answers (+package link)
@@ -44,11 +44,26 @@ PRICE LOCK (never alter):
   Advanced $80 | 15/20/30 (+Voice $15) :: Premium $250 | $150 flat
   Client ad spend $1-$2/day direct to platforms. Ceyteq optimization FREE.
 
+FILES (fixed 2026-09-14 — the HTML expects exactly this layout):
+  ./*.html                     = the 7 pages (generated — do not hand-edit)
+  build_site.py                = regenerates the 7 pages (path-independent)
+  make_flyers.py               = regenerates the 10 flyers (1080x1350)
+  assets/logo-transparent.png  = logo (also inlined as base64 by the builder)
+  assets/logo.jpg, logo-crop.jpg, *.ttf = source images + fonts for flyers
+  assets/intro-720p.mp4        = home page video (15.9 MB — consider compressing)
+  flyers/flyer-01..10.png      = the 10 shareable flyers
+  .gitignore                   = Python/runtime ignores
+  AUDIT-REPORT.md              = full site audit: 13 findings + fixes
+Every page now carries description + Open Graph + Twitter Card + favicon, so
+WhatsApp / Facebook / Instagram link previews show a flyer image.
+
 SHARE AS ONE LINK (free): drag this folder to app.netlify.com/drop
   (or Vercel / GitHub Pages / Cloudflare Pages).
 
-REBUILD: python3 build_site.py  (regenerates all 6 pages from templates)
-REGENERATE FLYERS: python3 make_flyers.py
+REBUILD: python3 build_site.py  (regenerates all 7 pages from templates)
+REGENERATE FLYERS: python3 make_flyers.py  (needs Pillow: pip install Pillow)
+
+RUN LOCALLY: python3 -m http.server 8000   (then open http://localhost:8000)
 
 CONTACT: Hotline +94 78 860 7143 | WhatsApp +94 76 860 7143
 Intl WA +33 7 44 28 42 69 | info.ceyteq@gmail.com | @ceyteq
@@ -60,8 +75,13 @@ ADMIN (v2.5):
   Change it: edit ADMIN_SIG in build_site.py (generate with the
   python one-liner in the comment), then: python3 build_site.py
   NOTE: front-end lock for a static site — keeps casual visitors
-  out, not hacker-proof. Real auth needs a backend later.
+  out, not hacker-proof. The password is shipped inside the page
+  (base64), so it is NOT real security. Real auth + database =
+  the backend that is being planned next (see AUDIT-REPORT.md).
 DATABASE (Google Sheet = live flyer list):
+  WARNING (2026-09-14): the Sheet is currently EMPTY (no data rows),
+  so the Admin dashboard shows EMPTY — paste the 10 rows or move the
+  flyer list to the real database (recommended).
   Sheet: https://docs.google.com/spreadsheets/d/1iT7QmbY0b-u5xjmGcaHBw8vOOpu2xNb5GTuKaPVBaKw/edit
   First tab, row 1: file | title_en | title_si | title_fr | visible
   Paste the 10 ready rows from the Admin page copy-box (cell A1).

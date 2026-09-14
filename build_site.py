@@ -2,8 +2,12 @@
 """Build Ceyteq Digital Race multi-page site: light ash theme, transparent logo, EN/SI/FR."""
 import base64, os
 
-ROOT = '/home/user/ceyteq-digital-race'
-with open(f'{ROOT}/assets/logo-transparent.png', 'rb') as f:
+# Project root = the folder this script lives in (works on any machine / CI).
+ROOT = os.path.dirname(os.path.abspath(__file__))
+ASSETS = os.path.join(ROOT, 'assets')
+FLYER_DIR = os.path.join(ROOT, 'flyers')
+
+with open(os.path.join(ASSETS, 'logo-transparent.png'), 'rb') as f:
     LOGO = 'data:image/png;base64,' + base64.b64encode(f.read()).decode()
 
 CSS = """
@@ -204,6 +208,54 @@ SHEET_EDIT_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/edit'
 # and paste the result below (front-end lock: keeps casual visitors out).
 ADMIN_SIG = 'YWRtaW46OmNleXRlcUAyMDI2'
 
+# ---- SEO / social sharing (WhatsApp, Facebook, Instagram previews) ----
+SITE_URL = 'https://www.ceyteq.linkpc.net'
+SITE_NAME = 'CEYTEQ Digital Race'
+# per page: (meta description, og:image)
+PAGE_META = {
+    'index.html': ("CEYTEQ Digital Race — 90-day digital transformation program for Sri Lankan restaurants & local businesses. Websites, WhatsApp ordering, AI bots, training & monthly marketing. | ඩිජිටල් රේස් වැඩසටහන — දින 90 වැඩසටහන.",
+                   'flyer-01-program-intro.png'),
+    'system.html': ("The Matrix System — morning + evening campaign matrices, Facebook/Instagram/TikTok/YouTube. Only $1–$2/day ad spend paid direct to platforms, Ceyteq optimization free. | මැට්‍රික්ස් ක්‍රමය.",
+                    'flyer-04-how-it-works.png'),
+    'training.html': ("90-day Digital Race training roadmap: month-by-month coaching, daily habits and full automation. | දින 90 පුහුණු පටිපාටිය.",
+                      'flyer-05-training-90-day.png'),
+    'packages.html': ("Digital Race packages: Starter $19, Standard $60, Advanced $80, Premium Ultimate $250. Website, admin panel, AI chatbots & monthly content. | පැකේජ 4 — Starter $19 සිට.",
+                      'flyer-06-package-starter.png'),
+    'ai.html': ("AI solutions for local business: chatbots, voice bots, automation and a future-ready AI roadmap. | AI bots සහ automation විසඳුම්.",
+                'flyer-10-ai-future-contact.png'),
+    'flyers.html': ("10 bilingual (English + Sinhala) flyers ready to share on WhatsApp, Facebook, Instagram, TikTok and YouTube. | Share කිරීමට ෆ්ලයර් 10.",
+                    'flyer-01-program-intro.png'),
+    'admin.html': ("Ceyteq admin panel — flyers database management. | පරිපාලක පුවිසුම.",
+                   'flyer-01-program-intro.png'),
+}
+FAVICON = 'assets/logo-transparent.png'
+
+
+def head_meta(fname, title):
+    desc, ogimg = PAGE_META.get(fname, (SITE_NAME, 'flyer-01-program-intro.png'))
+    url = f'{SITE_URL}/{fname}'
+    img = f'{SITE_URL}/flyers/{ogimg}'
+    return (f'<meta name="description" content="{desc}">\n'
+            f'<meta name="author" content="Ceylon Technology — Ceyteq">\n'
+            f'<meta name="theme-color" content="#0c1e21">\n'
+            f'<link rel="canonical" href="{url}">\n'
+            f'<link rel="icon" type="image/png" href="{FAVICON}">\n'
+            f'<link rel="apple-touch-icon" href="{FAVICON}">\n'
+            f'<meta property="og:type" content="website">\n'
+            f'<meta property="og:site_name" content="{SITE_NAME}">\n'
+            f'<meta property="og:title" content="{title}">\n'
+            f'<meta property="og:description" content="{desc}">\n'
+            f'<meta property="og:url" content="{url}">\n'
+            f'<meta property="og:image" content="{img}">\n'
+            f'<meta property="og:image:width" content="1080">\n'
+            f'<meta property="og:image:height" content="1350">\n'
+            f'<meta property="og:locale" content="si_LK">\n'
+            f'<meta property="og:locale:alternate" content="en_US">\n'
+            f'<meta name="twitter:card" content="summary_large_image">\n'
+            f'<meta name="twitter:title" content="{title}">\n'
+            f'<meta name="twitter:description" content="{desc}">\n'
+            f'<meta name="twitter:image" content="{img}">')
+
 NAVITEMS = [
     ('index.html', 'Home', 'මුල් පිටුව', 'Accueil'),
     ('system.html', 'System', 'ක්‍රමය', 'Système'),
@@ -259,6 +311,8 @@ FOOTMINI = """<footer><b>© 2026 Ceylon Technology — Ceyteq</b> • <span clas
 
 LOADER_JS = """<script>
 (function(){try{
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function safeSrc(f){f=String(f||'').trim();return /^(https?:)?\\/\\//i.test(f)?f:'flyers/'+f.replace(/[^A-Za-z0-9._\\-]/g,'')}
 var SHEET_ID='__SHEET_ID__';
 var url='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&gid=0';
 fetch(url).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){
@@ -276,9 +330,8 @@ if(!items.length)return;
 var g=document.getElementById('flyerGallery');if(!g)return;
 var h='';
 for(var k=0;k<items.length;k++){var it=items[k];
-var src=/^(https?:)?\\/\\//i.test(it.f)?it.f:('flyers/'+it.f);
 var n=('0'+(k+1)).slice(-2);
-h+='<figure><img loading="lazy" src="'+src+'" alt=""><figcaption>'+n+' • <span class="lang-en">'+it.en+'</span><span class="lang-si">'+it.si+'</span><span class="lang-fr">'+it.fr+'</span></figcaption></figure>';}
+h+='<figure><img loading="lazy" src="'+esc(safeSrc(it.f))+'" alt="'+esc(it.en)+'"><figcaption>'+n+' • <span class="lang-en">'+esc(it.en)+'</span><span class="lang-si">'+esc(it.si)+'</span><span class="lang-fr">'+esc(it.fr)+'</span></figcaption></figure>';}
 g.innerHTML=h;
 }).catch(function(){});
 }catch(e){}})();
@@ -323,14 +376,16 @@ def explore_more(exclude):
             '<span class="lang-fr">Autres portes de la course</span></h2>'
             '<div class="grid">' + cards + '</div></section>')
 
-def page(title, active, body, contact=True):
+def page(title, active, body, contact=True, fname='index.html'):
     return f"""<!DOCTYPE html>
 <html lang="si"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-<title>{title}</title><style>{CSS}</style></head>
+<title>{title}</title>
+{head_meta(fname, title)}
+<style>{CSS}</style></head>
 <body data-langmode="si">{nav(active)}<div class="wrap">{body}</div>{CONTACT if contact else FOOTMINI}
 <script>{JS}</script></body></html>"""
 
@@ -594,6 +649,7 @@ ADMIN = """
 <script>
 var ADMIN_SIG='__ADMIN_SIG__';
 var SHEET_ID='__SHEET_ID__';
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function LM(){return document.body.getAttribute('data-langmode')||'si'}
 function T(si,en,fr){var m=LM();return m==='si'?si:(m==='fr'?fr:en)}
 function showDash(s){document.getElementById('loginBox').style.display=s?'none':'block';document.getElementById('dashBox').style.display=s?'block':'none';if(s)loadSheet()}
@@ -615,7 +671,7 @@ var h='',n=0;
 for(var i=s;i<rows.length;i++){var r=rows[i];if(!(r[0]||'').trim())continue;n++;
 var v=(r[4]||'').toString().trim().toLowerCase();
 var hid=(v==='no'||v==='false'||v==='0'||v==='hide'||v==='hidden'||v==='off');
-h+='<tr><td>'+n+'</td><td><code class="k">'+r[0]+'</code></td><td>'+(r[1]||'')+'</td><td>'+(r[2]||'')+'</td><td>'+(r[3]||'')+'</td><td>'+(hid?'<span class="pill-no">NO</span>':'<span class="pill-ok">YES</span>')+'</td></tr>'}
+h+='<tr><td>'+n+'</td><td><code class="k">'+esc(r[0])+'</code></td><td>'+esc(r[1]||'')+'</td><td>'+esc(r[2]||'')+'</td><td>'+esc(r[3]||'')+'</td><td>'+(hid?'<span class="pill-no">NO</span>':'<span class="pill-ok">YES</span>')+'</td></tr>'}
 if(!n){st.innerHTML='<span class="pill-no">EMPTY</span>';tb.innerHTML='';return}
 st.innerHTML='<span class="pill-ok">CONNECTED</span>';ct.textContent=' • '+n+' rows';
 tb.innerHTML=h;
@@ -668,7 +724,7 @@ for fname, title, active, body in PAGES:
     if fname not in ('index.html', 'admin.html'):
         body = body + explore_more(active)
     body = body.replace('__FLYER_JS__', LOADER_JS).replace('__SHEET_ID__', SHEET_ID).replace('__EDIT_URL__', SHEET_EDIT_URL).replace('__ADMIN_SIG__', ADMIN_SIG).replace('__TSV__', TSV_DATA)
-    html = page(title, active, body, contact=(fname not in ('index.html', 'admin.html')))
+    html = page(title, active, body, contact=(fname not in ('index.html', 'admin.html')), fname=fname)
     assert '__' not in html.replace('data-langmode', ''), fname
     with open(f'{ROOT}/{fname}', 'w') as f:
         f.write(html)

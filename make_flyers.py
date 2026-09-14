@@ -5,8 +5,10 @@ from PIL.ImageFont import Layout
 import os
 
 W, H = 1080, 1350
-A = '/home/user/ceyteq-digital-race/assets'
-OUT = '/home/user/ceyteq-digital-race/flyers'
+ROOT = os.path.dirname(os.path.abspath(__file__))
+A = os.path.join(ROOT, 'assets')
+OUT = os.path.join(ROOT, 'flyers')
+os.makedirs(OUT, exist_ok=True)
 
 BG_TOP = (5, 13, 25)
 BG_BOT = (11, 44, 78)
