@@ -18,8 +18,24 @@
 
 1. Open **https://github.com/infoceyteq-maker/digitalrace/pull/1**
 2. **Merge pull request** → **Confirm merge**
-3. Actions tab එකේ "Build check" run එක green වෙනකම් ඉන්න (~1 min) → Pages එක auto build වෙනවා
-4. **https://www.ceyteq.linkpc.net** එක open කරලා මේවා check කරන්න:
+3. Merge කරන්න කලින් (optional, recommended) — deploy check එක run කරන්න:
+   ```bash
+   python3 check.py     # pages rebuild + links + API + security checks
+   ```
+   GitHub Actions එකකින් automatic කරන්න ඕන නම්: repo එකේ **Actions → New workflow → set up a workflow yourself** එකට පහත YAML එක paste කරන්න (Arena app token එකට workflow files push කරන්න අවසර නෑ, ඒ නිසා මේ පියවර ඔබ කරන්න ඕන):
+   ```yaml
+   name: Build check
+   on: [push, pull_request, workflow_dispatch]
+   jobs:
+     check:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v4
+         - uses: actions/setup-python@v5
+           with: { python-version: '3.12' }
+         - run: python3 check.py
+   ```
+4. Pages එක auto build වෙනවා (~1 min) → **https://www.ceyteq.linkpc.net** එක open කරලා මේවා check කරන්න:
    - Home page එක English වලින්, "Digital Race" menu item එක **රතු**
    - හැම page එකේම පහළ දකුණේ **🏁 Start Digital Race** (රතු) + WhatsApp (කොළ) buttons
    - **Offers** පිටුවේ ෆ්ලයර් 10 පෙනෙනවා (කලින් කැඩිලා තිබ්බා)
@@ -156,6 +172,7 @@ python3 server.py
 ## Build / regenerate
 
 ```bash
+python3 check.py             # push කරන්න කලින් සම්පූර්ණ check එක
 python3 build_site.py        # pages 19 + flyers.html redirect එක rebuild
 python3 make_flyers.py       # ෆ්ලයර් 10 අලුතින් හදන්න (pip install Pillow)
 python3 server.py --reseed-flyers   # Offers list එක original 10 ට reset කරන්න
