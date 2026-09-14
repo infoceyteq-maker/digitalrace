@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+# Backups / temp
+*.bak
+*.tmp
+*~
+# Backend runtime — database, session secret, uploads
+data/
+!data/.gitkeep
+uploads/
+.env
+# OS
+.DS_Store
+Thumbs.db
