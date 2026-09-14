@@ -1,91 +1,150 @@
-CEYTEQ DIGITAL RACE — Website Pack v2.6 (2026-09-14)
-================================================
-UI SKIN: Hotelmate-matched design language (inspiration only, no content
-copied): Mona Sans font, primary #27A3C9, dark teal #0c1e21, page bg
-#ecf0f0, pill buttons, 12px cards, kicker+H2 sections, pastel animated
-hero panel, dark CTA, scroll-reveal. Fonts load when hosted (graceful
-system-font fallback in offline preview).
-THEME: Light ash background + white cards + navy blue + logo cyan.
-LOGO: Transparent (assets/logo-transparent.png) — no white box.
-LANGUAGES (exclusive, default Full Sinhala):
-  [සිංහල] Full Sinhala | [ENGLISH] Full English | [FRANÇAIS] Full French
-  Every label translated incl. nav, tables, tiers, months, footer,
-  switcher, tab title. Only brand names/numbers stay universal.
-HOME = zero package details (except general $1-2/day ad-spend FAQ).
-CONTACT lives on sub-pages (esp. Packages).
+CEYTEQ — CEYLON TECHNOLOGY — Website + Backend v3.0 (2026-09-14)
+================================================================
 
-PAGES (7) — open index.html, use top menu:
-  index.html    = HOME (no prices, no contact block):
-                  Hero (Digital Race + Alien Method highlight)
-                  -> What is Digital Race? -> Quick Answers (+package link)
-                  -> Why Now -> Mission -> 5 tagline teasers -> mini footer
-  system.html   = Matrix windows, $1-2/day, launch steps
-                  + Keep-exploring tags + Contact at bottom
-  training.html = 90-day roadmap + daily habits + tags + Contact
-  packages.html = All 4 packages (exact locked prices) + Package
-                  Questions FAQ + tags + Contact at bottom
-  ai.html       = AI today/tomorrow + roadmap + tags + Contact
-  flyers.html   = Gallery of 10 flyers + tags + Contact
-  CONTACT lives on sub-pages (esp. Packages); nav Contact
-  jumps to packages.html#contact. Floating WhatsApp on all pages.
+WHAT THIS IS
+  The full Ceyteq company website (8 service divisions) with the Digital
+  Race program as the highlighted main service, PLUS a real backend
+  (server.py) with a database for flyers and customer enquiries.
 
-LANGUAGES (top-right switcher, auto-remembered):
-  [සිංහල]  Full Sinhala (default)
-  [ENGLISH] Full English
-  [FRANÇAIS] Full French
+  It runs in two ways:
+   1. STATIC (GitHub Pages / Netlify drop / Cloudflare Pages)
+      Just the HTML files. Contact form falls back to WhatsApp, the
+      flyers page uses the built-in 10 flyers, admin panel says
+      "server offline". Nothing breaks.
+   2. SERVER MODE (recommended)
+      python3 server.py  ->  static site + JSON API + SQLite database
+      Enquiries are saved in the database, flyers are managed from the
+      admin panel, admin login is real (hashed password + session).
 
-FLYERS x10 in ./flyers/ (1080x1350, bilingual EN+SI):
-  01 program-intro  02 why-now  03 what-changes  04 how-it-works
-  05 training-90-day  06 starter $19  07 standard $60
-  08 advanced $80  09 premium $250  10 ai-future-contact
 
-PRICE LOCK (never alter):
-  Starter $19 | $3-5/mo :: Standard $60 | 10/15/20
+RUN IT (2 minutes)
+  python3 server.py --init --admin-password 'YourStrongPassword'
+  python3 server.py
+  -> open http://localhost:8000        (site)
+  -> open http://localhost:8000/admin.html   (admin panel)
+
+  Without --admin-password the first run generates a random one and
+  prints it ONCE on the console. Change it any time:
+     python3 server.py --set-password admin NEWPASSWORD
+  Restore the 10 shipped flyers:  python3 server.py --reseed-flyers
+  Options: --host 0.0.0.0  --port 8000   (env: CEYTEQ_ADMIN_USER /
+  CEYTEQ_ADMIN_PASSWORD for automated deploys)
+
+
+PAGES (18)
+  index.html          HOME — company: hero, Digital Race highlight,
+                      9 service cards, platforms, why Ceyteq, Ceylon
+                      Voyage teaser. No long price lists.
+  digitalrace.html    DIGITAL RACE (main service) — program intro, the
+                      intro video, quick answers FAQ, why now, mission,
+                      5 doors (System / Training / Packages / AI /
+                      Flyers) and the AI roadmap section (#ai).
+  services.html       All 8 service divisions + how-we-work steps.
+  web.html            01 Web Services — platforms, e-commerce, SEO,
+                      Google Business Profile, booking channels,
+                      hosting, AI messaging + website packages table.
+  ads.html            02 Advertising — social ads, Google Ads, traffic
+                      campaigns, $1–$2/day ad-spend model.
+  print.html          03 Printing & Digital — offset, packaging,
+                      signage/LED, paper bags, food packing, merch.
+  media.html          04 Photography & Video — events, weddings,
+                      cultural events, products, business places.
+  design.html         05 Design & Editing — graphic, flyer, poster,
+                      photo editing, video editing, filming.
+  ai.html             06 AI & ERP — chatbots, voice bot, CRM, AI
+                      customer care, hospitality & retail ERP + pricing.
+  travel.html         07 Ceylon Voyage — itineraries, hotels, vehicles,
+                      event tickets, tourist info, air tickets &
+                      emigration information (LK + France offices).
+  careers.html        08 Careers — roles, how to apply, internships.
+  contact.html        Contact hub — WhatsApp/hotline/email + enquiry
+                      form that SAVES TO THE DATABASE (falls back to
+                      WhatsApp when the backend is offline).
+  packages.html       Digital Race 4 packages (locked prices) + FAQ.
+  system.html         Digital Race — the Matrix system.
+  training.html       Digital Race — 90-day roadmap.
+  flyers.html         Gallery of the 10 shareable flyers (reads the
+                      database first, then the Google Sheet, then the
+                      built-in list) + hidden Admin Login link.
+  admin.html          Admin panel — flyers CRUD (order, titles,
+                      visibility, upload) + customer enquiries.
+
+LANGUAGES
+  [සිංහල] Full Sinhala (default) | [ENGLISH] Full English | [FRANÇAIS] Full French
+  Top-right switcher, remembered per visitor. Every label is translated
+  (nav, tables, tiers, buttons, footer, form). Brand names, platform
+  names and numbers stay universal by design.
+
+
+BACKEND (server.py) — stdlib only, no pip install needed
+  Database : SQLite at data/ceyteq.db (created automatically)
+  Tables   : admins (PBKDF2-SHA256, 200k iterations) · flyers · leads
+  Security : password hashed in DB — nothing secret in the HTML;
+             HttpOnly + SameSite=Lax session cookie (7 days);
+             JSON-only state changes; login rate-limited by delay;
+             enquiry form limited to 5 submissions / IP / 10 min;
+             path traversal and source files (server.py, data/, .git)
+             are not servable; all API output JSON-escaped.
+  API
+    public  GET  /api/health                     server + row counts
+            GET  /api/flyers                     visible flyers (ordered)
+            POST /api/leads                      save an enquiry
+    admin   POST /api/login | /api/logout        session
+            GET  /api/me
+            GET|POST        /api/admin/flyers
+            PATCH|DELETE    /api/admin/flyers/<id>
+            POST            /api/admin/flyers/reorder
+            POST            /api/admin/upload    (png/jpg/webp/gif, ≤8 MB)
+            GET             /api/admin/leads
+            PATCH|DELETE    /api/admin/leads/<id>
+  Backup: copy data/ceyteq.db (that file is the whole database).
+
+  Deploy: any host that runs Python 3, behind HTTPS.
+    * Render / Railway / Fly.io free tier: start command `python3 server.py`
+      (set CEYTEQ_ADMIN_PASSWORD in the environment).
+    * VPS: run with systemd + nginx reverse proxy (or the
+      --host 0.0.0.0 --port 8000 defaults directly).
+    * cPanel shared hosting cannot run this file — keep the static mode
+      there, or use the PHP/MySQL variant if you need one.
+  GitHub Pages cannot run Python: the site there stays static and the
+  admin/DB features are simply not available (no error, just fallback).
+
+
+FILES
+  *.html                       the 18 pages (generated — do not hand-edit)
+  build_site.py                builds all pages (path-independent)
+  content_services.py          all main-site service content (edit text here)
+  server.py                    backend: static + API + SQLite
+  make_flyers.py               regenerates the 10 flyers (needs Pillow)
+  assets/logo-transparent.png  logo (also used as favicon)
+  assets/logo.jpg, logo-crop.jpg, *.ttf   source images + flyer fonts
+  assets/intro-720p.mp4        Digital Race intro video (15.9 MB)
+  flyers/flyer-01..10.png      the 10 shareable flyers (1080×1350)
+  data/ceyteq.db               database (created at runtime, gitignored)
+  uploads/                     free folder for future uploads (gitignored)
+  .gitignore  README.txt  AUDIT-REPORT.md
+
+REBUILD THE PAGES:      python3 build_site.py
+REGENERATE THE FLYERS:  python3 make_flyers.py   (pip install Pillow)
+RUN THE SITE LOCALLY:   python3 server.py --port 8000
+
+
+PRICE LOCK (never alter)
+  Starter $19 | $3–5/mo :: Standard $60 | 10/15/20
   Advanced $80 | 15/20/30 (+Voice $15) :: Premium $250 | $150 flat
-  Client ad spend $1-$2/day direct to platforms. Ceyteq optimization FREE.
+  Client ad spend $1–$2/day direct to platforms. Ceyteq optimization FREE.
+  Print / media / design / travel work is quoted per job — the backend
+  and pages use "quote on request" wherever a price is not locked above.
 
-FILES (fixed 2026-09-14 — the HTML expects exactly this layout):
-  ./*.html                     = the 7 pages (generated — do not hand-edit)
-  build_site.py                = regenerates the 7 pages (path-independent)
-  make_flyers.py               = regenerates the 10 flyers (1080x1350)
-  assets/logo-transparent.png  = logo (also inlined as base64 by the builder)
-  assets/logo.jpg, logo-crop.jpg, *.ttf = source images + fonts for flyers
-  assets/intro-720p.mp4        = home page video (15.9 MB — consider compressing)
-  flyers/flyer-01..10.png      = the 10 shareable flyers
-  .gitignore                   = Python/runtime ignores
-  AUDIT-REPORT.md              = full site audit: 13 findings + fixes
-Every page now carries description + Open Graph + Twitter Card + favicon, so
-WhatsApp / Facebook / Instagram link previews show a flyer image.
 
-SHARE AS ONE LINK (free): drag this folder to app.netlify.com/drop
-  (or Vercel / GitHub Pages / Cloudflare Pages).
+CONTACT
+  Hotline  +94 78 860 7143      WhatsApp +94 76 860 7143
+  France   +33 7 44 28 42 69    Email    info.ceyteq@gmail.com
+  Web      www.ceyteq.lk        Social   @ceyteq (FB, IG, TikTok, YT,
+                                         LinkedIn, Pinterest, X)
 
-REBUILD: python3 build_site.py  (regenerates all 7 pages from templates)
-REGENERATE FLYERS: python3 make_flyers.py  (needs Pillow: pip install Pillow)
-
-RUN LOCALLY: python3 -m http.server 8000   (then open http://localhost:8000)
-
-CONTACT: Hotline +94 78 860 7143 | WhatsApp +94 76 860 7143
-Intl WA +33 7 44 28 42 69 | info.ceyteq@gmail.com | @ceyteq
-
-ADMIN (v2.5):
-  Page: admin.html — entry ONLY via small "Admin Login" link at the
-  bottom of the Flyers page (not in main menu).
-  Login: user=admin  pass=ceyteq@2026
-  Change it: edit ADMIN_SIG in build_site.py (generate with the
-  python one-liner in the comment), then: python3 build_site.py
-  NOTE: front-end lock for a static site — keeps casual visitors
-  out, not hacker-proof. The password is shipped inside the page
-  (base64), so it is NOT real security. Real auth + database =
-  the backend that is being planned next (see AUDIT-REPORT.md).
-DATABASE (Google Sheet = live flyer list):
-  WARNING (2026-09-14): the Sheet is currently EMPTY (no data rows),
-  so the Admin dashboard shows EMPTY — paste the 10 rows or move the
-  flyer list to the real database (recommended).
-  Sheet: https://docs.google.com/spreadsheets/d/1iT7QmbY0b-u5xjmGcaHBw8vOOpu2xNb5GTuKaPVBaKw/edit
-  First tab, row 1: file | title_en | title_si | title_fr | visible
-  Paste the 10 ready rows from the Admin page copy-box (cell A1).
-  Sharing must stay: Anyone with link = Viewer.
-  Flyers page auto-loads Sheet rows when online (else built-in 10).
-  visible=NO hides a flyer. Drag rows to reorder. File = name in
-  flyers/ folder (or full https URL).
+NEXT STEPS (talk to us before adding)
+  * compress the 15.9 MB intro video (or host it on YouTube)
+  * analytics dashboard (visits, pages, flyer clicks) in the admin
+  * multi-client mode: give each restaurant its own admin panel
+    (this is what the Standard/Advanced "Admin Panel" promise can become)

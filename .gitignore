@@ -6,10 +6,9 @@ __pycache__/
 *.bak
 *.tmp
 *~
-# Backend runtime (added later)
-data/*.db
-data/*.db-journal
-data/*.sqlite3
+# Backend runtime — database, session secret, uploads
+data/
+!data/.gitkeep
 uploads/
 .env
 # OS
