@@ -1,4 +1,4 @@
-CEYTEQ — CEYLON TECHNOLOGY — Website + Backend v3.0 (2026-09-14)
+CEYTEQ — CEYLON TECHNOLOGY — Website + Backend v3.1 (2026-09-14)
 ================================================================
 
 WHAT THIS IS
@@ -31,7 +31,7 @@ RUN IT (2 minutes)
   CEYTEQ_ADMIN_PASSWORD for automated deploys)
 
 
-PAGES (18)
+PAGES (19 + 1 redirect)
   index.html          HOME — company: hero, Digital Race highlight,
                       9 service cards, platforms, why Ceyteq, Ceylon
                       Voyage teaser. No long price lists.
@@ -57,21 +57,29 @@ PAGES (18)
                       event tickets, tourist info, air tickets &
                       emigration information (LK + France offices).
   careers.html        08 Careers — roles, how to apply, internships.
+  learn-earn.html     LEARN & EARN — 8 professional courses (digital
+                      marketing, AI, web, design, video, photography,
+                      print, travel) at 3 levels: Foundation $19 /
+                      Professional $60 / Elite $150, Career Bundle
+                      $250. Enrolment form saves to the database.
   contact.html        Contact hub — WhatsApp/hotline/email + enquiry
                       form that SAVES TO THE DATABASE (falls back to
                       WhatsApp when the backend is offline).
   packages.html       Digital Race 4 packages (locked prices) + FAQ.
   system.html         Digital Race — the Matrix system.
   training.html       Digital Race — 90-day roadmap.
-  flyers.html         Gallery of the 10 shareable flyers (reads the
-                      database first, then the Google Sheet, then the
-                      built-in list) + hidden Admin Login link.
+  offers.html         OFFERS (was "flyers") — gallery of the 10
+                      ready-to-share offers (reads the database first,
+                      then the Google Sheet, then the built-in list)
+                      + hidden Admin Login link.
+  flyers.html         redirect to offers.html (old links keep working).
   admin.html          Admin panel — flyers CRUD (order, titles,
                       visibility, upload) + customer enquiries.
 
 LANGUAGES
-  [සිංහල] Full Sinhala (default) | [ENGLISH] Full English | [FRANÇAIS] Full French
-  Top-right switcher, remembered per visitor. Every label is translated
+  [ENGLISH] Full English (DEFAULT) | [සිංහල] Full Sinhala | [FRANÇAIS] Full French
+  Top-right switcher, remembered per visitor (localStorage) — a visitor
+  who picks Sinhala keeps Sinhala on every page and every visit. Every label is translated
   (nav, tables, tiers, buttons, footer, form). Brand names, platform
   names and numbers stay universal by design.
 
@@ -128,6 +136,17 @@ REBUILD THE PAGES:      python3 build_site.py
 REGENERATE THE FLYERS:  python3 make_flyers.py   (pip install Pillow)
 RUN THE SITE LOCALLY:   python3 server.py --port 8000
 
+
+ALWAYS-ON FLOATING ACTIONS (every page)
+  * "Start Digital Race" (red, pulsing) -> digitalrace.html#start
+  * WhatsApp circle (green, pulsing)    -> wa.me/94768607143
+  Both animate gently (ring pulse + bob) and switch off automatically for
+  visitors who set "reduce motion" in their system. Red is also used for
+  the "Digital Race" menu item and the Digital Race headline.
+
+COURSE FEES (the only prices not from the original price lock — confirm
+them before publishing: Foundation $19, Professional $60, Elite $150,
+Career Bundle $250 per student)
 
 PRICE LOCK (never alter)
   Starter $19 | $3–5/mo :: Standard $60 | 10/15/20

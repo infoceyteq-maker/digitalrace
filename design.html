@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="si"><head><meta charset="UTF-8">
+<html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -167,8 +167,7 @@ text-align:center;margin-top:10px;border:1px solid rgba(255,255,255,.12)}
 .big-cta h2{color:#fff}
 .big-cta p{color:#cfe0e6;font-weight:500}
 .big-cta .btn{margin:6px}
-.wa-float{position:fixed;right:18px;bottom:18px;z-index:60;background:#25d366;color:#fff;font-size:26px;text-decoration:none;
-width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+/* floating actions (.floats/.fab) are defined in CSS2 below */
 .pagehero{text-align:center;padding:54px 30px 40px;margin:26px 0 6px;border-radius:24px;
 background:linear-gradient(270deg,#e4f5fc,#dff1f0,#e6f4fb,#d9efe9,#e4f5fc);background-size:200% 200%;
 animation:hmshift 18s ease infinite;border:1px solid rgba(39,163,201,.25)}
@@ -240,17 +239,68 @@ border-radius:50px;padding:9px 20px;cursor:pointer;font-family:inherit}
 .mini{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:50px;padding:5px 14px;font-size:12.5px;
 font-weight:700;cursor:pointer;font-family:inherit}
 .mini:hover{border-color:var(--prime);color:var(--primed)}
+/* ---- brand red for Digital Race + always-on floating actions ---- */
+:root{--red:#d81f26;--redd:#ad1519}
+.r{color:var(--red)}
+.alien .r,.big-cta .r{color:#ff6b6b}
+.btn-red{background:var(--red);color:#fff;box-shadow:0 10px 26px rgba(216,31,38,.34)}
+.btn-red:hover{background:var(--redd);transform:translateY(-2px)}
+nav .links a.hot{color:var(--red);font-weight:800}
+nav .links a.hot:hover{color:#fff;background:var(--red)}
+nav .links a.hot.active{background:var(--red);color:#fff}
+.floats{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.fab{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:800;font-size:15px;
+color:#fff;background:var(--red);border-radius:50px;padding:14px 24px;white-space:nowrap;
+animation:ringRed 2.4s ease-out infinite,fabBob 3s ease-in-out infinite}
+.fab:hover{background:var(--redd)}
+.fab .ic{font-size:18px;line-height:1}
+.fab.wa{width:58px;height:58px;padding:0;justify-content:center;border-radius:50%;background:#25d366;font-size:27px;
+animation:ringGreen 2.4s ease-out .6s infinite,fabBob 3s ease-in-out .4s infinite}
+.fab.wa:hover{background:#1eb257}
+@keyframes ringRed{0%{box-shadow:0 0 0 0 rgba(216,31,38,.55),0 12px 30px rgba(216,31,38,.35)}
+70%{box-shadow:0 0 0 18px rgba(216,31,38,0),0 12px 30px rgba(216,31,38,.35)}
+100%{box-shadow:0 0 0 0 rgba(216,31,38,0),0 12px 30px rgba(216,31,38,.35)}}
+@keyframes ringGreen{0%{box-shadow:0 0 0 0 rgba(37,211,102,.6),0 10px 26px rgba(0,0,0,.28)}
+70%{box-shadow:0 0 0 16px rgba(37,211,102,0),0 10px 26px rgba(0,0,0,.28)}
+100%{box-shadow:0 0 0 0 rgba(37,211,102,0),0 10px 26px rgba(0,0,0,.28)}}
+@keyframes fabBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.course{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-top:4px solid var(--red);
+border-radius:14px;padding:26px 24px;box-shadow:0 10px 30px rgba(12,30,33,.06);transition:.25s}
+.course:hover{transform:translateY(-5px);box-shadow:0 20px 44px rgba(216,31,38,.16);border-color:var(--red)}
+.course .ico{font-size:30px}
+.course h3{font-size:19px;font-weight:700;color:var(--ink);margin:8px 0 6px}
+.course p{font-size:14.5px;color:var(--mut);flex:1}
+.course .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.course .meta span{background:#fdeeee;border:1px solid rgba(216,31,38,.28);border-radius:50px;padding:4px 12px;
+font-size:12px;color:var(--redd);font-weight:600}
+.course .fee{margin-top:14px;font-weight:800;color:var(--ink);font-size:17px}
+.lvl{display:grid;grid-template-columns:150px 1fr;background:#fff;border:1px solid var(--line);border-radius:12px;
+overflow:hidden;box-shadow:0 10px 30px rgba(12,30,33,.06)}
+.lvl .m{background:var(--red);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;
+text-align:center;padding:18px 10px;font-size:15px;line-height:1.35}
+.lvl .d{padding:18px 22px}
+.lvl .d b{font-size:17px;color:var(--ink)}
+.lvl .d p{color:var(--mut);font-size:15px;margin-top:6px}
+.lvl .d .fee{display:inline-block;margin-top:10px;background:#fdeeee;color:var(--redd);font-weight:800;
+border-radius:50px;padding:5px 16px;font-size:14px}
+@media(max-width:1000px){nav .links a{padding:7px 10px;font-size:14px}}
+@media(max-width:640px){body{padding-bottom:78px}.fab{font-size:14px;padding:12px 18px}
+.lvl{grid-template-columns:1fr}.floats{right:12px;bottom:12px;gap:10px}}
+@media(prefers-reduced-motion:reduce){.fab,.fab.wa{animation:none}}
 </style></head>
-<body data-langmode="si"><nav><div class="wrap">
+<body data-langmode="en"><nav><div class="wrap">
 <img class="logo" src="assets/logo-transparent.png" alt="Ceyteq logo">
 <div class="brand">CEYTEQ<small><span class="lang-en">EMPOWERING DIGITAL EVOLUTION</span><span class="lang-si">ඩිජිටල් පරිණාමය සවිබල ගැන්වීම</span><span class="lang-fr">FAVORISER L'ÉVOLUTION NUMÉRIQUE</span></small></div>
-<div class="links"><a class="" href="index.html"><span class="lang-en">Home</span><span class="lang-si">මුල් පිටුව</span><span class="lang-fr">Accueil</span></a><a class="" href="digitalrace.html"><span class="lang-en">Digital Race</span><span class="lang-si">දිජිටල් රේස්</span><span class="lang-fr">Digital Race</span></a><a class="" href="services.html"><span class="lang-en">Services</span><span class="lang-si">සේවා</span><span class="lang-fr">Services</span></a><a class="" href="packages.html"><span class="lang-en">Packages</span><span class="lang-si">පැකේජ</span><span class="lang-fr">Forfaits</span></a><a class="" href="flyers.html"><span class="lang-en">Flyers</span><span class="lang-si">ෆ්ලයර්</span><span class="lang-fr">Flyers</span></a><a class="" href="about.html"><span class="lang-en">About</span><span class="lang-si">අප ගැන</span><span class="lang-fr">À propos</span></a><a class="" href="careers.html"><span class="lang-en">Careers</span><span class="lang-si">රැකියා</span><span class="lang-fr">Carrières</span></a><a class="" href="contact.html"><span class="lang-en">Contact</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">Contact</span></a></div>
+<div class="links"><a class="" href="index.html"><span class="lang-en">Home</span><span class="lang-si">මුල් පිටුව</span><span class="lang-fr">Accueil</span></a><a class="hot" href="digitalrace.html"><span class="lang-en">Digital Race</span><span class="lang-si">දිජිටල් රේස්</span><span class="lang-fr">Digital Race</span></a><a class="" href="services.html"><span class="lang-en">Services</span><span class="lang-si">සේවා</span><span class="lang-fr">Services</span></a><a class="" href="packages.html"><span class="lang-en">Packages</span><span class="lang-si">පැකේජ</span><span class="lang-fr">Forfaits</span></a><a class="" href="learn-earn.html"><span class="lang-en">Learn &amp; Earn</span><span class="lang-si">ඉගෙන ගන්න</span><span class="lang-fr">Formations</span></a><a class="" href="offers.html"><span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></a><a class="" href="about.html"><span class="lang-en">About</span><span class="lang-si">අප ගැන</span><span class="lang-fr">À propos</span></a><a class="" href="careers.html"><span class="lang-en">Careers</span><span class="lang-si">රැකියා</span><span class="lang-fr">Carrières</span></a><a class="" href="contact.html"><span class="lang-en">Contact</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">Contact</span></a></div>
 <div class="langsw">
 <button data-m="si" onclick="setLang('si')"><span class="lang-en">SINHALA</span><span class="lang-si">සිංහල</span><span class="lang-fr">SINGHALAIS</span></button>
 <button data-m="en" onclick="setLang('en')"><span class="lang-en">ENGLISH</span><span class="lang-si">ඉංග්‍රීසි</span><span class="lang-fr">ANGLAIS</span></button>
 <button data-m="fr" onclick="setLang('fr')"><span class="lang-en">FRENCH</span><span class="lang-si">ප්‍රංශ</span><span class="lang-fr">FRANÇAIS</span></button>
 </div></div></nav>
-<a class="wa-float" href="https://wa.me/94768607143" target="_blank" title="WhatsApp">✆</a><div class="wrap"><div class="pagehero">
+<div class="floats">
+<a class="fab" href="digitalrace.html#start" title="Start Digital Race"><span class="ic">🏁</span><span class="lang-en">Start Digital Race</span><span class="lang-si">ඩිජිටල් රේස් පටන්ගන්න</span><span class="lang-fr">Démarrer Digital Race</span></a>
+<a class="fab wa" href="https://wa.me/94768607143" target="_blank" title="WhatsApp">✆</a>
+</div><div class="wrap"><div class="pagehero">
 <div class="eyebrow"><span class="lang-en">Division 05</span><span class="lang-si">අංශය 05</span><span class="lang-fr">Division 05</span></div>
 <h1><span class="lang-en">GRAPHIC DESIGN &amp; VIDEO EDITING</span><span class="lang-si">ග්‍රැෆික් නිර්මාණ හා වීඩියෝ එඩිටින්</span><span class="lang-fr">DESIGN GRAPHIQUE ET MONTAGE VIDÉO</span></h1>
 <p class="lead" style="margin:10px auto"><span class="lang-en">Photos editing, graphic design, flyer &amp; poster design, video editing and filming.</span><span class="lang-si">Photos editing, graphic design, flyer හා poster නිර්මාණ, video editing සහ film නිර්මාණ.</span><span class="lang-fr">Retouche photo, design graphique, flyers et affiches, montage vidéo et tournage.</span></p>
@@ -265,11 +315,11 @@ font-weight:700;cursor:pointer;font-family:inherit}
 <div class="chips"><span>2 videos + 4 flyers</span><span>3 videos + 4 flyers</span><span>5 videos + 7 flyers</span><span>7 videos + 10 flyers</span><span>10 videos + 15 flyers</span></div>
 </div>
 <div class="cta-row" style="margin-top:22px">
-<a class="btn btn-ghost" href="flyers.html">🖼️ <span class="lang-en">See our flyer pack</span><span class="lang-si">අපේ flyer පැකේජය බලන්න</span><span class="lang-fr">Voir nos flyers</span></a>
+<a class="btn btn-ghost" href="offers.html">🏷️ <span class="lang-en">See our offers</span><span class="lang-si">අපේ දීමනා බලන්න</span><span class="lang-fr">Voir nos offres</span></a>
 </div>
 <div class="cta-row" style="margin-top:26px"><a class="btn btn-cyan" href="https://wa.me/94788607143" target="_blank">💬 <span class="lang-en">Order a design</span><span class="lang-si">නිර්මාණයක් order කරන්න</span><span class="lang-fr">Commander une création</span></a><a class="btn btn-ghost" href="contact.html">📩 <span class="lang-en">Send an enquiry</span><span class="lang-si">විමසුමක් යවන්න</span><span class="lang-fr">Envoyer une demande</span></a></div>
 </section>
-<section><div class="eyebrow"><span class="lang-en">Keep exploring</span><span class="lang-si">තව ගවේෂණය කරන්න</span><span class="lang-fr">Continuez à explorer</span></div><h2><span class="lang-en">More Doors of the Race</span><span class="lang-si">තරඟයේ තවත් දොරටු</span><span class="lang-fr">Autres portes de la course</span></h2><div class="grid"><a class="teaser" href="digitalrace.html"><h3>🏁 <span class="lang-en">DIGITAL RACE</span><span class="lang-si">ඩිජිටල් රේස්</span><span class="lang-fr">DIGITAL RACE</span></h3><div class="tagline"><span class="lang-en">"The 90-day program that built this playbook."</span><span class="lang-si">"මේ ක්‍රමය ගොඩනැගුණු දින 90 වැඩසටහන."</span><span class="lang-fr">« Le programme de 90 jours. »</span></div><div class="go"><span class="lang-en">Open Digital Race →</span><span class="lang-si">Digital Race බලන්න →</span><span class="lang-fr">Voir Digital Race →</span></div></a><a class="teaser" href="services.html"><h3>🧩 <span class="lang-en">ALL SERVICES</span><span class="lang-si">සියලු සේවා</span><span class="lang-fr">TOUS LES SERVICES</span></h3><div class="tagline"><span class="lang-en">"Web, ads, print, media, AI and travel."</span><span class="lang-si">"වෙබ්, ප්‍රචාරණ, මුද්‍රණ, මාධ්‍ය, AI සහ සංචාරක."</span><span class="lang-fr">« Web, pub, impression, médias, IA et voyage. »</span></div><div class="go"><span class="lang-en">Open Services →</span><span class="lang-si">සේවා බලන්න →</span><span class="lang-fr">Voir les services →</span></div></a><a class="teaser" href="packages.html"><h3>💎 <span class="lang-en">PACKAGES</span><span class="lang-si">පැකේජ</span><span class="lang-fr">FORFAITS</span></h3><div class="tagline"><span class="lang-en">"Four tiers for every budget — full details."</span><span class="lang-si">"සෑම budget එකකටම tiers 4 — සම්පූර්ණ විස්තර."</span><span class="lang-fr">« Quatre forfaits pour chaque budget. »</span></div><div class="go"><span class="lang-en">Open Packages →</span><span class="lang-si">පැකේජ බලන්න →</span><span class="lang-fr">Voir les forfaits →</span></div></a><a class="teaser" href="ai.html"><h3>🤖 <span class="lang-en">AI &amp; ERP</span><span class="lang-si">AI හා ERP</span><span class="lang-fr">IA &amp; ERP</span></h3><div class="tagline"><span class="lang-en">"Bots today, automation and ERP tomorrow."</span><span class="lang-si">"අද bots, හෙට automation සහ ERP."</span><span class="lang-fr">« Des bots aujourd'hui, l'automatisation demain. »</span></div><div class="go"><span class="lang-en">Open AI &amp; ERP →</span><span class="lang-si">AI හා ERP බලන්න →</span><span class="lang-fr">Voir IA &amp; ERP →</span></div></a><a class="teaser" href="travel.html"><h3>✈️ <span class="lang-en">CEYLON VOYAGE</span><span class="lang-si">Ceylon Voyage</span><span class="lang-fr">CEYLON VOYAGE</span></h3><div class="tagline"><span class="lang-en">"Sri Lanka tours with a France office."</span><span class="lang-si">"ප්‍රංශ කාර්යාලයක් සහිත ශ්‍රී ලංකා ගමන්."</span><span class="lang-fr">« Circuits au Sri Lanka avec bureau en France. »</span></div><div class="go"><span class="lang-en">Open Travel →</span><span class="lang-si">සංචාරක බලන්න →</span><span class="lang-fr">Voir le voyage →</span></div></a><a class="teaser" href="flyers.html"><h3>🖼️ <span class="lang-en">FLYERS</span><span class="lang-si">ෆ්ලයර්</span><span class="lang-fr">FLYERS</span></h3><div class="tagline"><span class="lang-en">"10 bilingual flyers ready to share."</span><span class="lang-si">"Share කිරීමට සූදානම් ෆ්ලයර් 10."</span><span class="lang-fr">"10 flyers bilingues prêts à partager."</span></div><div class="go"><span class="lang-en">Open Flyers →</span><span class="lang-si">ෆ්ලයර් බලන්න →</span><span class="lang-fr">Voir les flyers →</span></div></a><a class="teaser" href="contact.html"><h3>📩 <span class="lang-en">CONTACT</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">CONTACT</span></h3><div class="tagline"><span class="lang-en">"WhatsApp, call or send the form."</span><span class="lang-si">"WhatsApp, call හෝ form එක යවන්න."</span><span class="lang-fr">« WhatsApp, appel ou formulaire. »</span></div><div class="go"><span class="lang-en">Contact us →</span><span class="lang-si">අප අමතන්න →</span><span class="lang-fr">Nous contacter →</span></div></a></div></section></div><section id="contact"><div class="wrap">
+<section><div class="eyebrow"><span class="lang-en">Keep exploring</span><span class="lang-si">තව ගවේෂණය කරන්න</span><span class="lang-fr">Continuez à explorer</span></div><h2><span class="lang-en">More Doors of the Race</span><span class="lang-si">තරඟයේ තවත් දොරටු</span><span class="lang-fr">Autres portes de la course</span></h2><div class="grid"><a class="teaser" href="digitalrace.html"><h3>🏁 <span class="lang-en">DIGITAL RACE</span><span class="lang-si">ඩිජිටල් රේස්</span><span class="lang-fr">DIGITAL RACE</span></h3><div class="tagline"><span class="lang-en">"The 90-day program that built this playbook."</span><span class="lang-si">"මේ ක්‍රමය ගොඩනැගුණු දින 90 වැඩසටහන."</span><span class="lang-fr">« Le programme de 90 jours. »</span></div><div class="go"><span class="lang-en">Open Digital Race →</span><span class="lang-si">Digital Race බලන්න →</span><span class="lang-fr">Voir Digital Race →</span></div></a><a class="teaser" href="services.html"><h3>🧩 <span class="lang-en">ALL SERVICES</span><span class="lang-si">සියලු සේවා</span><span class="lang-fr">TOUS LES SERVICES</span></h3><div class="tagline"><span class="lang-en">"Web, ads, print, media, AI and travel."</span><span class="lang-si">"වෙබ්, ප්‍රචාරණ, මුද්‍රණ, මාධ්‍ය, AI සහ සංචාරක."</span><span class="lang-fr">« Web, pub, impression, médias, IA et voyage. »</span></div><div class="go"><span class="lang-en">Open Services →</span><span class="lang-si">සේවා බලන්න →</span><span class="lang-fr">Voir les services →</span></div></a><a class="teaser" href="packages.html"><h3>💎 <span class="lang-en">PACKAGES</span><span class="lang-si">පැකේජ</span><span class="lang-fr">FORFAITS</span></h3><div class="tagline"><span class="lang-en">"Four tiers for every budget — full details."</span><span class="lang-si">"සෑම budget එකකටම tiers 4 — සම්පූර්ණ විස්තර."</span><span class="lang-fr">« Quatre forfaits pour chaque budget. »</span></div><div class="go"><span class="lang-en">Open Packages →</span><span class="lang-si">පැකේජ බලන්න →</span><span class="lang-fr">Voir les forfaits →</span></div></a><a class="teaser" href="ai.html"><h3>🤖 <span class="lang-en">AI &amp; ERP</span><span class="lang-si">AI හා ERP</span><span class="lang-fr">IA &amp; ERP</span></h3><div class="tagline"><span class="lang-en">"Bots today, automation and ERP tomorrow."</span><span class="lang-si">"අද bots, හෙට automation සහ ERP."</span><span class="lang-fr">« Des bots aujourd'hui, l'automatisation demain. »</span></div><div class="go"><span class="lang-en">Open AI &amp; ERP →</span><span class="lang-si">AI හා ERP බලන්න →</span><span class="lang-fr">Voir IA &amp; ERP →</span></div></a><a class="teaser" href="travel.html"><h3>✈️ <span class="lang-en">CEYLON VOYAGE</span><span class="lang-si">Ceylon Voyage</span><span class="lang-fr">CEYLON VOYAGE</span></h3><div class="tagline"><span class="lang-en">"Sri Lanka tours with a France office."</span><span class="lang-si">"ප්‍රංශ කාර්යාලයක් සහිත ශ්‍රී ලංකා ගමන්."</span><span class="lang-fr">« Circuits au Sri Lanka avec bureau en France. »</span></div><div class="go"><span class="lang-en">Open Travel →</span><span class="lang-si">සංචාරක බලන්න →</span><span class="lang-fr">Voir le voyage →</span></div></a><a class="teaser" href="offers.html"><h3>🏷️ <span class="lang-en">OFFERS</span><span class="lang-si">දීමනා</span><span class="lang-fr">OFFRES</span></h3><div class="tagline"><span class="lang-en">"10 ready-to-share offers."</span><span class="lang-si">"බෙදාගන්න සූදානම් දීමනා 10."</span><span class="lang-fr">"10 offres prêtes à partager."</span></div><div class="go"><span class="lang-en">Open Offers →</span><span class="lang-si">දීමනා බලන්න →</span><span class="lang-fr">Voir les offres →</span></div></a><a class="teaser" href="learn-earn.html"><h3>🎓 <span class="lang-en">LEARN &amp; EARN</span><span class="lang-si">ඉගෙන ගන්න, උපයන්න</span><span class="lang-fr">FORMATIONS</span></h3><div class="tagline"><span class="lang-en">"Professional courses that pay for themselves."</span><span class="lang-si">"වියදම ආපසු ගෙනෙන වෘත්තීය පාඨමාලා."</span><span class="lang-fr">"Des formations qui se remboursent."</span></div><div class="go"><span class="lang-en">Open Learn &amp; Earn →</span><span class="lang-si">courses බලන්න →</span><span class="lang-fr">Voir les formations →</span></div></a><a class="teaser" href="contact.html"><h3>📩 <span class="lang-en">CONTACT</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">CONTACT</span></h3><div class="tagline"><span class="lang-en">"WhatsApp, call or send the form."</span><span class="lang-si">"WhatsApp, call හෝ form එක යවන්න."</span><span class="lang-fr">« WhatsApp, appel ou formulaire. »</span></div><div class="go"><span class="lang-en">Contact us →</span><span class="lang-si">අප අමතන්න →</span><span class="lang-fr">Nous contacter →</span></div></a></div></section></div><section id="contact"><div class="wrap">
 <div class="big-cta">
 <h2><span class="lang-en">START YOUR DIGITAL RACE TODAY</span><span class="lang-si">අදම Digital Race පටන්ගන්න</span><span class="lang-fr">DÉMARREZ VOTRE DIGITAL RACE AUJOURD'HUI</span></h2>
 <p><span class="lang-en">Message us now — reply within business hours. Team Creat + Ceyteq.</span><span class="lang-si">දැන් message කරන්න — Team Creat + Ceyteq.</span><span class="lang-fr">Écrivez-nous — réponse pendant les heures ouvrables.</span></p>
@@ -302,8 +352,8 @@ document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 try{localStorage.setItem('ceyteq_lang',m)}catch(e){}
 }catch(e){}}
-(function(){var m='si';try{m=localStorage.getItem('ceyteq_lang')||'si'}catch(e){}
-if(['si','en','fr'].indexOf(m)<0)m='si';
+(function(){var m='en';try{m=localStorage.getItem('ceyteq_lang')||'en'}catch(e){}
+if(['si','en','fr'].indexOf(m)<0)m='en';
 document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 })();

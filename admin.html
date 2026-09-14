@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="si"><head><meta charset="UTF-8">
+<html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -167,8 +167,7 @@ text-align:center;margin-top:10px;border:1px solid rgba(255,255,255,.12)}
 .big-cta h2{color:#fff}
 .big-cta p{color:#cfe0e6;font-weight:500}
 .big-cta .btn{margin:6px}
-.wa-float{position:fixed;right:18px;bottom:18px;z-index:60;background:#25d366;color:#fff;font-size:26px;text-decoration:none;
-width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+/* floating actions (.floats/.fab) are defined in CSS2 below */
 .pagehero{text-align:center;padding:54px 30px 40px;margin:26px 0 6px;border-radius:24px;
 background:linear-gradient(270deg,#e4f5fc,#dff1f0,#e6f4fb,#d9efe9,#e4f5fc);background-size:200% 200%;
 animation:hmshift 18s ease infinite;border:1px solid rgba(39,163,201,.25)}
@@ -240,21 +239,72 @@ border-radius:50px;padding:9px 20px;cursor:pointer;font-family:inherit}
 .mini{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:50px;padding:5px 14px;font-size:12.5px;
 font-weight:700;cursor:pointer;font-family:inherit}
 .mini:hover{border-color:var(--prime);color:var(--primed)}
+/* ---- brand red for Digital Race + always-on floating actions ---- */
+:root{--red:#d81f26;--redd:#ad1519}
+.r{color:var(--red)}
+.alien .r,.big-cta .r{color:#ff6b6b}
+.btn-red{background:var(--red);color:#fff;box-shadow:0 10px 26px rgba(216,31,38,.34)}
+.btn-red:hover{background:var(--redd);transform:translateY(-2px)}
+nav .links a.hot{color:var(--red);font-weight:800}
+nav .links a.hot:hover{color:#fff;background:var(--red)}
+nav .links a.hot.active{background:var(--red);color:#fff}
+.floats{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.fab{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:800;font-size:15px;
+color:#fff;background:var(--red);border-radius:50px;padding:14px 24px;white-space:nowrap;
+animation:ringRed 2.4s ease-out infinite,fabBob 3s ease-in-out infinite}
+.fab:hover{background:var(--redd)}
+.fab .ic{font-size:18px;line-height:1}
+.fab.wa{width:58px;height:58px;padding:0;justify-content:center;border-radius:50%;background:#25d366;font-size:27px;
+animation:ringGreen 2.4s ease-out .6s infinite,fabBob 3s ease-in-out .4s infinite}
+.fab.wa:hover{background:#1eb257}
+@keyframes ringRed{0%{box-shadow:0 0 0 0 rgba(216,31,38,.55),0 12px 30px rgba(216,31,38,.35)}
+70%{box-shadow:0 0 0 18px rgba(216,31,38,0),0 12px 30px rgba(216,31,38,.35)}
+100%{box-shadow:0 0 0 0 rgba(216,31,38,0),0 12px 30px rgba(216,31,38,.35)}}
+@keyframes ringGreen{0%{box-shadow:0 0 0 0 rgba(37,211,102,.6),0 10px 26px rgba(0,0,0,.28)}
+70%{box-shadow:0 0 0 16px rgba(37,211,102,0),0 10px 26px rgba(0,0,0,.28)}
+100%{box-shadow:0 0 0 0 rgba(37,211,102,0),0 10px 26px rgba(0,0,0,.28)}}
+@keyframes fabBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.course{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-top:4px solid var(--red);
+border-radius:14px;padding:26px 24px;box-shadow:0 10px 30px rgba(12,30,33,.06);transition:.25s}
+.course:hover{transform:translateY(-5px);box-shadow:0 20px 44px rgba(216,31,38,.16);border-color:var(--red)}
+.course .ico{font-size:30px}
+.course h3{font-size:19px;font-weight:700;color:var(--ink);margin:8px 0 6px}
+.course p{font-size:14.5px;color:var(--mut);flex:1}
+.course .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.course .meta span{background:#fdeeee;border:1px solid rgba(216,31,38,.28);border-radius:50px;padding:4px 12px;
+font-size:12px;color:var(--redd);font-weight:600}
+.course .fee{margin-top:14px;font-weight:800;color:var(--ink);font-size:17px}
+.lvl{display:grid;grid-template-columns:150px 1fr;background:#fff;border:1px solid var(--line);border-radius:12px;
+overflow:hidden;box-shadow:0 10px 30px rgba(12,30,33,.06)}
+.lvl .m{background:var(--red);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;
+text-align:center;padding:18px 10px;font-size:15px;line-height:1.35}
+.lvl .d{padding:18px 22px}
+.lvl .d b{font-size:17px;color:var(--ink)}
+.lvl .d p{color:var(--mut);font-size:15px;margin-top:6px}
+.lvl .d .fee{display:inline-block;margin-top:10px;background:#fdeeee;color:var(--redd);font-weight:800;
+border-radius:50px;padding:5px 16px;font-size:14px}
+@media(max-width:1000px){nav .links a{padding:7px 10px;font-size:14px}}
+@media(max-width:640px){body{padding-bottom:78px}.fab{font-size:14px;padding:12px 18px}
+.lvl{grid-template-columns:1fr}.floats{right:12px;bottom:12px;gap:10px}}
+@media(prefers-reduced-motion:reduce){.fab,.fab.wa{animation:none}}
 </style></head>
-<body data-langmode="si"><nav><div class="wrap">
+<body data-langmode="en"><nav><div class="wrap">
 <img class="logo" src="assets/logo-transparent.png" alt="Ceyteq logo">
 <div class="brand">CEYTEQ<small><span class="lang-en">EMPOWERING DIGITAL EVOLUTION</span><span class="lang-si">ඩිජිටල් පරිණාමය සවිබල ගැන්වීම</span><span class="lang-fr">FAVORISER L'ÉVOLUTION NUMÉRIQUE</span></small></div>
-<div class="links"><a class="" href="index.html"><span class="lang-en">Home</span><span class="lang-si">මුල් පිටුව</span><span class="lang-fr">Accueil</span></a><a class="" href="digitalrace.html"><span class="lang-en">Digital Race</span><span class="lang-si">දිජිටල් රේස්</span><span class="lang-fr">Digital Race</span></a><a class="" href="services.html"><span class="lang-en">Services</span><span class="lang-si">සේවා</span><span class="lang-fr">Services</span></a><a class="" href="packages.html"><span class="lang-en">Packages</span><span class="lang-si">පැකේජ</span><span class="lang-fr">Forfaits</span></a><a class="" href="flyers.html"><span class="lang-en">Flyers</span><span class="lang-si">ෆ්ලයර්</span><span class="lang-fr">Flyers</span></a><a class="" href="about.html"><span class="lang-en">About</span><span class="lang-si">අප ගැන</span><span class="lang-fr">À propos</span></a><a class="" href="careers.html"><span class="lang-en">Careers</span><span class="lang-si">රැකියා</span><span class="lang-fr">Carrières</span></a><a class="" href="contact.html"><span class="lang-en">Contact</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">Contact</span></a></div>
+<div class="links"><a class="" href="index.html"><span class="lang-en">Home</span><span class="lang-si">මුල් පිටුව</span><span class="lang-fr">Accueil</span></a><a class="hot" href="digitalrace.html"><span class="lang-en">Digital Race</span><span class="lang-si">දිජිටල් රේස්</span><span class="lang-fr">Digital Race</span></a><a class="" href="services.html"><span class="lang-en">Services</span><span class="lang-si">සේවා</span><span class="lang-fr">Services</span></a><a class="" href="packages.html"><span class="lang-en">Packages</span><span class="lang-si">පැකේජ</span><span class="lang-fr">Forfaits</span></a><a class="" href="learn-earn.html"><span class="lang-en">Learn &amp; Earn</span><span class="lang-si">ඉගෙන ගන්න</span><span class="lang-fr">Formations</span></a><a class="" href="offers.html"><span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></a><a class="" href="about.html"><span class="lang-en">About</span><span class="lang-si">අප ගැන</span><span class="lang-fr">À propos</span></a><a class="" href="careers.html"><span class="lang-en">Careers</span><span class="lang-si">රැකියා</span><span class="lang-fr">Carrières</span></a><a class="" href="contact.html"><span class="lang-en">Contact</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">Contact</span></a></div>
 <div class="langsw">
 <button data-m="si" onclick="setLang('si')"><span class="lang-en">SINHALA</span><span class="lang-si">සිංහල</span><span class="lang-fr">SINGHALAIS</span></button>
 <button data-m="en" onclick="setLang('en')"><span class="lang-en">ENGLISH</span><span class="lang-si">ඉංග්‍රීසි</span><span class="lang-fr">ANGLAIS</span></button>
 <button data-m="fr" onclick="setLang('fr')"><span class="lang-en">FRENCH</span><span class="lang-si">ප්‍රංශ</span><span class="lang-fr">FRANÇAIS</span></button>
 </div></div></nav>
-<a class="wa-float" href="https://wa.me/94768607143" target="_blank" title="WhatsApp">✆</a><div class="wrap">
+<div class="floats">
+<a class="fab" href="digitalrace.html#start" title="Start Digital Race"><span class="ic">🏁</span><span class="lang-en">Start Digital Race</span><span class="lang-si">ඩිජිටල් රේස් පටන්ගන්න</span><span class="lang-fr">Démarrer Digital Race</span></a>
+<a class="fab wa" href="https://wa.me/94768607143" target="_blank" title="WhatsApp">✆</a>
+</div><div class="wrap">
 <div class="pagehero">
 <div class="eyebrow"><span class="lang-en">Admin Panel</span><span class="lang-si">පරිපාලක පුවරුව</span><span class="lang-fr">Panneau d'administration</span></div>
 <h1><span class="lang-en">CEYTEQ ADMIN</span><span class="lang-si">CEYTEQ පරිපාලක</span><span class="lang-fr">ADMIN CEYTEQ</span></h1>
-<p class="lead" style="margin:10px auto"><span class="lang-en">Flyers &amp; customer enquiries — powered by the Ceyteq database. Other website content stays fixed.</span><span class="lang-si">Flyers සහ customer විමසුම් — Ceyteq database එකෙන්. අනිත් website content ස්ථිරයි.</span><span class="lang-fr">Flyers et demandes clients — via la base Ceyteq. Le reste du site est fixe.</span></p>
+<p class="lead" style="margin:10px auto"><span class="lang-en">Offers &amp; customer enquiries — powered by the Ceyteq database. Other website content stays fixed.</span><span class="lang-si">Offers සහ customer විමසුම් — Ceyteq database එකෙන්. අනිත් website content ස්ථිරයි.</span><span class="lang-fr">Offres et demandes clients — via la base Ceyteq. Le reste du site est fixe.</span></p>
 </div>
 <section>
 <div id="loginBox" class="login-wrap">
@@ -273,20 +323,20 @@ font-weight:700;cursor:pointer;font-family:inherit}
 <div class="cta-row" style="justify-content:flex-start">
 <button class="btn btn-ghost" onclick="loadAll()"><span class="lang-en">Refresh</span><span class="lang-si">නැවත load කරන්න</span><span class="lang-fr">Rafraîchir</span></button>
 <button class="btn btn-ghost" onclick="doLogout()"><span class="lang-en">Logout</span><span class="lang-si">ඉවත් වන්න</span><span class="lang-fr">Déconnexion</span></button>
-<a class="btn btn-cyan" href="flyers.html" target="_blank"><span class="lang-en">View Flyers page</span><span class="lang-si">Flyers පිටුව බලන්න</span><span class="lang-fr">Voir la page Flyers</span></a>
+<a class="btn btn-cyan" href="offers.html" target="_blank"><span class="lang-en">View Offers page</span><span class="lang-si">Offers පිටුව බලන්න</span><span class="lang-fr">Voir la page Offres</span></a>
 </div></div>
 
 <div class="admin-tabs">
-<button class="active" data-tab="flyers" onclick="showTab('flyers')">🖼️ <span class="lang-en">Flyers</span><span class="lang-si">ෆ්ලයර්</span><span class="lang-fr">Flyers</span></button>
+<button class="active" data-tab="flyers" onclick="showTab('flyers')">🖼️ <span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></button>
 <button data-tab="leads" onclick="showTab('leads')">📩 <span class="lang-en">Enquiries</span><span class="lang-si">විමසුම්</span><span class="lang-fr">Demandes</span> <b id="leadBadge"></b></button>
 <button data-tab="setup" onclick="showTab('setup')">🔧 <span class="lang-en">Setup</span><span class="lang-si">සැකසුම්</span><span class="lang-fr">Installation</span></button>
 </div>
 
 <div id="tab-flyers">
-<h2 style="margin-top:18px"><span class="lang-en">Flyer database</span><span class="lang-si">Flyer database</span><span class="lang-fr">Base des flyers</span></h2>
-<p class="note" style="color:#67787a;font-size:14px"><span class="lang-en">Order, titles and visibility here control the Flyers page instantly.</span><span class="lang-si">මෙතන order, titles සහ visibility වෙනස් කළාම Flyers පිටුවේ එකවරම පෙනේ.</span><span class="lang-fr">Ordre, titres et visibilité contrôlent la page Flyers instantanément.</span></p>
+<h2 style="margin-top:18px"><span class="lang-en">Offers database</span><span class="lang-si">Offers database</span><span class="lang-fr">Base des offres</span></h2>
+<p class="note" style="color:#67787a;font-size:14px"><span class="lang-en">Order, titles and visibility here control the Offers page instantly.</span><span class="lang-si">මෙතන order, titles සහ visibility වෙනස් කළාම Offers පිටුවේ එකවරම පෙනේ.</span><span class="lang-fr">Ordre, titres et visibilité contrôlent la page Offres instantanément.</span></p>
 <div style="overflow-x:auto"><table class="dash-table" id="dashTable"><thead><tr><th>#</th><th>File</th><th>EN</th><th>SI</th><th>FR</th><th><span class="lang-en">Visible</span><span class="lang-si">පෙන්වන</span><span class="lang-fr">Visible</span></th><th><span class="lang-en">Actions</span><span class="lang-si">ක්‍රියා</span><span class="lang-fr">Actions</span></th></tr></thead><tbody><tr><td colspan="7">…</td></tr></tbody></table></div>
-<h2 style="margin-top:26px"><span class="lang-en">Add a flyer</span><span class="lang-si">Flyer එකක් එකතු කරන්න</span><span class="lang-fr">Ajouter un flyer</span></h2>
+<h2 style="margin-top:26px"><span class="lang-en">Add an offer image</span><span class="lang-si">Offer image එකක් එකතු කරන්න</span><span class="lang-fr">Ajouter une offre</span></h2>
 <div class="blk">
 <div class="chips" style="margin-top:0"><span><input id="nfFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" style="border:none;padding:0;background:none"></span></div>
 <input id="nfName" placeholder="File name (auto if you upload) — e.g. flyer-11-new-offer.png" style="width:100%;padding:11px 16px;margin-top:10px;border:1.5px solid #c9d1d1;border-radius:12px;font-family:inherit">
@@ -312,7 +362,7 @@ font-weight:700;cursor:pointer;font-family:inherit}
 <li><span class="lang-en">If this page says “server offline”, the site is running as static files (GitHub Pages) — start the server to manage data.</span><span class="lang-si">“server offline” කියලා පෙන්නනවා නම් site එක static files විදියට run වෙනවා (GitHub Pages) — data කළමනාකරණයට server එක start කරන්න.</span><span class="lang-fr">Si la page affiche « serveur hors ligne », le site tourne en statique (GitHub Pages) — démarrez le serveur.</span></li>
 </ol>
 <h2 style="margin-top:26px"><span class="lang-en">Still using the Google Sheet? (optional)</span><span class="lang-si">තවම Google Sheet එකද? (විකල්ප)</span><span class="lang-fr">Encore sur Google Sheet ? (option)</span></h2>
-<p class="note" style="color:#67787a"><span class="lang-en">Static hosting cannot use the database, so the Flyers page falls back to this Sheet. Paste into cell A1 of the first tab.</span><span class="lang-si">Static hosting එකේ database එක වැඩ කරන්නේ නෑ, ඒ නිසා Flyers පිටුව මේ Sheet එකට fallback වෙනවා. පළමු tab එකේ A1 cell එකට paste කරන්න.</span><span class="lang-fr">L'hébergement statique utilise cette feuille. Collez dans la cellule A1 du premier onglet.</span></p>
+<p class="note" style="color:#67787a"><span class="lang-en">Static hosting cannot use the database, so the Offers page falls back to this Sheet. Paste into cell A1 of the first tab.</span><span class="lang-si">Static hosting එකේ database එක වැඩ කරන්නේ නෑ, ඒ නිසා Offers පිටුව මේ Sheet එකට fallback වෙනවා. පළමු tab එකේ A1 cell එකට paste කරන්න.</span><span class="lang-fr">L'hébergement statique utilise cette feuille. Collez dans la cellule A1 du premier onglet.</span></p>
 <div class="cta-row" style="justify-content:flex-start"><a class="btn btn-ghost" href="https://docs.google.com/spreadsheets/d/1iT7QmbY0b-u5xjmGcaHBw8vOOpu2xNb5GTuKaPVBaKw/edit" target="_blank">📝 Open Google Sheet</a><button class="btn btn-navy" onclick="copyTSV()"><span class="lang-en">Copy 10 rows</span><span class="lang-si">පේළි 10 copy කරන්න</span><span class="lang-fr">Copier 10 lignes</span></button></div>
 <textarea class="tsv" id="tsvBox" readonly rows="12" onclick="this.select()">file\ttitle_en\ttitle_si\ttitle_fr\tvisible\nflyer-01-program-intro.png\tProgram Intro\t\u0dc0\u0dd0\u0da9\u0dc3\u0da7\u0dc4\u0db1\tIntro\tYES\nflyer-02-why-now.png\tWhy Now\t\u0d87\u0dba\u0dd2 \u0daf\u0db1\u0dca\u0db8\tPourquoi maintenant\tYES\nflyer-03-what-changes.png\tWhat Changes\t\u0dc0\u0dd9\u0db1\u0dc3\tChangements\tYES\nflyer-04-how-it-works.png\tHow It Works\t\u0d9a\u0ddca\u0dbb\u0dca\u0db8\u0dba\tSyst\u00e8me\tYES\nflyer-05-training-90-day.png\t90-Day Training\t\u0db4\u0dd4\u0dc4\u0dd4\u0dab\u0dd4\u0dc0\tFormation\tYES\nflyer-06-package-starter.png\tStarter $19\t\u0d86\u0dbb\u0db8\u0dca\u0db7\u0d9a\tStarter 19 $\tYES\nflyer-07-package-standard.png\tStandard $60\t\u0dc3\u0db8\u0dca\u0db8\u0d9a\tStandard 60 $\tYES\nflyer-08-package-advanced.png\tAdvanced $80\t\u0d8b\u0dc3\u0dc3\tAvanc\u00e9 80 $\tYES\nflyer-09-package-premium.png\tPremium $250\t\u0d89\u0dc4\u0dc5\u0db8\tPremium 250 $\tYES\nflyer-10-ai-future-contact.png\tAI + Contact\tAI + \u0dc3\u0db8\u0dca\u0db6\u0dca\u0db0\u0dba\tIA + Contact\tYES</textarea>
 <div class="hlbox"><b class="lang-en">Security note</b><span class="lang-si">ආරක්ෂණ සටහන</span><span class="lang-fr">Note de sécurité</span>
@@ -323,7 +373,7 @@ font-weight:700;cursor:pointer;font-family:inherit}
 <script>
 var SHEET_ID='1iT7QmbY0b-u5xjmGcaHBw8vOOpu2xNb5GTuKaPVBaKw';
 var rows_cache=[];
-function T(si,en,fr){var m=document.body.getAttribute('data-langmode')||'si';return m==='si'?si:(m==='fr'?fr:en)}
+function T(si,en,fr){var m=document.body.getAttribute('data-langmode')||'en';return m==='si'?si:(m==='fr'?fr:en)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function $(i){return document.getElementById(i)}
 function api(path,opt){opt=opt||{};opt.credentials='same-origin';
@@ -417,8 +467,8 @@ document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 try{localStorage.setItem('ceyteq_lang',m)}catch(e){}
 }catch(e){}}
-(function(){var m='si';try{m=localStorage.getItem('ceyteq_lang')||'si'}catch(e){}
-if(['si','en','fr'].indexOf(m)<0)m='si';
+(function(){var m='en';try{m=localStorage.getItem('ceyteq_lang')||'en'}catch(e){}
+if(['si','en','fr'].indexOf(m)<0)m='en';
 document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 })();

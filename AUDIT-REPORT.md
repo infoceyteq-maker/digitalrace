@@ -183,3 +183,45 @@ no broken pages.
 4. **Video** — 15.9 MB is heavy for mobile; compress it or host on YouTube.
 5. **Analytics + multi-client admin** (one panel per restaurant client) —
    the natural next build once the backend is hosted.
+
+---
+
+# Round 3 — Language, branding, always-on CTA, Learn & Earn, Offers (2026-09-14)
+
+**Request:** default language English · "Digital Race" in red · an
+always-visible, animated **Start Digital Race** button (like the WhatsApp
+button) on every page · a new **Learn & Earn** page with professional
+courses tied to our services (digital marketing, AI, …) · rename
+**Flyers → Offers**.
+
+| # | Change | Where it lives now |
+|---|---|---|
+| 1 | **Default language = English** (Sinhala/French still one click away; a visitor's own choice is remembered) | `build_site.py` — `<html lang>`, `data-langmode`, switcher JS, admin `T()` |
+| 2 | **"Digital Race" in red** — menu item red, Digital Race headline red, red buttons | `--red:#d81f26`, `.r`, `.btn-red`, `nav .links a.hot` |
+| 3 | **Always-on, animated "Start Digital Race"** button on **all 19 pages**, stacked above the WhatsApp button (both now pulse + bob) | `.floats`, `.fab`, `.fab.wa` + `@keyframes ringRed / ringGreen / fabBob`; anchor target `digitalrace.html#start` |
+| 4 | **New START section** on the Digital Race page (3 steps + WhatsApp / Packages / form buttons) | `#start` section |
+| 5 | **Learn & Earn page** — 8 professional courses (digital marketing, AI & automation, web, graphic design, video editing, photography, print & packaging, travel & tourism) at 3 levels | `learn-earn.html` + `content_services.py` |
+| 6 | Course enrolment form saves to the database like the contact form | `#enquiryForm` reuses the same API + WhatsApp fallback |
+| 7 | **Flyers → Offers**: menu, page, headings, admin tab, meta, teasers | `offers.html` (+ `flyers.html` now redirects, so shared links never break) |
+
+**Design decisions worth knowing**
+
+* Red is a brand accent only — cyan (`#27a3c9`) and navy stay the base
+  colours, so the site keeps the same identity it had.
+* Animations stop automatically for visitors whose device sets
+  "reduce motion" (accessibility).
+* Course fees are the one price set that is **not** part of the locked
+  Digital Race price list: Foundation $19 · Professional $60 ·
+  Elite $150 per course · Career Bundle (all 8 + mentorship) $250.
+  Confirm or change them before publishing.
+* The word "flyer" is kept only where it describes the artwork format
+  (e.g. the "Flyer design" service and the monthly content counts in the
+  packages) — every page name and menu label now says **Offers**.
+
+## Verification (this round)
+
+* 19 pages + `flyers.html` redirect build cleanly (`BUILD OK`), **0 broken
+  local links**, every page carries the two floating buttons, and all pages
+  still serve 200 from the running server (`python3 server.py`).
+* Admin panel: the Offers tab manages the same database rows as before
+  (reorder, hide, edit, upload, delete) — only the labels changed.

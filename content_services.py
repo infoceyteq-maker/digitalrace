@@ -162,7 +162,7 @@ def home():
                      'වෙබ්, ප්‍රචාරණ, මුද්‍රණ, මාධ්‍ය, AI සහ සංචාරක — එකම වෘත්තීය කණ්ඩායමකින්.',
                      'Sites web, publicité, impression, médias, IA et voyage — une seule équipe professionnelle.')}</div>
 <div class="cta-row">
-<a class="btn btn-cyan" href="digitalrace.html">🏁 {T('Digital Race Program', 'Digital Race වැඩසටහන', 'Programme Digital Race')}</a>
+<a class="btn btn-red" href="digitalrace.html#start">🏁 {T('Start Digital Race', 'ඩිජිටල් රේස් පටන්ගන්න', 'Démarrer Digital Race')}</a>
 <a class="btn btn-navy" href="services.html">🧩 {T('All Services', 'සියලු සේවා', 'Tous les services')}</a>
 <a class="btn btn-ghost" href="contact.html">📩 {T('Get a Quote', 'මිල ගණන් ගන්න', 'Devis')}</a>
 </div>
@@ -184,6 +184,18 @@ def home():
 <a class="btn btn-cyan" href="digitalrace.html">{T('Explore Digital Race →', 'Digital Race බලන්න →', 'Découvrir Digital Race →')}</a>
 <a class="btn btn-ghost" href="packages.html" style="border-color:#7fd4ef;color:#cfe3e8">{T('See packages & prices', 'පැකේජ හා මිල ගණන්', 'Forfaits et tarifs')}</a>
 </div>
+</div>
+</section>
+
+<section id="learnearn">
+<div class="eyebrow">{T('Learn &amp; Earn', 'ඉගෙන ගන්න, උපයන්න', 'Apprendre et gagner')}</div>
+<h2>{T('Learn the Skill. Earn From It.', 'නිපුණතාව ඉගෙන ගන්න. එයින් උපයන්න.', 'Apprenez la compétence. Gagnez avec.')}</h2>
+<p class="lead">{T('Professional courses in digital marketing, AI, web, design, video, photography, print and travel — taught by the team that does this work every day. Top students get paid projects from our own client queue.',
+                   'ඩිජිටල් මාර්කටින්, AI, වෙබ්, design, video, photography, මුද්‍රණ සහ සංචාරක වෘත්තීය පාඨමාලා — මේ වැඩේ දිනපතා කරන කණ්ඩායමෙන්. හොඳම සිසුන්ට අපේම client queue එකෙන් ගෙවන ව්‍යාපෘති.',
+                   'Formations professionnelles en marketing digital, IA, web, design, vidéo, photo, impression et voyage — par l’équipe qui fait ce travail chaque jour.')}</p>
+<div class="cta-row" style="justify-content:flex-start">
+<a class="btn btn-red" href="learn-earn.html">🎓 {T('See the courses', 'පාඨමාලා බලන්න', 'Voir les formations')}</a>
+<a class="btn btn-ghost" href="careers.html">🤝 {T('Careers at Ceyteq', 'Ceyteq රැකියා', 'Carrières chez Ceyteq')}</a>
 </div>
 </section>
 
@@ -451,7 +463,7 @@ def design():
      note_si='Design විතරක් order කරන්න, නැත්නම් Standard, Advanced සහ Premium පැකේජ සමඟ නොමිලේ ලබාගන්න.',
      note_fr='Commandez le design seul, ou en inclus dans les forfaits Standard, Advanced et Premium.')}
 <div class="cta-row" style="margin-top:22px">
-<a class="btn btn-ghost" href="flyers.html">🖼️ {T('See our flyer pack', 'අපේ flyer පැකේජය බලන්න', 'Voir nos flyers')}</a>
+<a class="btn btn-ghost" href="offers.html">🏷️ {T('See our offers', 'අපේ දීමනා බලන්න', 'Voir nos offres')}</a>
 </div>
 {quote_cta('Order a design', 'නිර්මාණයක් order කරන්න', 'Commander une création')}
 </section>
@@ -693,5 +705,189 @@ def contact():
 <div class="card"><h3>🇱🇰 {T('Sri Lanka', 'ශ්‍රී ලංකාව', 'Sri Lanka')}</h3><p>{T('Head office — hotline +94 78 860 7143, WhatsApp +94 76 860 7143. Business hours: 9 AM – 7 PM (Mon–Sat).', 'ප්‍රධාන කාර්යාලය — hotline +94 78 860 7143, WhatsApp +94 76 860 7143. ව්‍යාපාරික වේලාවන්: පෙ.ව. 9 – ප.ව. 7 (සඳුදා–සෙනසුරාදා).', 'Siège — ligne directe +94 78 860 7143, WhatsApp +94 76 860 7143. Horaires : 9 h – 19 h (lun–sam).')}</p></div>
 <div class="card"><h3>🇫🇷 {T('France', 'ප්‍රංශය', 'France')}</h3><p>{T('European branch — WhatsApp +33 7 44 28 42 69. Serving travellers and French-speaking clients.', 'යුරෝපීය ශාඛාව — WhatsApp +33 7 44 28 42 69. සංචාරකයන් සහ ප්‍රංශ භාෂාව කතා කරන සේවාලාභීන්ට.', 'Succursale européenne — WhatsApp +33 7 44 28 42 69. Voyageurs et clients francophones.')}</p></div>
 </div>
+</section>
+"""
+
+
+# ----------------------------------------------------------------------------
+# LEARN & EARN — professional courses
+# ----------------------------------------------------------------------------
+
+COURSES = [
+    dict(ico='📣', en='Digital Marketing &amp; Social Media', si='ඩිජිටල් මාර්කටින් හා සමාජ මාධ්‍ය',
+         fr='Marketing digital &amp; réseaux sociaux',
+         den='Facebook, Instagram and TikTok ads, content calendars, offers that sell, and the numbers that actually matter.',
+         dsi='Facebook, Instagram සහ TikTok ads, content calendars, විකුණන offers සහ ඇත්තටම වැදගත් numbers.',
+         dfr='Publicités Facebook, Instagram et TikTok, calendriers de contenu, offres qui vendent et chiffres utiles.',
+         meta=['8 weeks', 'Beginner friendly', 'English / Sinhala', 'Certificate']),
+    dict(ico='🤖', en='AI for Business &amp; Automation', si='ව්‍යාපාරයට AI හා automation',
+         fr='IA pour l’entreprise et automatisation',
+         den='Chatbots, prompt writing, WhatsApp automation, AI customer care and CRM workflows — the skills every business now asks for.',
+         dsi='Chatbots, prompt ලිවීම, WhatsApp automation, AI customer care සහ CRM workflows — දැන් හැම ව්‍යාපාරයක්ම ඉල්ලන නිපුණතා.',
+         dfr='Chatbots, rédaction de prompts, automatisation WhatsApp, service client IA et CRM.',
+         meta=['6 weeks', 'No coding needed', 'English / Sinhala', 'Certificate']),
+    dict(ico='💻', en='Web Design &amp; Development', si='වෙබ් නිර්මාණ හා සංවර්ධන',
+         fr='Création et développement web',
+         den='Build real websites and admin panels — HTML, CSS, JavaScript, hosting, SEO and going live for a paying client.',
+         dsi='සැබෑ වෙබ් අඩවි සහ admin panels හදන්න — HTML, CSS, JavaScript, hosting, SEO සහ client එකෙකුට deliver කිරීම.',
+         dfr='Créer de vrais sites et panneaux admin — HTML, CSS, JavaScript, hébergement, SEO et mise en ligne.',
+         meta=['10 weeks', 'Laptop needed', 'English / Sinhala', 'Portfolio project']),
+    dict(ico='🎨', en='Graphic Design', si='ග්‍රැෆික් නිර්මාණ', fr='Design graphique',
+         den='Flyers, posters, menus, packaging and social creatives — layout and colour rules that make people buy.',
+         dsi='Flyers, posters, menu, packaging සහ social creatives — මිනිසුන් විකුණුමට ගෙනෙන layout සහ colour නීති.',
+         dfr='Flyers, affiches, menus, emballage et visuels sociaux — la mise en page qui fait vendre.',
+         meta=['8 weeks', 'Phone or laptop', 'English / Sinhala', 'Certificate']),
+    dict(ico='🎬', en='Video Editing &amp; Content Creation', si='වීඩියෝ එඩිටින් හා content නිර්මාණය',
+         fr='Montage vidéo et création de contenu',
+         den='Reels, shorts and promo videos: shoot planning, editing, subtitles, sound and publishing for reach.',
+         dsi='Reels, shorts සහ promo වීඩියෝ: shoot සැලසුම, editing, subtitles, sound සහ publish කිරීම.',
+         dfr='Reels, shorts et vidéos promo : tournage, montage, sous-titres, son et publication.',
+         meta=['6 weeks', 'Phone or laptop', 'English / Sinhala', 'Certificate']),
+    dict(ico='📸', en='Photography &amp; Videography', si='ඡායාරූප හා වීඩියෝ ශිල්පය',
+         fr='Photographie et vidéo',
+         den='Camera basics, lighting, events, weddings, food and product shoots — finished with a real portfolio session.',
+         dsi='Camera මූලික, lighting, events, මංගල, food සහ product shoots — සැබෑ portfolio session එකකින් අවසන්.',
+         dfr='Bases de la caméra, lumière, événements, mariages, food et produits — avec une vraie séance portfolio.',
+         meta=['8 weeks', 'Camera or phone', 'English / Sinhala', 'Portfolio project']),
+    dict(ico='🖨️', en='Print &amp; Packaging Business', si='මුද්‍රණ හා packaging ව්‍යාපාරය',
+         fr='Impression et emballage',
+         den='Offset printing, paper bags, food packing, labels, quoting, sourcing and handling print clients profitably.',
+         dsi='Offset මුද්‍රණ, paper bags, food packing, labels, මිල ගණන් දීම, sourcing සහ print clients කළමනාකරණය.',
+         dfr='Impression offset, sacs papier, emballages alimentaires, étiquettes, devis et gestion des clients.',
+         meta=['4 weeks', 'For shop owners', 'English / Sinhala', 'Supplier list included']),
+    dict(ico='✈️', en='Travel &amp; Tourism Operations', si='සංචාරක මෙහෙයුම්', fr='Opérations touristiques',
+         den='Itinerary building, hotel and vehicle booking, guest handling in English and French — the Ceylon Voyage way.',
+         dsi='Itinerary හදන ආකාරය, hotel හා වාහන booking, English සහ ප්‍රංශ භාෂාවෙන් guests handling — Ceylon Voyage ක්‍රමයට.',
+         dfr='Création d’itinéraires, réservations d’hôtels et véhicules, accueil des clients en anglais et français.',
+         meta=['6 weeks', 'For tour staff', 'English / French', 'Job-ready']),
+]
+
+LEVELS = [
+    ('LEVEL 1 · FOUNDATION', 'LEVEL 1 · ආධාරක', 'NIVEAU 1 · BASE', '$19',
+     'Learn at your own pace', 'ඔබේ වේගයට ඉගෙන ගන්න', 'À votre rythme',
+     'Recorded lessons plus a weekly live Q&amp;A class. Perfect if you have a job or studies and only a few hours a week.',
+     'Recorded පාඩම් සහ සතිපතා live Q&amp;A පන්තියක්. රස්සාවක් හෝ ඉගෙනීමක් කරන අයට සතියකට පැය කිහිපයකින්.',
+     'Leçons enregistrées et questions-réponses en direct chaque semaine. Idéal si vous travaillez ou étudiez.'),
+    ('LEVEL 2 · PROFESSIONAL', 'LEVEL 2 · වෘත්තීය', 'NIVEAU 2 · PROFESSIONNEL', '$60',
+     'Live classes + real project', 'Live පන්ති + සැබෑ ව්‍යාපෘතිය', 'Cours en direct + projet réel',
+     'Live classes with a trainer, a real client-style project reviewed line by line, a portfolio and a Ceyteq certificate.',
+     'පුහුණුකරු සමඟ live පන්ති, සැබෑ client ව්‍යාපෘතියක් පේළියෙන් පේළිය review කිරීම, portfolio එකක් සහ Ceyteq සහතිකයක්.',
+     'Cours en direct, projet réel corrigé, portfolio et certificat Ceyteq.'),
+    ('LEVEL 3 · ELITE (EARN)', 'LEVEL 3 · උපයන අවස්ථාව', 'NIVEAU 3 · ÉLITE', '$150',
+     '1-on-1 + paid work', '1-on-1 + ගෙවන වැඩ', 'Coaching individuel + missions payées',
+     'One-to-one mentorship, portfolio polish, freelancing and pricing coaching, plus paid projects handed over from Ceyteq’s own client queue.',
+     'එකට එක mentorship, portfolio හදලා දීම, freelance සහ මිල ගණන් කියලා දීම, අපේම client queue එකෙන් ගෙවන ව්‍යාපෘති.',
+     'Mentorat individuel, portfolio, coaching freelance et missions payées issues de notre vivier client.'),
+]
+
+LINK_ICONS = ['📣', '🤖', '💻', '🎨', '🎬', '📸', '🖨️', '✈️']
+
+
+def learn_earn():
+    cards = ''
+    for c in COURSES:
+        meta = ''.join(f'<span>{m}</span>' for m in c['meta'])
+        cards += (f'<div class="course"><div class="ico">{c["ico"]}</div>'
+                  f'<h3>{T(c["en"], c["si"], c["fr"])}</h3>'
+                  f'<p>{T(c["den"], c["dsi"], c["dfr"])}</p>'
+                  f'<div class="meta">{meta}</div></div>')
+
+    levels = ''
+    for tag_en, tag_si, tag_fr, fee, t_en, t_si, t_fr, d_en, d_si, d_fr in LEVELS:
+        levels += (f'<div class="lvl"><div class="m">{T(tag_en, tag_si, tag_fr)}</div>'
+                   f'<div class="d"><b>{T(t_en, t_si, t_fr)}</b>'
+                   f'<p>{T(d_en, d_si, d_fr)}</p>'
+                   f'<span class="fee">{fee} <span class="lang-en">per course</span>'
+                   f'<span class="lang-si">එක් පාඨමාලාවකට</span>'
+                   f'<span class="lang-fr">par formation</span></span></div></div>')
+
+    courses_opts = ''.join(
+        f'<option value="{c["en"].replace("&amp;", "&amp;amp;")}">{c["en"]}</option>' for c in COURSES)
+    courses_opts += ('<option value="Career Bundle (all 8)">Career Bundle — all 8 courses</option>'
+                     '<option value="Not sure yet">Not sure yet — advise me</option>')
+
+    return hero('Learn &amp; Earn', 'ඉගෙන ගන්න, උපයන්න', 'Apprendre et gagner',
+                'LEARN A SKILL. EARN FROM IT.',
+                'නිපුණතාවක් ඉගෙන ගන්න. එයින් උපයන්න.',
+                'APPRENEZ UNE COMPÉTENCE. GAGNEZ AVEC.',
+                'Professional courses taught by the team that runs real client work every day — digital marketing, AI, web, design, video, photography, print and travel.',
+                'දිනපතා සැබෑ client වැඩ කරන කණ්ඩායමෙන් වෘත්තීය පාඨමාලා — ඩිජිටල් මාර්කටින්, AI, වෙබ්, design, video, photography, මුද්‍රණ සහ සංචාරක.',
+                'Formations professionnelles par l’équipe qui travaille chaque jour pour de vrais clients.') + f"""
+<section>
+<div class="eyebrow">{T('Why Ceyteq courses', 'ඇයි Ceyteq පාඨමාලා', 'Pourquoi nos formations')}</div>
+<h2>{T('Taught by People Who Do the Work', 'වැඩේ ඇත්තටම කරන අයගෙන්', 'Enseigné par ceux qui font le travail')}</h2>
+<div class="grid">
+<div class="card"><h3>👩‍🏫 {T('Working trainers', 'වැඩ කරන පුහුණුකරුවන්', 'Formateurs en activité')}</h3><p>{T('Every trainer runs live client projects at Ceyteq — you learn what works this month, not a textbook from 2019.', 'හැම පුහුණුකරුවෙක්ම Ceyteq එකේ client ව්‍යාපෘති කරනවා — 2019 පොතක් නොවේ, මේ මාසේ වැඩ කරන දේ ඉගෙන ගන්නවා.', 'Chaque formateur travaille sur des projets clients — vous apprenez ce qui marche aujourd’hui.')}</p></div>
+<div class="card"><h3>💼 {T('Earn while you learn', 'ඉගෙන ගන්න ගමන් උපයන්න', 'Gagnez en apprenant')}</h3><p>{T('Level 3 students get paid projects from our own client queue, with a fixed rate and a deadline — real experience on a CV.', 'Level 3 සිසුන්ට අපේ client queue එකෙන් ගෙවන ව්‍යාපෘති — නියමිත මිලක් සහ දිනක් සමඟ. CV එකට සැබෑ පළපුරුද්දක්.', 'Les élèves de niveau 3 reçoivent des missions payées de notre vivier client.')}</p></div>
+<div class="card"><h3>🏆 {T('Portfolio + certificate', 'Portfolio + සහතිකය', 'Portfolio + certificat')}</h3><p>{T('Finish with real work to show and a Ceyteq certificate — what hotels, restaurants and agencies ask for.', 'පෙන්නන්න සැබෑ වැඩ සහ Ceyteq සහතිකයක් — hotels, restaurants සහ agencies ඉල්ලන දේ.', 'Repartez avec de vrais travaux et un certificat Ceyteq.')}</p></div>
+<div class="card"><h3>🕒 {T('Evenings &amp; weekends', 'හවස් වරු සහ සති අන්ත', 'Soirs et week-ends')}</h3><p>{T('Live classes in the evening and on weekends, online plus in-person sessions in Sri Lanka where available.', 'හවස් වරු සහ සති අන්තයේ live පන්ති — online සහ ශ්‍රී ලංකාවේ හැකි තැන්වල ප්‍රායෝගිකව.',
+   'Cours en direct le soir et le week-end, en ligne et en présentiel au Sri Lanka.')}</p></div>
+</div>
+</section>
+
+<section>
+<div class="eyebrow">{T('Courses', 'පාඨමාලා', 'Formations')}</div>
+<h2>{T('08 Professional Courses', 'වෘත්තීය පාඨමාලා 08', '08 formations professionnelles')}</h2>
+<p class="lead">{T('Choose a course, then choose a level (Foundation, Professional or Elite). Every course follows the same three levels.',
+                   'පාඨමාලාවක් තෝරන්න, පසුව මට්ටමක් (Foundation, Professional හෝ Elite). හැම පාඨමාලාවකටම මේ මට්ටම් තුනම තියෙනවා.',
+                   'Choisissez une formation, puis un niveau (Base, Professionnel ou Élite).')}</p>
+<div class="grid">{cards}</div>
+</section>
+
+<section>
+<div class="eyebrow">{T('Levels &amp; fees', 'මට්ටම් සහ මිල', 'Niveaux et tarifs')}</div>
+<h2>{T('Three Levels, Same Price for Every Course', 'මට්ටම් තුනක්, හැම පාඨමාලාවකටම එකම මිල', 'Trois niveaux, même prix')}</h2>
+<div class="timeline">{levels}</div>
+<div class="hlbox"><b>{T('Career Bundle — all 8 courses + Level 3 mentorship: $250', 'Career Bundle — පාඨමාලා 8ම + Level 3 mentorship: $250', 'Pack Carrière — les 8 formations + mentorat : 250 $')}</b>
+<span>{T('One payment, every skill, and the best chance of paid work at the end.', 'එකම ගෙවීමක්, හැම නිපුණතාවක්ම, අවසානයේ ගෙවන වැඩක් ලැබීමේ හොඳම අවස්ථාව.', 'Un paiement, toutes les compétences, et la meilleure chance de missions payées.')}</span></div>
+<p class="note" style="margin-top:14px;color:#67787a">{T('Fees are in USD; LKR accepted at the day’s rate. Group and company packages, instalments and in-house training for staff teams: ask on WhatsApp.',
+   'මිල ඩොලර් වලින්; දවසේ අනුපාතයට රුපියල් වලින් ගෙවිය හැක. කණ්ඩායම් සහ ආයතන පැකේජ, වාරික ගෙවීම් සහ staff පුහුණුව: WhatsApp එකෙන් අහන්න.',
+   'Tarifs en USD ; LKR acceptés au taux du jour. Offres groupes, entreprises et paiements échelonnés : demandez sur WhatsApp.')}</p>
+</section>
+
+<section>
+<div class="eyebrow">{T('How it works', 'වැඩ කරන ආකාරය', 'Comment ça marche')}</div>
+<h2>{T('Enrol in Three Steps', 'පියවර තුනකින් ලියාපදිංචි වන්න', 'Inscription en trois étapes')}</h2>
+<div class="grid">
+<div class="card"><h3>1️⃣ {T('Send the form or WhatsApp', 'form එක යවන්න හෝ WhatsApp කරන්න', 'Formulaire ou WhatsApp')}</h3><p>{T('Tell us the course and level you want. We answer with the next intake date and payment details.', 'කැමති පාඨමාලාව සහ මට්ටම කියන්න. ඊළඟ batch දිනය සහ ගෙවීම් විස්තර සමඟ අපි පිළිතුරු දෙනවා.', 'Dites-nous la formation et le niveau. Nous répondons avec la prochaine date et le paiement.')}</p></div>
+<div class="card"><h3>2️⃣ {T('Learn with a working team', 'වැඩ කරන කණ්ඩායමක් සමඟ ඉගෙන ගන්න', 'Apprenez avec une équipe active')}</h3><p>{T('Live classes, recorded lessons, real projects and honest feedback every week.', 'Live පන්ති, recorded පාඩම්, සැබෑ ව්‍යාපෘති සහ හැම සතියකම අවංක feedback.', 'Cours en direct, leçons enregistrées, projets réels et retours honnêtes.')}</p></div>
+<div class="card"><h3>3️⃣ {T('Start earning', 'උපයන්න පටන්ගන්න', 'Commencez à gagner')}</h3><p>{T('Build your portfolio, take paid work from our queue, or apply the skills in your own business.', 'Portfolio හදන්න, අපේ queue එකෙන් ගෙවන වැඩ ගන්න, නැත්නම් ඔබේම ව්‍යාපාරයට යොදන්න.', 'Construisez votre portfolio, prenez des missions payées ou appliquez dans votre activité.')}</p></div>
+</div>
+</section>
+
+<section>
+<div class="eyebrow">{T('Who can join', 'කවුරුත් එකතු වෙන්න පුළුවන්', 'Qui peut participer')}</div>
+<h2>{T('No Experience Needed', 'පළපුරුද්ද අවශ්‍ය නෑ', 'Aucune expérience requise')}</h2>
+{blk('Open to', 'විවෘතයි', 'Ouvert à', items=[
+    'School leavers', 'Students', 'Job seekers', 'Employees wanting side income',
+    'Shop &amp; restaurant owners', 'Freelancers', 'Job seekers for hotels / agencies',
+    'Company staff teams (in-house training)'])}
+</section>
+
+<section>
+<div class="eyebrow">{T('Enrol now', 'දැන් ලියාපදිංචි වන්න', 'Inscrivez-vous')}</div>
+<h2>{T('Save Your Seat', 'ඔබේ අසුන සුරකින්න', 'Réservez votre place')}</h2>
+<p class="lead">{T('Send this form — we reply with the next intake date, the schedule and payment details. Or message us on WhatsApp.',
+                   'මේ form එක යවන්න — ඊළඟ batch දිනය, කාලසටහන සහ ගෙවීම් විස්තර සමඟ අපි පිළිතුරු දෙනවා. නැත්නම් WhatsApp කරන්න.',
+                   'Envoyez ce formulaire — nous répondons avec la prochaine session, le planning et le paiement.')}</p>
+<form class="enquiry" id="enquiryForm" onsubmit="return sendEnquiry(event)">
+<input id="eqName" required maxlength="120" placeholder="Your name / ඔබේ නම" autocomplete="name">
+<input id="eqContact" required maxlength="60" placeholder="WhatsApp / phone number / දුරකථන අංකය" autocomplete="tel">
+<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional)">
+<select id="eqService">{courses_opts}</select>
+<textarea id="eqMsg" required maxlength="2000" rows="4" placeholder="Which course and level? Any questions? / කැමති පාඨමාලාව සහ මට්ටම?"></textarea>
+<button class="btn btn-red" type="submit" id="eqBtn">{T('Send enrolment', 'ලියාපදිංචි වීම යවන්න', 'Envoyer l’inscription')}</button>
+<div class="form-note" id="eqNote">{T('Prefer WhatsApp? Send the same details and we will enrol you there.', 'WhatsApp කැමතිද? එම විස්තර එවන්න, එතනින්ම ලියාපදිංචි කරනවා.', 'WhatsApp ? Envoyez les mêmes détails.')}</div>
+</form>
+</section>
+
+<section>
+<div class="eyebrow">{T('Questions', 'ප්‍රශ්න', 'Questions')}</div>
+<h2>{T('Course FAQ', 'පාඨමාලා ගැන ප්‍රශ්න', 'FAQ des formations')}</h2>
+<details open><summary>{T('Do I need a laptop or experience?', 'Laptop එකක් හෝ පළපුරුද්දක් ඕනද?', 'Faut-il un ordinateur ou de l’expérience ?')}</summary><p>{T('No experience at all is fine. Marketing, design, AI and video courses can be done with a phone; web design needs a laptop — we will tell you the cheapest option that works.', 'පළපුරුද්දක් නැතත් කමක් නෑ. මාර්කටින්, design, AI සහ වීඩියෝ පාඨමාලා phone එකකින් කරන්න පුළුවන්; වෙබ් design සඳහා laptop එකක් ඕන — ලාබම විකල්පය අපි කියනවා.', 'Aucune expérience requise. Les formations marketing, design, IA et vidéo se font avec un téléphone ; le web nécessite un ordinateur.')}</p></details>
+<details><summary>{T('Are classes online or physical?', 'පන්ති online ද physical ද?', 'Cours en ligne ou en présentiel ?')}</summary><p>{T('Live online classes (Zoom / WhatsApp) plus in-person sessions in Sri Lanka where available. Both are recorded so you never miss a class.', 'Live online පන්ති (Zoom / WhatsApp) සහ ශ්‍රී ලංකාවේ හැකි තැන්වල ප්‍රායෝගික පන්ති. දෙකම record වෙනවා, එක පන්තියක්වත් මගහැරෙන්නේ නෑ.', 'Cours en direct en ligne et sessions en présentiel au Sri Lanka. Tout est enregistré.')}</p></details>
+<details><summary>{T('Will I really earn money?', 'ඇත්තටම සල්ලි හම්බවෙනවාද?', 'Vais-je vraiment gagner de l’argent ?')}</summary><p>{T('Honest answer: nobody can guarantee income. What we do guarantee is training on live methods, a real portfolio, and a place in our freelance queue — top students get paid projects from Ceyteq clients.', 'අවංක පිළිතුර: ආදායමක් කවුරුත් සහතික කරන්න බෑ. අපි සහතික කරන දේ: ජීවමාන ක්‍රම මත පුහුණුව, සැබෑ portfolio එකක් සහ අපේ freelance queue එකේ අවස්ථාවක් — හොඳම සිසුන්ට Ceyteq clients වෙතින් ගෙවන ව්‍යාපෘති.', 'Réponse honnête : personne ne peut garantir un revenu. Nous garantissons une formation sur des méthodes réelles, un portfolio et une place dans notre file de missions.')}</p></details>
+<details><summary>{T('How long is a course?', 'පාඨමාලාවක් කොච්චර කල්ද?', 'Combien de temps ?')}</summary><p>{T('Level 1: 4 weeks. Level 2: 6–10 weeks depending on the course. Level 3: 12 weeks of mentorship with paid work.', 'Level 1: සති 4. Level 2: පාඨමාලාව අනුව සති 6–10. Level 3: ගෙවන වැඩ සමඟ සති 12 mentorship.', 'Niveau 1 : 4 semaines. Niveau 2 : 6 à 10 semaines. Niveau 3 : 12 semaines de mentorat.')}</p></details>
+<details><summary>{T('Do you train company staff?', 'ආයතනවල staff පුහුණු කරනවාද?', 'Formez-vous les équipes d’entreprise ?')}</summary><p>{T('Yes — in-house training for restaurants, hotels and shops (menus, bookings, ads, AI answering). Ask for a team quotation.', 'ඔව් — restaurants, hotels සහ කඩ සඳහා ආයතනික පුහුණුව (menu, bookings, ads, AI පිළිතුරු). කණ්ඩායම් මිලක් අහන්න.', 'Oui — formation en entreprise pour restaurants, hôtels et commerces. Demandez un devis.')}</p></details>
 </section>
 """

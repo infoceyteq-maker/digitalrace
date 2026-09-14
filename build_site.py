@@ -158,8 +158,7 @@ text-align:center;margin-top:10px;border:1px solid rgba(255,255,255,.12)}
 .big-cta h2{color:#fff}
 .big-cta p{color:#cfe0e6;font-weight:500}
 .big-cta .btn{margin:6px}
-.wa-float{position:fixed;right:18px;bottom:18px;z-index:60;background:#25d366;color:#fff;font-size:26px;text-decoration:none;
-width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+/* floating actions (.floats/.fab) are defined in CSS2 below */
 .pagehero{text-align:center;padding:54px 30px 40px;margin:26px 0 6px;border-radius:24px;
 background:linear-gradient(270deg,#e4f5fc,#dff1f0,#e6f4fb,#d9efe9,#e4f5fc);background-size:200% 200%;
 animation:hmshift 18s ease infinite;border:1px solid rgba(39,163,201,.25)}
@@ -234,6 +233,54 @@ border-radius:50px;padding:9px 20px;cursor:pointer;font-family:inherit}
 .mini{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:50px;padding:5px 14px;font-size:12.5px;
 font-weight:700;cursor:pointer;font-family:inherit}
 .mini:hover{border-color:var(--prime);color:var(--primed)}
+/* ---- brand red for Digital Race + always-on floating actions ---- */
+:root{--red:#d81f26;--redd:#ad1519}
+.r{color:var(--red)}
+.alien .r,.big-cta .r{color:#ff6b6b}
+.btn-red{background:var(--red);color:#fff;box-shadow:0 10px 26px rgba(216,31,38,.34)}
+.btn-red:hover{background:var(--redd);transform:translateY(-2px)}
+nav .links a.hot{color:var(--red);font-weight:800}
+nav .links a.hot:hover{color:#fff;background:var(--red)}
+nav .links a.hot.active{background:var(--red);color:#fff}
+.floats{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.fab{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:800;font-size:15px;
+color:#fff;background:var(--red);border-radius:50px;padding:14px 24px;white-space:nowrap;
+animation:ringRed 2.4s ease-out infinite,fabBob 3s ease-in-out infinite}
+.fab:hover{background:var(--redd)}
+.fab .ic{font-size:18px;line-height:1}
+.fab.wa{width:58px;height:58px;padding:0;justify-content:center;border-radius:50%;background:#25d366;font-size:27px;
+animation:ringGreen 2.4s ease-out .6s infinite,fabBob 3s ease-in-out .4s infinite}
+.fab.wa:hover{background:#1eb257}
+@keyframes ringRed{0%{box-shadow:0 0 0 0 rgba(216,31,38,.55),0 12px 30px rgba(216,31,38,.35)}
+70%{box-shadow:0 0 0 18px rgba(216,31,38,0),0 12px 30px rgba(216,31,38,.35)}
+100%{box-shadow:0 0 0 0 rgba(216,31,38,0),0 12px 30px rgba(216,31,38,.35)}}
+@keyframes ringGreen{0%{box-shadow:0 0 0 0 rgba(37,211,102,.6),0 10px 26px rgba(0,0,0,.28)}
+70%{box-shadow:0 0 0 16px rgba(37,211,102,0),0 10px 26px rgba(0,0,0,.28)}
+100%{box-shadow:0 0 0 0 rgba(37,211,102,0),0 10px 26px rgba(0,0,0,.28)}}
+@keyframes fabBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.course{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-top:4px solid var(--red);
+border-radius:14px;padding:26px 24px;box-shadow:0 10px 30px rgba(12,30,33,.06);transition:.25s}
+.course:hover{transform:translateY(-5px);box-shadow:0 20px 44px rgba(216,31,38,.16);border-color:var(--red)}
+.course .ico{font-size:30px}
+.course h3{font-size:19px;font-weight:700;color:var(--ink);margin:8px 0 6px}
+.course p{font-size:14.5px;color:var(--mut);flex:1}
+.course .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.course .meta span{background:#fdeeee;border:1px solid rgba(216,31,38,.28);border-radius:50px;padding:4px 12px;
+font-size:12px;color:var(--redd);font-weight:600}
+.course .fee{margin-top:14px;font-weight:800;color:var(--ink);font-size:17px}
+.lvl{display:grid;grid-template-columns:150px 1fr;background:#fff;border:1px solid var(--line);border-radius:12px;
+overflow:hidden;box-shadow:0 10px 30px rgba(12,30,33,.06)}
+.lvl .m{background:var(--red);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;
+text-align:center;padding:18px 10px;font-size:15px;line-height:1.35}
+.lvl .d{padding:18px 22px}
+.lvl .d b{font-size:17px;color:var(--ink)}
+.lvl .d p{color:var(--mut);font-size:15px;margin-top:6px}
+.lvl .d .fee{display:inline-block;margin-top:10px;background:#fdeeee;color:var(--redd);font-weight:800;
+border-radius:50px;padding:5px 16px;font-size:14px}
+@media(max-width:1000px){nav .links a{padding:7px 10px;font-size:14px}}
+@media(max-width:640px){body{padding-bottom:78px}.fab{font-size:14px;padding:12px 18px}
+.lvl{grid-template-columns:1fr}.floats{right:12px;bottom:12px;gap:10px}}
+@media(prefers-reduced-motion:reduce){.fab,.fab.wa{animation:none}}
 """
 
 JS = """
@@ -244,8 +291,8 @@ document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 try{localStorage.setItem('ceyteq_lang',m)}catch(e){}
 }catch(e){}}
-(function(){var m='si';try{m=localStorage.getItem('ceyteq_lang')||'si'}catch(e){}
-if(['si','en','fr'].indexOf(m)<0)m='si';
+(function(){var m='en';try{m=localStorage.getItem('ceyteq_lang')||'en'}catch(e){}
+if(['si','en','fr'].indexOf(m)<0)m='en';
 document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 })();
@@ -274,8 +321,10 @@ PAGE_META = {
                       'flyer-06-package-starter.png'),
     'ai.html': ("AI solutions for local business: chatbots, voice bots, automation and a future-ready AI roadmap. | AI bots සහ automation විසඳුම්.",
                 'flyer-10-ai-future-contact.png'),
-    'flyers.html': ("10 bilingual (English + Sinhala) flyers ready to share on WhatsApp, Facebook, Instagram, TikTok and YouTube. | Share කිරීමට ෆ්ලයර් 10.",
+    'offers.html': ("Current Ceyteq offers and promotions — 10 ready-to-share images for WhatsApp, Facebook, Instagram, TikTok and YouTube, in English and Sinhala. | බෙදාගන්න සූදානම් දීමනා.",
                     'flyer-01-program-intro.png'),
+    'learn-earn.html': ("Learn & Earn — professional courses in digital marketing, AI, web design, graphic design, video editing, photography, print and travel. Learn from a working team, finish with a portfolio and earn from client work. | ඉගෙන ගන්න, උපයන්න.",
+                        'flyer-05-training-90-day.png'),
     'admin.html': ("Ceyteq admin panel — flyers database management. | පරිපාලක පුවිසුම.",
                    'flyer-01-program-intro.png'),
     'digitalrace.html': ("Digital Race — Ceyteq's 90-day digital transformation program for restaurants & local businesses: Alien Marketing Matrix, websites, ordering, AI bots and training. From $19. | ඩිජිටල් රේස් වැඩසටහන.",
@@ -334,7 +383,8 @@ NAVITEMS = [
     ('digitalrace.html', 'Digital Race', 'දිජිටල් රේස්', 'Digital Race'),
     ('services.html', 'Services', 'සේවා', 'Services'),
     ('packages.html', 'Packages', 'පැකේජ', 'Forfaits'),
-    ('flyers.html', 'Flyers', 'ෆ්ලයර්', 'Flyers'),
+    ('learn-earn.html', 'Learn &amp; Earn', 'ඉගෙන ගන්න', 'Formations'),
+    ('offers.html', 'Offers', 'දීමනා', 'Offres'),
     ('about.html', 'About', 'අප ගැන', 'À propos'),
     ('careers.html', 'Careers', 'රැකියා', 'Carrières'),
     ('contact.html', 'Contact', 'සම්බන්ධය', 'Contact'),
@@ -343,7 +393,7 @@ NAVITEMS = [
 def nav(active):
     links = []
     for href, en, si, fr in NAVITEMS:
-        cls = 'active' if href == active else ''
+        cls = 'active' if href == active else ('hot' if href == 'digitalrace.html' else '')
         links.append(f'<a class="{cls}" href="{href}"><span class="lang-en">{en}</span><span class="lang-si">{si}</span><span class="lang-fr">{fr}</span></a>')
     return f"""<nav><div class="wrap">
 <img class="logo" src="{LOGO}" alt="Ceyteq logo">
@@ -354,7 +404,10 @@ def nav(active):
 <button data-m="en" onclick="setLang('en')"><span class="lang-en">ENGLISH</span><span class="lang-si">ඉංග්‍රීසි</span><span class="lang-fr">ANGLAIS</span></button>
 <button data-m="fr" onclick="setLang('fr')"><span class="lang-en">FRENCH</span><span class="lang-si">ප්‍රංශ</span><span class="lang-fr">FRANÇAIS</span></button>
 </div></div></nav>
-<a class="wa-float" href="https://wa.me/94768607143" target="_blank" title="WhatsApp">✆</a>"""
+<div class="floats">
+<a class="fab" href="digitalrace.html#start" title="Start Digital Race"><span class="ic">🏁</span><span class="lang-en">Start Digital Race</span><span class="lang-si">ඩිජිටල් රේස් පටන්ගන්න</span><span class="lang-fr">Démarrer Digital Race</span></a>
+<a class="fab wa" href="https://wa.me/94768607143" target="_blank" title="WhatsApp">✆</a>
+</div>"""
 
 CONTACT = f"""<section id="contact"><div class="wrap">
 <div class="big-cta">
@@ -441,7 +494,8 @@ TEASERS = [
  ("packages.html", "💎", "PACKAGES", "පැකේජ", "FORFAITS", "\"Four tiers for every budget — full details.\"", "\"සෑම budget එකකටම tiers 4 — සම්පූර්ණ විස්තර.\"", "« Quatre forfaits pour chaque budget. »", "Open Packages →", "පැකේජ බලන්න →", "Voir les forfaits →"),
  ("ai.html", "🤖", "AI &amp; ERP", "AI හා ERP", "IA &amp; ERP", "\"Bots today, automation and ERP tomorrow.\"", "\"අද bots, හෙට automation සහ ERP.\"", "« Des bots aujourd'hui, l'automatisation demain. »", "Open AI &amp; ERP →", "AI හා ERP බලන්න →", "Voir IA &amp; ERP →"),
  ("travel.html", "✈️", "CEYLON VOYAGE", "Ceylon Voyage", "CEYLON VOYAGE", "\"Sri Lanka tours with a France office.\"", "\"ප්‍රංශ කාර්යාලයක් සහිත ශ්‍රී ලංකා ගමන්.\"", "« Circuits au Sri Lanka avec bureau en France. »", "Open Travel →", "සංචාරක බලන්න →", "Voir le voyage →"),
- ("flyers.html", "🖼️", "FLYERS", "ෆ්ලයර්", "FLYERS", "\"10 bilingual flyers ready to share.\"", "\"Share කිරීමට සූදානම් ෆ්ලයර් 10.\"", "\"10 flyers bilingues prêts à partager.\"", "Open Flyers →", "ෆ්ලයර් බලන්න →", "Voir les flyers →"),
+ ("offers.html", "🏷️", "OFFERS", "දීමනා", "OFFRES", "\"10 ready-to-share offers.\"", "\"බෙදාගන්න සූදානම් දීමනා 10.\"", "\"10 offres prêtes à partager.\"", "Open Offers →", "දීමනා බලන්න →", "Voir les offres →"),
+ ("learn-earn.html", "🎓", "LEARN &amp; EARN", "ඉගෙන ගන්න, උපයන්න", "FORMATIONS", "\"Professional courses that pay for themselves.\"", "\"වියදම ආපසු ගෙනෙන වෘත්තීය පාඨමාලා.\"", "\"Des formations qui se remboursent.\"", "Open Learn &amp; Earn →", "courses බලන්න →", "Voir les formations →"),
  ("contact.html", "📩", "CONTACT", "සම්බන්ධය", "CONTACT", "\"WhatsApp, call or send the form.\"", "\"WhatsApp, call හෝ form එක යවන්න.\"", "« WhatsApp, appel ou formulaire. »", "Contact us →", "අප අමතන්න →", "Nous contacter →"),
 ]
 
@@ -464,7 +518,7 @@ def explore_more(exclude):
 
 def page(title, active, body, contact=True, fname='index.html', tail=''):
     return f"""<!DOCTYPE html>
-<html lang="si"><head><meta charset="UTF-8">
+<html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -472,7 +526,7 @@ def page(title, active, body, contact=True, fname='index.html', tail=''):
 <title>{title}</title>
 {head_meta(fname, title)}
 <style>{CSS}{CSS2}</style></head>
-<body data-langmode="si">{nav(active)}<div class="wrap">{body}</div>{CONTACT if contact else FOOTMINI}
+<body data-langmode="en">{nav(active)}<div class="wrap">{body}</div>{CONTACT if contact else FOOTMINI}
 <script>{JS}</script>{tail}</body></html>"""
 
 # ============ DIGITAL RACE (program page) ============
@@ -480,7 +534,7 @@ DIGITALRACE_LEGACY = f"""
 <div class="hero">
 <img class="main-logo" src="{LOGO}" alt="Ceyteq — Empowering Digital Evolution">
 <div><span class="pill"><span class="lang-en">B2B DIGITAL TRANSFORMATION PROGRAM</span><span class="lang-si">B2B ඩිජිටල් පරිවර්තන වැඩසටහන</span><span class="lang-fr">PROGRAMME DE TRANSFORMATION NUMÉRIQUE B2B</span></span></div>
-<h1><span class="lang-en">DIGITAL RACE PROGRAM</span><span class="lang-si">ඩිජිටල් රේස් වැඩසටහන</span><span class="lang-fr">PROGRAMME DIGITAL RACE</span></h1>
+<h1 class="r"><span class="lang-en">DIGITAL RACE PROGRAM</span><span class="lang-si">ඩිජිටල් රේස් වැඩසටහන</span><span class="lang-fr">PROGRAMME DIGITAL RACE</span></h1>
 <div class="alien">
 <div class="kick">★ <span class="lang-en">HIGHLIGHTED CORE METHOD</span><span class="lang-si">ප්‍රධාන ක්‍රමවේදය</span><span class="lang-fr">MÉTHODE CENTRALE</span> ★</div>
 <div class="ah"><div class="lang-en">👽 THE ALIEN MARKETING MATRIX METHOD</div><div class="lang-si">👽 ඒලියන් මාර්කටින් මැට්‍රික්ස් ක්‍රමය</div><div class="lang-fr">👽 LA MÉTHODE ALIEN MARKETING MATRIX</div></div>
@@ -489,8 +543,9 @@ DIGITALRACE_LEGACY = f"""
 <div class="tag"><span class="lang-en">Upgrade Your Business</span><span class="lang-si">ඔබේ ව්‍යාපාරය ඩිජිටල් යුගයට උසස් කරන්න</span><span class="lang-fr">Faites évoluer votre entreprise</span></div>
 <div class="tag2"><span class="lang-en">Going digital is no longer an option — it's a race.</span><span class="lang-si">Digital වීම විකල්පයක් නොවෙයි — එය තරඟයක්.</span><span class="lang-fr">Passer au numérique n'est plus une option — c'est une course.</span></div>
 <div class="cta-row">
-<a class="btn btn-cyan" href="tel:+94788607143">📞 <span class="lang-en">Hotline: 078 860 7143</span><span class="lang-si">හොට්ලයින්: 078 860 7143</span><span class="lang-fr">Ligne directe : 078 860 7143</span></a>
+<a class="btn btn-red" href="#start">🏁 <span class="lang-en">START DIGITAL RACE</span><span class="lang-si">ඩිජිටල් රේස් පටන්ගන්න</span><span class="lang-fr">DÉMARRER DIGITAL RACE</span></a>
 <a class="btn btn-navy" href="https://wa.me/94768607143" target="_blank">💬 WhatsApp</a>
+<a class="btn btn-ghost" href="tel:+94788607143">📞 078 860 7143</a>
 <a class="btn btn-ghost" href="#explore"><span class="lang-en">Explore ↓</span><span class="lang-si">ගවේෂණය ↓</span><span class="lang-fr">Explorer ↓</span></a>
 </div>
 <div class="stats">
@@ -501,6 +556,22 @@ DIGITALRACE_LEGACY = f"""
 </div></div>
 
 
+
+<section id="start">
+<div class="eyebrow"><span class="lang-en">Start here</span><span class="lang-si">මෙතනින් පටන්ගන්න</span><span class="lang-fr">Commencer ici</span></div>
+<h2><span class="r"><span class="lang-en">START DIGITAL RACE</span><span class="lang-si">ඩිජිටල් රේස් පටන්ගන්න</span><span class="lang-fr">DÉMARRER DIGITAL RACE</span></span></h2>
+<p class="lead"><span class="lang-en">Three steps — most businesses are live within 7 days.</span><span class="lang-si">පියවර තුනයි — බොහෝ ව්‍යාපාර දින 7ක් ඇතුළත live වෙනවා.</span><span class="lang-fr">Trois étapes — la plupart des entreprises sont en ligne en 7 jours.</span></p>
+<div class="grid">
+<div class="card"><h3>1️⃣ <span class="lang-en">Message us</span><span class="lang-si">අපට message කරන්න</span><span class="lang-fr">Écrivez-nous</span></h3><p><span class="lang-en">WhatsApp your business name, area and what you sell. Free consultation, no obligation.</span><span class="lang-si">ව්‍යාපාරයේ නම, ප්‍රදේශය සහ විකුණන දේ WhatsApp කරන්න. නොමිලේ උපදේශනය.</span><span class="lang-fr">Envoyez le nom, la zone et votre activité sur WhatsApp. Consultation gratuite.</span></p></div>
+<div class="card"><h3>2️⃣ <span class="lang-en">Pick your package</span><span class="lang-si">පැකේජය තෝරන්න</span><span class="lang-fr">Choisissez le forfait</span></h3><p><span class="lang-en">Starter $19 · Standard $60 · Advanced $80 · Premium $250 — we recommend the right one for your budget.</span><span class="lang-si">Starter $19 · Standard $60 · Advanced $80 · Premium $250 — budget එකට ගැලපෙන එක අපි යෝජනා කරනවා.</span><span class="lang-fr">Starter 19 $ · Standard 60 $ · Advanced 80 $ · Premium 250 $.</span></p></div>
+<div class="card"><h3>3️⃣ <span class="lang-en">We launch</span><span class="lang-si">අපි launch කරනවා</span><span class="lang-fr">Nous lançons</span></h3><p><span class="lang-en">Website, ordering, campaigns and staff training — launched, tested and handed to your team.</span><span class="lang-si">වෙබ් අඩවිය, orders, campaigns සහ කණ්ඩායම් පුහුණුව — launch කරලා ඔබේ කණ්ඩායමට භාර දෙනවා.</span><span class="lang-fr">Site, commandes, campagnes et formation — lancés et remis à votre équipe.</span></p></div>
+</div>
+<div class="cta-row" style="margin-top:26px">
+<a class="btn btn-red" href="https://wa.me/94768607143" target="_blank">💬 <span class="lang-en">Start now on WhatsApp</span><span class="lang-si">දැන්ම WhatsApp එකෙන් පටන්ගන්න</span><span class="lang-fr">Démarrer sur WhatsApp</span></a>
+<a class="btn btn-navy" href="packages.html">📦 <span class="lang-en">See packages</span><span class="lang-si">පැකේජ බලන්න</span><span class="lang-fr">Voir les forfaits</span></a>
+<a class="btn btn-ghost" href="contact.html">📩 <span class="lang-en">Send the form</span><span class="lang-si">form එක යවන්න</span><span class="lang-fr">Envoyer le formulaire</span></a>
+</div>
+</section>
 
 <section id="program">
 <div class="eyebrow"><span class="lang-en">01 • The Program</span><span class="lang-si">01 • වැඩසටහන</span><span class="lang-fr">01 • Le programme</span></div>
@@ -554,7 +625,7 @@ DIGITALRACE_LEGACY = f"""
 <a class="teaser" href="training.html"><h3>🎓 <span class="lang-en">TRAINING</span><span class="lang-si">පුහුණුව</span><span class="lang-fr">FORMATION</span></h3><div class="tagline"><span class="lang-en">"90 days: from first login to full automation."</span><span class="lang-si">"දින 90: පළමු login සිට සම්පූර්ණ automation දක්වා."</span><span class="lang-fr">« 90 jours : de la première connexion à l'automatisation. »</span></div><div class="go"><span class="lang-en">Open Training →</span><span class="lang-si">පුහුණුව බලන්න →</span><span class="lang-fr">Voir la formation →</span></div></a>
 <a class="teaser" href="packages.html"><h3>💎 <span class="lang-en">PACKAGES</span><span class="lang-si">පැකේජ</span><span class="lang-fr">FORFAITS</span></h3><div class="tagline"><span class="lang-en">"Four tiers for every budget — see full details."</span><span class="lang-si">"සෑම budget එකකටම tiers 4 — details බලන්න."</span><span class="lang-fr">« Quatre paliers pour chaque budget — voir les détails. »</span></div><div class="go"><span class="lang-en">Open Packages →</span><span class="lang-si">පැකේජ බලන්න →</span><span class="lang-fr">Voir les forfaits →</span></div></a>
 <a class="teaser" href="ai.html"><h3>🤖 <span class="lang-en">AI SOLUTIONS</span><span class="lang-si">AI විසඳුම්</span><span class="lang-fr">SOLUTIONS IA</span></h3><div class="tagline"><span class="lang-en">"Bots today, full automation tomorrow."</span><span class="lang-si">"අද bots, හෙට සම්පූර්ණ automation."</span><span class="lang-fr">« Des bots aujourd'hui, l'automatisation demain. »</span></div><div class="go"><span class="lang-en">Open AI →</span><span class="lang-si">AI බලන්න →</span><span class="lang-fr">Voir l'IA →</span></div></a>
-<a class="teaser" href="flyers.html"><h3>🖼️ <span class="lang-en">FLYERS</span><span class="lang-si">ෆ්ලයර්</span><span class="lang-fr">FLYERS</span></h3><div class="tagline"><span class="lang-en">"10 bilingual flyers ready to share."</span><span class="lang-si">"Share කිරීමට සූදානම් ෆ්ලයර් 10."</span><span class="lang-fr">« 10 flyers bilingues prêts à partager. »</span></div><div class="go"><span class="lang-en">Open Flyers →</span><span class="lang-si">ෆ්ලයර් බලන්න →</span><span class="lang-fr">Voir les flyers →</span></div></a>
+<a class="teaser" href="offers.html"><h3>🏷️ <span class="lang-en">OFFERS</span><span class="lang-si">දීමනා</span><span class="lang-fr">OFFRES</span></h3><div class="tagline"><span class="lang-en">"10 ready-to-share offers."</span><span class="lang-si">"බෙදාගන්න සූදානම් දීමනා 10."</span><span class="lang-fr">« 10 offres prêtes à partager. »</span></div><div class="go"><span class="lang-en">Open Offers →</span><span class="lang-si">දීමනා බලන්න →</span><span class="lang-fr">Voir les offres →</span></div></a>
 </div></section>
 """
 
@@ -704,7 +775,7 @@ ADMIN = """
 <div class="pagehero">
 <div class="eyebrow"><span class="lang-en">Admin Panel</span><span class="lang-si">පරිපාලක පුවරුව</span><span class="lang-fr">Panneau d'administration</span></div>
 <h1><span class="lang-en">CEYTEQ ADMIN</span><span class="lang-si">CEYTEQ පරිපාලක</span><span class="lang-fr">ADMIN CEYTEQ</span></h1>
-<p class="lead" style="margin:10px auto"><span class="lang-en">Flyers &amp; customer enquiries — powered by the Ceyteq database. Other website content stays fixed.</span><span class="lang-si">Flyers සහ customer විමසුම් — Ceyteq database එකෙන්. අනිත් website content ස්ථිරයි.</span><span class="lang-fr">Flyers et demandes clients — via la base Ceyteq. Le reste du site est fixe.</span></p>
+<p class="lead" style="margin:10px auto"><span class="lang-en">Offers &amp; customer enquiries — powered by the Ceyteq database. Other website content stays fixed.</span><span class="lang-si">Offers සහ customer විමසුම් — Ceyteq database එකෙන්. අනිත් website content ස්ථිරයි.</span><span class="lang-fr">Offres et demandes clients — via la base Ceyteq. Le reste du site est fixe.</span></p>
 </div>
 <section>
 <div id="loginBox" class="login-wrap">
@@ -723,20 +794,20 @@ ADMIN = """
 <div class="cta-row" style="justify-content:flex-start">
 <button class="btn btn-ghost" onclick="loadAll()"><span class="lang-en">Refresh</span><span class="lang-si">නැවත load කරන්න</span><span class="lang-fr">Rafraîchir</span></button>
 <button class="btn btn-ghost" onclick="doLogout()"><span class="lang-en">Logout</span><span class="lang-si">ඉවත් වන්න</span><span class="lang-fr">Déconnexion</span></button>
-<a class="btn btn-cyan" href="flyers.html" target="_blank"><span class="lang-en">View Flyers page</span><span class="lang-si">Flyers පිටුව බලන්න</span><span class="lang-fr">Voir la page Flyers</span></a>
+<a class="btn btn-cyan" href="offers.html" target="_blank"><span class="lang-en">View Offers page</span><span class="lang-si">Offers පිටුව බලන්න</span><span class="lang-fr">Voir la page Offres</span></a>
 </div></div>
 
 <div class="admin-tabs">
-<button class="active" data-tab="flyers" onclick="showTab('flyers')">\U0001f5bc️ <span class="lang-en">Flyers</span><span class="lang-si">ෆ්ලයර්</span><span class="lang-fr">Flyers</span></button>
+<button class="active" data-tab="flyers" onclick="showTab('flyers')">\U0001f5bc️ <span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></button>
 <button data-tab="leads" onclick="showTab('leads')">\U0001f4e9 <span class="lang-en">Enquiries</span><span class="lang-si">විමසුම්</span><span class="lang-fr">Demandes</span> <b id="leadBadge"></b></button>
 <button data-tab="setup" onclick="showTab('setup')">\U0001f527 <span class="lang-en">Setup</span><span class="lang-si">සැකසුම්</span><span class="lang-fr">Installation</span></button>
 </div>
 
 <div id="tab-flyers">
-<h2 style="margin-top:18px"><span class="lang-en">Flyer database</span><span class="lang-si">Flyer database</span><span class="lang-fr">Base des flyers</span></h2>
-<p class="note" style="color:#67787a;font-size:14px"><span class="lang-en">Order, titles and visibility here control the Flyers page instantly.</span><span class="lang-si">මෙතන order, titles සහ visibility වෙනස් කළාම Flyers පිටුවේ එකවරම පෙනේ.</span><span class="lang-fr">Ordre, titres et visibilité contrôlent la page Flyers instantanément.</span></p>
+<h2 style="margin-top:18px"><span class="lang-en">Offers database</span><span class="lang-si">Offers database</span><span class="lang-fr">Base des offres</span></h2>
+<p class="note" style="color:#67787a;font-size:14px"><span class="lang-en">Order, titles and visibility here control the Offers page instantly.</span><span class="lang-si">මෙතන order, titles සහ visibility වෙනස් කළාම Offers පිටුවේ එකවරම පෙනේ.</span><span class="lang-fr">Ordre, titres et visibilité contrôlent la page Offres instantanément.</span></p>
 <div style="overflow-x:auto"><table class="dash-table" id="dashTable"><thead><tr><th>#</th><th>File</th><th>EN</th><th>SI</th><th>FR</th><th><span class="lang-en">Visible</span><span class="lang-si">පෙන්වන</span><span class="lang-fr">Visible</span></th><th><span class="lang-en">Actions</span><span class="lang-si">ක්‍රියා</span><span class="lang-fr">Actions</span></th></tr></thead><tbody><tr><td colspan="7">…</td></tr></tbody></table></div>
-<h2 style="margin-top:26px"><span class="lang-en">Add a flyer</span><span class="lang-si">Flyer එකක් එකතු කරන්න</span><span class="lang-fr">Ajouter un flyer</span></h2>
+<h2 style="margin-top:26px"><span class="lang-en">Add an offer image</span><span class="lang-si">Offer image එකක් එකතු කරන්න</span><span class="lang-fr">Ajouter une offre</span></h2>
 <div class="blk">
 <div class="chips" style="margin-top:0"><span><input id="nfFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" style="border:none;padding:0;background:none"></span></div>
 <input id="nfName" placeholder="File name (auto if you upload) — e.g. flyer-11-new-offer.png" style="width:100%;padding:11px 16px;margin-top:10px;border:1.5px solid #c9d1d1;border-radius:12px;font-family:inherit">
@@ -762,7 +833,7 @@ ADMIN = """
 <li><span class="lang-en">If this page says “server offline”, the site is running as static files (GitHub Pages) — start the server to manage data.</span><span class="lang-si">“server offline” කියලා පෙන්නනවා නම් site එක static files විදියට run වෙනවා (GitHub Pages) — data කළමනාකරණයට server එක start කරන්න.</span><span class="lang-fr">Si la page affiche « serveur hors ligne », le site tourne en statique (GitHub Pages) — démarrez le serveur.</span></li>
 </ol>
 <h2 style="margin-top:26px"><span class="lang-en">Still using the Google Sheet? (optional)</span><span class="lang-si">තවම Google Sheet එකද? (විකල්ප)</span><span class="lang-fr">Encore sur Google Sheet ? (option)</span></h2>
-<p class="note" style="color:#67787a"><span class="lang-en">Static hosting cannot use the database, so the Flyers page falls back to this Sheet. Paste into cell A1 of the first tab.</span><span class="lang-si">Static hosting එකේ database එක වැඩ කරන්නේ නෑ, ඒ නිසා Flyers පිටුව මේ Sheet එකට fallback වෙනවා. පළමු tab එකේ A1 cell එකට paste කරන්න.</span><span class="lang-fr">L'hébergement statique utilise cette feuille. Collez dans la cellule A1 du premier onglet.</span></p>
+<p class="note" style="color:#67787a"><span class="lang-en">Static hosting cannot use the database, so the Offers page falls back to this Sheet. Paste into cell A1 of the first tab.</span><span class="lang-si">Static hosting එකේ database එක වැඩ කරන්නේ නෑ, ඒ නිසා Offers පිටුව මේ Sheet එකට fallback වෙනවා. පළමු tab එකේ A1 cell එකට paste කරන්න.</span><span class="lang-fr">L'hébergement statique utilise cette feuille. Collez dans la cellule A1 du premier onglet.</span></p>
 <div class="cta-row" style="justify-content:flex-start"><a class="btn btn-ghost" href="__EDIT_URL__" target="_blank">\U0001f4dd Open Google Sheet</a><button class="btn btn-navy" onclick="copyTSV()"><span class="lang-en">Copy 10 rows</span><span class="lang-si">පේළි 10 copy කරන්න</span><span class="lang-fr">Copier 10 lignes</span></button></div>
 <textarea class="tsv" id="tsvBox" readonly rows="12" onclick="this.select()">__TSV__</textarea>
 <div class="hlbox"><b class="lang-en">Security note</b><span class="lang-si">ආරක්ෂණ සටහන</span><span class="lang-fr">Note de sécurité</span>
@@ -773,7 +844,7 @@ ADMIN = """
 <script>
 var SHEET_ID='__SHEET_ID__';
 var rows_cache=[];
-function T(si,en,fr){var m=document.body.getAttribute('data-langmode')||'si';return m==='si'?si:(m==='fr'?fr:en)}
+function T(si,en,fr){var m=document.body.getAttribute('data-langmode')||'en';return m==='si'?si:(m==='fr'?fr:en)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function $(i){return document.getElementById(i)}
 function api(path,opt){opt=opt||{};opt.credentials='same-origin';
@@ -870,9 +941,9 @@ def fig(n, slug, en, si, fr):
 
 FLYERS = f"""
 <div class="pagehero">
-<div class="eyebrow"><span class="lang-en">Flyer Pack</span><span class="lang-si">ෆ්ලයර් කට්ටලය</span><span class="lang-fr">Pack flyers</span></div>
-<h1><span class="lang-en">10 FLYERS, READY TO SHARE</span><span class="lang-si">SHARE කිරීමට ෆ්ලයර් 10</span><span class="lang-fr">10 FLYERS PRÊTS À PARTAGER</span></h1>
-<p class="lead" style="margin:10px auto"><span class="lang-en">One per topic & package — send any single flyer, or share this site link for full details. Post 1/day on FB + IG + TikTok + YT.</span><span class="lang-si">මාතෘකාව සහ පැකේජයට එක බැගින් — WhatsApp, FB, IG, TikTok වල share කරන්න.</span><span class="lang-fr">Un par sujet et forfait — partagez sur WhatsApp, FB, IG, TikTok.</span></p>
+<div class="eyebrow"><span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></div>
+<h1><span class="lang-en">CURRENT OFFERS, READY TO SHARE</span><span class="lang-si">බෙදාගන්න සූදානම් දීමනා</span><span class="lang-fr">OFFRES ACTUELLES, PRÊTES À PARTAGER</span></h1>
+<p class="lead" style="margin:10px auto"><span class="lang-en">One offer per topic and package — send any single one, or share this site link for full details. Post 1/day on FB + IG + TikTok + YT.</span><span class="lang-si">මාතෘකාව සහ පැකේජයට එක බැගින් — WhatsApp, FB, IG, TikTok වල share කරන්න.</span><span class="lang-fr">Une offre par sujet et forfait — partagez sur WhatsApp, FB, IG, TikTok.</span></p>
 </div>
 <section><div class="gallery" id="flyerGallery">
 {fig(1,'program-intro','Program Intro','වැඩසටහන','Intro')}
@@ -897,7 +968,7 @@ function sendEnquiry(ev){try{ev.preventDefault()}catch(e){}
 var g=function(i){var e=document.getElementById(i);return e?e.value.trim():''};
 var f={name:g('eqName'),contact:g('eqContact'),email:g('eqEmail'),service:g('eqService'),message:g('eqMsg')};
 var note=document.getElementById('eqNote'),btn=document.getElementById('eqBtn');
-var LM=document.body.getAttribute('data-langmode')||'si';
+var LM=document.body.getAttribute('data-langmode')||'en';
 var MSG={ok:{en:'Thank you — your enquiry is saved. We will contact you shortly.',
              si:'ස්තූතියි — ඔබේ විමසුම සුරැකුණා. අපි ඉක්මනින් සම්බන්ධ වෙනවා.',
              fr:'Merci — votre demande est enregistrée. Nous vous contactons bientôt.'},
@@ -932,16 +1003,17 @@ PAGES = [
     ('travel.html', 'Ceylon Voyage — Travel | සංචාරක සේවා | Voyage', 'travel.html', CS.travel()),
     ('about.html', 'About Ceyteq | අප ගැන | À propos', 'about.html', CS.about()),
     ('careers.html', 'Careers | රැකියා අවස්ථා | Carrières', 'careers.html', CS.careers()),
+    ('learn-earn.html', 'Learn &amp; Earn — Professional Courses | ඉගෙන ගන්න, උපයන්න | Formations', 'learn-earn.html', CS.learn_earn()),
     ('contact.html', 'Contact Ceyteq | සම්බන්ධ වන්න | Contact', 'contact.html', CS.contact()),
     ('system.html', 'Digital Race — System | ක්‍රමය | Système', 'system.html', SYSTEM),
     ('training.html', 'Digital Race — Training | පුහුණුව | Formation', 'training.html', TRAINING),
     ('packages.html', 'Digital Race — Packages | පැකේජ | Forfaits', 'packages.html', PACKAGES),
-    ('flyers.html', 'Digital Race — Flyers | ෆ්ලයර් | Flyers', 'flyers.html', FLYERS),
+    ('offers.html', 'Offers &amp; Promotions | දීමනා | Offres', 'offers.html', FLYERS),
     ('admin.html', 'Ceyteq Admin | පරිපාලක | Admin', 'admin.html', ADMIN),
 ]
 
 # per-page <script> appended after the shared JS (contact form needs it)
-PAGE_TAIL = {'contact.html': ENQUIRY_JS}
+PAGE_TAIL = {'contact.html': ENQUIRY_JS, 'learn-earn.html': ENQUIRY_JS}
 
 for fname, title, active, body in PAGES:
     if fname not in ('index.html', 'admin.html', 'contact.html'):
@@ -955,4 +1027,22 @@ for fname, title, active, body in PAGES:
     with open(f'{ROOT}/{fname}', 'w') as f:
         f.write(html)
     print(fname, len(html)//1024, 'KB')
+
+# old address kept alive: /flyers.html -> /offers.html (never break a shared link)
+with open(f'{ROOT}/flyers.html', 'w') as f:
+    f.write('''<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offers | Ceyteq</title>
+<link rel="canonical" href="offers.html">
+<meta http-equiv="refresh" content="0; url=offers.html">
+<meta name="robots" content="noindex">
+<style>body{font-family:'Segoe UI',Arial,sans-serif;background:#ecf0f0;color:#0c1e21;text-align:center;padding:80px 20px}
+a{color:#1b7a99;font-weight:700}</style></head>
+<body><h1>Offers</h1>
+<p>This page has moved.</p>
+<p><a href="offers.html">Continue to Offers →</a></p>
+<script>location.replace('offers.html')</script>
+</body></html>''')
+print('flyers.html (redirect)')
 print('BUILD OK')
