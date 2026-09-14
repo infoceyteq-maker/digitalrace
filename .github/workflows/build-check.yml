@@ -1,0 +1,58 @@
+name: Build check
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Rebuild every page from the source content
+        run: python3 build_site.py
+
+      - name: Fail if the committed pages differ from a fresh build
+        run: |
+          if ! git diff --quiet; then
+            echo "::error::Pages are out of date — run 'python3 build_site.py' and commit the result."
+            git --no-pager diff --stat
+            exit 1
+          fi
+
+      - name: Check every local link / image path resolves
+        run: |
+          python3 - <<'PY'
+          import glob, os, re, sys
+          bad = 0
+          for f in sorted(glob.glob('*.html')):
+              html = open(f, encoding='utf-8').read()
+              for ref in set(re.findall(r'(?:src|href)="([^"]+)"', html)):
+                  if ref.startswith(('data:', 'http', 'mailto:', 'tel:', '#', 'javascript:')):
+                      continue
+                  if "'" in ref or '+' in ref:
+                      continue
+                  target = ref.split('#')[0]
+                  if target and not os.path.exists(target):
+                      print(f'{f}: missing {ref}')
+                      bad += 1
+          print('broken local references:', bad)
+          sys.exit(1 if bad else 0)
+          PY
+
+      - name: Start the backend and check the API
+        run: |
+          python3 server.py --init --admin-password 'ci-test-password' &
+          for i in $(seq 1 20); do curl -sf http://127.0.0.1:8000/api/health && break || sleep 1; done
+          curl -sf http://127.0.0.1:8000/api/flyers | head -c 120
+          curl -s -o /dev/null -w 'admin API without login: %{http_code}\n' http://127.0.0.1:8000/api/admin/leads
+          curl -s -X POST -H 'Content-Type: application/json' \
+               -d '{"name":"CI","contact":"0770000000","message":"pipeline check"}' \
+               http://127.0.0.1:8000/api/leads

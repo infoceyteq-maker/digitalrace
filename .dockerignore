@@ -1,0 +1,12 @@
+# never ship the local database, secrets, uploads, git history or build junk
+.git
+.gitignore
+.github
+data
+uploads
+__pycache__
+*.pyc
+*.bak
+*.tmp
+AUDIT-REPORT.md
+DEPLOY.md

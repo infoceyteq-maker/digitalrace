@@ -45,11 +45,13 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import unquote, urlparse, parse_qs
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(ROOT, 'data')
+# CEYTEQ_DATA_DIR points at a mounted volume on cloud hosts, so the database,
+# the session secret and uploaded images survive redeploys. Locally it stays ./data
+DATA_DIR = os.path.abspath(os.environ.get('CEYTEQ_DATA_DIR') or os.path.join(ROOT, 'data'))
 DB_PATH = os.path.join(DATA_DIR, 'ceyteq.db')
 SECRET_PATH = os.path.join(DATA_DIR, 'secret.key')
-FLYER_DIR = os.path.join(ROOT, 'flyers')
-UPLOAD_DIR = os.path.join(ROOT, 'uploads')
+FLYER_DIR = os.path.join(ROOT, 'flyers')          # the 10 shipped images (read-only, in git)
+UPLOAD_DIR = os.path.join(DATA_DIR, 'uploads')    # admin uploads live with the database
 MAX_UPLOAD = 8 * 1024 * 1024                      # 8 MB per image
 ALLOWED_EXT = {'.png', '.jpg', '.jpeg', '.webp', '.gif'}
 SESSION_COOKIE = 'ceyteq_session'
@@ -229,6 +231,20 @@ def clean(value, limit=2000) -> str:
     return re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', '', str(value or '')).strip()[:limit]
 
 
+def flyer_src(filename: str) -> str:
+    """Where the browser can load this image from: an external URL, the
+    shipped flyers/ folder, or the uploads folder that sits with the database."""
+    name = str(filename or '').strip()
+    if re.match(r'^(https?:)?//', name):
+        return name
+    safe = safe_filename(name)
+    if safe and os.path.exists(os.path.join(FLYER_DIR, safe)):
+        return f'flyers/{safe}'
+    if safe and os.path.exists(os.path.join(UPLOAD_DIR, safe)):
+        return f'uploads/{safe}'
+    return f'flyers/{safe}'
+
+
 def safe_filename(name: str) -> str:
     name = os.path.basename(str(name or '')).strip()
     name = re.sub(r'[^A-Za-z0-9._-]', '', name)
@@ -323,7 +339,7 @@ class Handler(BaseHTTPRequestHandler):
             with connect() as con:
                 rows = con.execute('SELECT id,filename,title_en,title_si,title_fr,visible,position'
                                    ' FROM flyers WHERE visible=1 ORDER BY position,id').fetchall()
-            return ok(self, [dict(r) for r in rows])
+            return ok(self, [dict(r, src=flyer_src(r['filename'])) for r in rows])
 
         if route == 'leads' and method == 'POST':
             if not self._same_origin_json():
@@ -449,12 +465,12 @@ class Handler(BaseHTTPRequestHandler):
                 return fail(self, 400, 'invalid image data')
             if not raw or len(raw) > MAX_UPLOAD:
                 return fail(self, 413, 'image too large (max 8 MB)')
-            os.makedirs(FLYER_DIR, exist_ok=True)
+            os.makedirs(UPLOAD_DIR, exist_ok=True)
             base, ext = os.path.splitext(name)
             target = safe_filename(name)
-            if os.path.exists(os.path.join(FLYER_DIR, target)):
+            if os.path.exists(os.path.join(UPLOAD_DIR, target)):
                 target = f'{base}-{secrets.token_hex(3)}{ext}'
-            with open(os.path.join(FLYER_DIR, target), 'wb') as f:
+            with open(os.path.join(UPLOAD_DIR, target), 'wb') as f:
                 f.write(raw)
             self.log_message('flyer uploaded: %s (%d bytes)', target, len(raw))
             return ok(self, {'ok': True, 'filename': target}, 201)
@@ -492,6 +508,11 @@ class Handler(BaseHTTPRequestHandler):
     def serve_static(self, path):
         rel = path.lstrip('/')
         parts = [p for p in rel.split('/') if p not in ('', '.')]
+        if len(parts) == 2 and parts[0] == 'uploads':        # admin-uploaded images
+            image = os.path.join(UPLOAD_DIR, safe_filename(parts[1]))
+            if os.path.isfile(image):
+                return self.send_file(image)
+            return self.not_found()
         if any(p == '..' for p in parts) or (parts and parts[0] in HIDDEN):
             return fail(self, 403, 'forbidden')
         if parts and parts[-1] in HIDDEN_FILES:
@@ -512,6 +533,15 @@ class Handler(BaseHTTPRequestHandler):
             '.mp4': 'video/mp4', '.webm': 'video/webm', '.ttf': 'font/ttf', '.txt': 'text/plain; charset=utf-8',
             '.md': 'text/markdown; charset=utf-8', '.pdf': 'application/pdf',
         }.get(ext, 'application/octet-stream')
+        self.send_file(candidate, ctype, ext)
+
+    def send_file(self, candidate, ctype=None, ext=None):
+        ext = ext or os.path.splitext(candidate)[1].lower()
+        if ctype is None:
+            ctype = {
+                '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+                '.gif': 'image/gif', '.webp': 'image/webp',
+            }.get(ext, 'application/octet-stream')
         size = os.path.getsize(candidate)
         self.send_response(200)
         self.send_header('Content-Type', ctype)
@@ -543,7 +573,8 @@ class Handler(BaseHTTPRequestHandler):
 def main():
     ap = argparse.ArgumentParser(description='Ceyteq website backend (static site + JSON API + SQLite)')
     ap.add_argument('--host', default='0.0.0.0')
-    ap.add_argument('--port', type=int, default=8000)
+    ap.add_argument('--port', type=int,
+                    default=int(os.environ.get('PORT') or os.environ.get('CEYTEQ_PORT') or 8000))
     ap.add_argument('--init', action='store_true', help='create the database, seed flyers and admin')
     ap.add_argument('--set-password', nargs=2, metavar=('USERNAME', 'PASSWORD'))
     ap.add_argument('--reseed-flyers', action='store_true', help='restore the 10 shipped flyers')
@@ -582,12 +613,14 @@ def main():
             print('=' * 62 + '\n')
 
     if args.init:
-        print('Database ready: data/ceyteq.db'
+        print(f'Database ready: {DB_PATH}'
               + (f'  (admin "{args.admin_user}" created)' if created else '  (admin already existed)'))
         print('Start the site with:  python3 server.py')
         return
 
-    print(f'Ceyteq backend on http://{args.host}:{args.port}   (db: data/ceyteq.db)')
+    print(f'Ceyteq backend on http://{args.host}:{args.port}')
+    print(f'  database : {DB_PATH}')
+    print(f'  uploads  : {UPLOAD_DIR}')
     ThreadingHTTPServer.daemon_threads = True
     httpd = ThreadingHTTPServer((args.host, args.port), Handler)
     try:

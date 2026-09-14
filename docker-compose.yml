@@ -1,0 +1,17 @@
+# Local / VPS: docker compose up -d
+services:
+  ceyteq:
+    build: .
+    container_name: ceyteq
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      CEYTEQ_DATA_DIR: /data
+      CEYTEQ_ADMIN_USER: admin
+      CEYTEQ_ADMIN_PASSWORD: ${CEYTEQ_ADMIN_PASSWORD:?set CEYTEQ_ADMIN_PASSWORD in .env}
+    volumes:
+      - ceyteq-data:/data
+
+volumes:
+  ceyteq-data:

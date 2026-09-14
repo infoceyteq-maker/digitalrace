@@ -444,7 +444,10 @@ LOADER_JS = """<script>
    3. the 10 built-in figures in this HTML               -> offline fallback  */
 (function(){try{
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function safeSrc(f){f=String(f||'').trim();return /^(https?:)?\/\//i.test(f)?f:'flyers/'+f.replace(/[^A-Za-z0-9._\-]/g,'')}
+function safeSrc(f){f=String(f||'').trim();
+if(/^(https?:)?\/\//i.test(f))return f;
+if(/^(flyers|uploads)\//.test(f))return f.replace(/[^A-Za-z0-9._\/-]/g,'');
+return 'flyers/'+f.replace(/[^A-Za-z0-9._\-]/g,'')}
 function draw(items){
 var g=document.getElementById('flyerGallery');if(!g||!items||!items.length)return;
 var h='';
@@ -455,7 +458,7 @@ g.innerHTML=h;}
 function fromApi(){
 return fetch('api/flyers',{headers:{'Accept':'application/json'}}).then(function(r){if(!r.ok)throw 0;return r.json()})
 .then(function(d){if(!d||!d.length)throw 0;
-draw(d.map(function(x){return {f:x.filename,en:x.title_en,si:x.title_si,fr:x.title_fr}}));});}
+draw(d.map(function(x){return {f:x.src||x.filename,en:x.title_en,si:x.title_si,fr:x.title_fr}}));});}
 function fromSheet(){
 var url='https://docs.google.com/spreadsheets/d/__SHEET_ID__/gviz/tq?tqx=out:json&gid=0';
 return fetch(url).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){
