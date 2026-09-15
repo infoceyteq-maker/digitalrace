@@ -3,6 +3,7 @@
 import base64, os
 
 import content_services as CS   # main-site service pages (01–08)
+import content_hotelmate as HM  # HotelMate featured-partner campaign layer (additive)
 
 # Project root = the folder this script lives in (works on any machine / CI).
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -349,6 +350,8 @@ PAGE_META = {
                      'flyer-10-ai-future-contact.png'),
     'travel.html': ("Ceylon Voyage — travel division of Ceyteq with Sri Lanka and France offices: itineraries, hotels, vehicles, event tickets, air tickets and emigration information. | Ceylon Voyage සංචාරක සේවා.",
                     'flyer-10-ai-future-contact.png'),
+    'hotelmate.html': ("HotelMate — the cloud property management system Ceyteq features for hotels, villas and guest houses in Sri Lanka. Campaign terms, the demo flow and a WhatsApp line to a HotelMate specialist. | HotelMate PMS campaign CEYTEQ සමඟ.",
+                        'assets/logo-transparent.png'),
 }
 FAVICON = 'assets/logo-transparent.png'
 
@@ -356,7 +359,14 @@ FAVICON = 'assets/logo-transparent.png'
 def head_meta(fname, title):
     desc, ogimg = PAGE_META.get(fname, (SITE_NAME, 'flyer-01-program-intro.png'))
     url = f'{SITE_URL}/{fname}'
-    img = f'{SITE_URL}/flyers/{ogimg}'
+    # flyer images live in flyers/ and are 1080x1350; a reference that already
+    # carries a folder (assets/...) is used as-is and makes no size claim.
+    if '/' in ogimg:
+        img, dims = f'{SITE_URL}/{ogimg}', ''
+    else:
+        img = f'{SITE_URL}/flyers/{ogimg}'
+        dims = ('\n<meta property="og:image:width" content="1080">'
+                '\n<meta property="og:image:height" content="1350">')
     return (f'<meta name="description" content="{desc}">\n'
             f'<meta name="author" content="Ceylon Technology — Ceyteq">\n'
             f'<meta name="theme-color" content="#0c1e21">\n'
@@ -369,8 +379,7 @@ def head_meta(fname, title):
             f'<meta property="og:description" content="{desc}">\n'
             f'<meta property="og:url" content="{url}">\n'
             f'<meta property="og:image" content="{img}">\n'
-            f'<meta property="og:image:width" content="1080">\n'
-            f'<meta property="og:image:height" content="1350">\n'
+            f'{dims}'
             f'<meta property="og:locale" content="si_LK">\n'
             f'<meta property="og:locale:alternate" content="en_US">\n'
             f'<meta name="twitter:card" content="summary_large_image">\n'
@@ -382,6 +391,9 @@ NAVITEMS = [
     ('index.html', 'Home', 'මුල් පිටුව', 'Accueil'),
     ('digitalrace.html', 'Digital Race', 'දිජිටල් රේස්', 'Digital Race'),
     ('services.html', 'Services', 'සේවා', 'Services'),
+    # Featured hospitality technology partner — the brand name "HotelMate" is
+    # kept identical in EN / SI / FR (site rule: brand names stay universal).
+    ('hotelmate.html', 'HotelMate', 'HotelMate', 'HotelMate'),
     ('packages.html', 'Packages', 'පැකේජ', 'Forfaits'),
     ('learn-earn.html', 'Learn &amp; Earn', 'ඉගෙන ගන්න', 'Formations'),
     ('offers.html', 'Offers', 'දීමනා', 'Offres'),
@@ -394,6 +406,8 @@ def nav(active):
     links = []
     for href, en, si, fr in NAVITEMS:
         cls = 'active' if href == active else ('hot' if href == 'digitalrace.html' else '')
+        if href == 'hotelmate.html':      # partner item, styled as a partner
+            cls = (cls + ' hm').strip()
         links.append(f'<a class="{cls}" href="{href}"><span class="lang-en">{en}</span><span class="lang-si">{si}</span><span class="lang-fr">{fr}</span></a>')
     return f"""<nav><div class="wrap">
 <img class="logo" src="{LOGO}" alt="Ceyteq logo">
@@ -519,7 +533,7 @@ def explore_more(exclude):
             '<span class="lang-fr">Autres portes de la course</span></h2>'
             '<div class="grid">' + cards + '</div></section>')
 
-def page(title, active, body, contact=True, fname='index.html', tail=''):
+def page(title, active, body, contact=True, fname='index.html', tail='', extra_css=''):
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -528,7 +542,7 @@ def page(title, active, body, contact=True, fname='index.html', tail=''):
 <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
 <title>{title}</title>
 {head_meta(fname, title)}
-<style>{CSS}{CSS2}</style></head>
+<style>{CSS}{CSS2}{HM.CSS_NAV}{extra_css}</style></head>
 <body data-langmode="en">{nav(active)}<div class="wrap">{body}</div>{CONTACT if contact else FOOTMINI}
 <script>{JS}</script>{tail}</body></html>"""
 
@@ -984,8 +998,12 @@ var MSG={ok:{en:'Thank you — your enquiry is saved. We will contact you shortl
 function T(k){var m=MSG[k];return m[LM]||m.en}
 if(!f.name||!f.contact||!f.message){note.className='form-note form-err';note.textContent=T('err');return false}
 btn.disabled=true;
-function wa(){var t='CEYTEQ enquiry%0A'+'Name: '+f.name+'%0AContact: '+f.contact+(f.email?'%0AEmail: '+f.email:'')+'%0AService: '+f.service+'%0A%0A'+f.message;
-window.open('https://wa.me/94788607143?text='+encodeURIComponent(decodeURIComponent(t)),'_blank');}
+/* The campaign page overrides the fallback number + tag through window.CEYTEQ_ENQ
+   (see content_hotelmate.FORM_CONFIG); every other page keeps the Ceyteq hotline. */
+var NUM=(window.CEYTEQ_ENQ&&CEYTEQ_ENQ.wa)||'94788607143';
+var TAG=(window.CEYTEQ_ENQ&&CEYTEQ_ENQ.tag)||'CEYTEQ enquiry';
+function wa(){var t=TAG+'%0A'+'Name: '+f.name+'%0AContact: '+f.contact+(f.email?'%0AEmail: '+f.email:'')+'%0AService: '+f.service+'%0A%0A'+f.message;
+window.open('https://wa.me/'+NUM+'?text='+encodeURIComponent(decodeURIComponent(t)),'_blank');}
 fetch('api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(f)})
 .then(function(r){if(!r.ok)throw 0;return r.json()})
 .then(function(){note.className='form-note form-ok';note.textContent=T('ok');document.getElementById('enquiryForm').reset();btn.disabled=false})
@@ -997,6 +1015,7 @@ PAGES = [
     ('index.html', 'Ceyteq — Ceylon Technology | Empowering Digital Evolution | සම්පූර්ණ ඩිජිටල් සේවා', 'index.html', HOME),
     ('digitalrace.html', 'Digital Race Program | ඩිජිටල් රේස් වැඩසටහන | Programme Digital Race', 'digitalrace.html', DIGITALRACE),
     ('services.html', 'All Services | සියලු සේවා | Tous les services', 'services.html', CS.services_hub()),
+    ('hotelmate.html', 'HotelMate PMS — Ceyteq Partner Campaign | හෝටල් PMS campaign | Campagne partenaire HotelMate PMS', 'hotelmate.html', HM.hotelmate_page()),
     ('web.html', 'Web Services | වෙබ් සේවා | Services web', 'web.html', CS.web()),
     ('ads.html', 'Advertising | ප්‍රචාරණ | Publicité', 'ads.html', CS.ads()),
     ('print.html', 'Printing & Digital | මුද්‍රණ හා ඩිජිටල් | Impression & Digital', 'print.html', CS.printing()),
@@ -1015,8 +1034,14 @@ PAGES = [
     ('admin.html', 'Ceyteq Admin | පරිපාලක | Admin', 'admin.html', ADMIN),
 ]
 
-# per-page <script> appended after the shared JS (contact form needs it)
-PAGE_TAIL = {'contact.html': ENQUIRY_JS, 'learn-earn.html': ENQUIRY_JS}
+# per-page <script> appended after the shared JS (contact form needs it).
+# hotelmate.html gets the same enquiry JS as contact.html (saves the lead into
+# the Ceyteq backend, falls back to WhatsApp when the server is offline) plus the
+# campaign UTM passthrough. index.html gets the UTM passthrough too, so the
+# homepage "WhatsApp a HotelMate specialist" CTA is attributed as well.
+PAGE_TAIL = {'contact.html': ENQUIRY_JS, 'learn-earn.html': ENQUIRY_JS,
+             'hotelmate.html': HM.FORM_CONFIG + ENQUIRY_JS + HM.UTM_JS,
+             'index.html': HM.UTM_JS}
 
 for fname, title, active, body in PAGES:
     if fname not in ('index.html', 'admin.html', 'contact.html'):
@@ -1025,7 +1050,8 @@ for fname, title, active, body in PAGES:
                 .replace('__EDIT_URL__', SHEET_EDIT_URL).replace('__ADMIN_SIG__', ADMIN_SIG)
                 .replace('__TSV__', TSV_DATA).replace('__LOGO__', LOGO))
     html = page(title, active, body, contact=(fname not in ('index.html', 'admin.html')),
-                fname=fname, tail=PAGE_TAIL.get(fname, ''))
+                fname=fname, tail=PAGE_TAIL.get(fname, ''),
+                extra_css=(HM.CSS_PAGE if fname in HM.PAGES_WITH_CAMPAIGN_CSS else ''))
     assert '__' not in html.replace('data-langmode', ''), fname
     with open(f'{ROOT}/{fname}', 'w') as f:
         f.write(html)

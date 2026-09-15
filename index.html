@@ -17,9 +17,9 @@
 <meta property="og:description" content="CEYTEQ Digital Race — 90-day digital transformation program for Sri Lankan restaurants & local businesses. Websites, WhatsApp ordering, AI bots, training & monthly marketing. | ඩිජිටල් රේස් වැඩසටහන — දින 90 වැඩසටහන.">
 <meta property="og:url" content="https://www.ceyteq.linkpc.net/index.html">
 <meta property="og:image" content="https://www.ceyteq.linkpc.net/flyers/flyer-01-program-intro.png">
+
 <meta property="og:image:width" content="1080">
-<meta property="og:image:height" content="1350">
-<meta property="og:locale" content="si_LK">
+<meta property="og:image:height" content="1350"><meta property="og:locale" content="si_LK">
 <meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ceyteq — Ceylon Technology | Empowering Digital Evolution | සම්පූර්ණ ඩිජිටල් සේවා">
@@ -287,11 +287,117 @@ border-radius:50px;padding:5px 16px;font-size:14px}
 @media(max-width:640px){body{padding-bottom:78px}.fab{font-size:14px;padding:12px 18px}
 .lvl{grid-template-columns:1fr}.floats{right:12px;bottom:12px;gap:10px}}
 @media(prefers-reduced-motion:reduce){.fab,.fab.wa{animation:none}}
+
+/* HotelMate campaign — shared nav only (see CSS_PAGE for the rest) */
+:root{--hm:#00AEEF;--hmacc:#27A3C9;--hmnavy:#1A1A2E;--hmd:#0179AB}
+nav .links a.hm{color:var(--hmd);font-weight:800;border:1.5px solid rgba(0,174,239,.55);
+padding:6.5px 13px;background:#f4fbfe}
+nav .links a.hm:hover{background:var(--hm);color:#06222c;border-color:var(--hm)}
+nav .links a.hm.active{background:var(--hm);color:#06222c;border-color:var(--hm)}
+
+/* ============ HotelMate featured-partner campaign (additive layer) ============ */
+/* wordmark + logo slot */
+.hm-mark{display:inline-flex;align-items:center;gap:10px;font-weight:800;
+letter-spacing:-.02em;line-height:1.15}
+.hm-mark .hm-dot{width:12px;height:12px;border-radius:50%;background:var(--hm);flex:none;
+box-shadow:0 0 0 4px rgba(0,174,239,.2)}
+.hm-mark .hm-mate{color:var(--hm)}
+img.hm-logo{height:auto;max-width:100%;width:240px;filter:drop-shadow(0 6px 18px rgba(0,174,239,.35))}
+/* featured-partner band (home) + campaign closing band */
+#hotelmate{border-top:3px solid var(--hm)}
+.hm-band{background:linear-gradient(135deg,#1A1A2E,#1A1A2E 55%,#242a4d);
+border:1px solid rgba(0,174,239,.55);border-radius:20px;padding:34px 30px;margin:6px auto 0;
+max-width:980px;box-shadow:0 20px 48px rgba(26,26,46,.28);position:relative;overflow:hidden}
+.hm-band::before{content:'';position:absolute;left:0;right:0;top:0;height:4px;
+background:linear-gradient(90deg,var(--hm),var(--hmacc),var(--hm))}
+.hm-band .kick{color:#9fe3ff;font-weight:800;letter-spacing:3px;font-size:12.5px;text-transform:uppercase}
+.hm-band .ah{font-size:clamp(23px,4.4vw,34px);font-weight:800;color:#fff;line-height:1.2;
+margin:12px 0 4px;letter-spacing:-.03em;display:flex;flex-wrap:wrap;gap:12px;align-items:baseline}
+.hm-band .ah .lang-si{display:block;font-size:.62em;color:#bfeafc;margin-top:8px;font-weight:600}
+.hm-band .ah .lang-fr{font-size:.8em;color:#bfeafc}
+.hm-band p{color:#dbeaf2;font-size:16px;margin-top:10px;max-width:820px}
+.hm-band .lang-si{color:#bfeafc}
+.hm-band ul{list-style:none;display:grid;gap:9px;margin:20px 0 0;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.hm-band ul li{background:rgba(255,255,255,.07);border:1px solid rgba(0,174,239,.35);
+border-radius:10px;padding:11px 15px;font-size:14.5px;color:#e7f4fa}
+.hm-band ul li b{color:#fff}
+/* buttons — approved fills with AA-contrast labels */
+.btn-hm{background:var(--hm);color:#06222c;box-shadow:0 10px 26px rgba(0,174,239,.34)}
+.btn-hm:hover{background:#33c1f7;color:#06222c;transform:translateY(-2px)}
+.btn-wa{background:#25d366;color:#06222c;box-shadow:0 10px 26px rgba(37,211,102,.3)}
+.btn-wa:hover{background:#1ebe5b;color:#06222c;transform:translateY(-2px)}
+.hm-band .cta-row{justify-content:flex-start;margin:22px 0 4px}
+/* ghost buttons must stay legible on the navy bands */
+.hm-band .btn-ghost,.hm-hero .btn-ghost{border-color:#9fe3ff;color:#e7f4fa;background:transparent}
+.hm-band .btn-ghost:hover,.hm-hero .btn-ghost:hover{background:var(--hm);color:#06222c;border-color:var(--hm)}
+.hm-terms{border:1px dashed rgba(0,174,239,.6);border-radius:10px;padding:12px 16px;margin-top:16px;
+color:#fff;font-weight:700;background:rgba(0,174,239,.09);max-width:820px}
+/* the mandated disclosure line */
+.hm-disclose{display:flex;margin-top:20px;border-left:3px solid var(--hm);padding:2px 0 2px 14px}
+.hm-disclose small{color:#bfe0ef;font-size:13.5px;line-height:1.55;font-weight:500}
+/* services.html — partner card under the 08 divisions */
+.hm-partner{background:linear-gradient(135deg,#fff,#f2fbff);border:1px solid rgba(0,174,239,.45);
+border-top:4px solid var(--hm);border-radius:14px;padding:26px;margin-top:22px;
+box-shadow:0 14px 36px rgba(26,26,46,.09);display:block;text-decoration:none;color:inherit;transition:.25s}
+a.hm-partner:hover{transform:translateY(-4px);box-shadow:0 22px 46px rgba(0,174,239,.2);
+border-color:var(--hm)}
+.hm-ribbon{display:inline-block;background:var(--hm);color:#06222c;font-weight:800;font-size:11.5px;
+letter-spacing:1.6px;text-transform:uppercase;border-radius:50px;padding:6px 15px}
+.hm-lock{font-size:clamp(21px,4vw,29px);font-weight:800;color:var(--hmnavy);margin:14px 0 8px;
+letter-spacing:-.03em}
+.hm-partner p{font-size:15.5px;color:var(--mut)}
+.hm-tags{margin:14px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:7px}
+.hm-tags li{background:#f2fbff;border:1px solid rgba(0,174,239,.4);border-radius:50px;
+padding:5px 13px;font-size:12.5px;color:var(--hmd);font-weight:700}
+.hm-goto{margin-top:16px;font-weight:800;color:var(--hmd);font-size:15px}
+/* campaign landing page */
+.hm-hero{background:linear-gradient(135deg,#1A1A2E,#20233f 60%,#1A1A2E);
+border:1px solid rgba(0,174,239,.5);border-radius:22px;padding:44px 32px;margin:26px 0 4px;
+box-shadow:0 22px 54px rgba(26,26,46,.3);position:relative;overflow:hidden;text-align:center}
+.hm-hero::before{content:'';position:absolute;left:0;right:0;top:0;height:5px;
+background:linear-gradient(90deg,var(--hm),var(--hmacc),var(--hm))}
+.hm-hero .kick{color:#9fe3ff;font-weight:800;letter-spacing:3px;font-size:12.5px;text-transform:uppercase}
+.hm-hero .lock{display:flex;justify-content:center;margin:16px 0 8px;font-size:clamp(28px,6vw,42px)}
+.hm-hero h1{color:#fff;font-size:clamp(30px,5.4vw,52px)}
+.hm-hero h1 .lang-si{color:#bfeafc;display:block;font-size:clamp(19px,3.8vw,28px);margin-top:10px;font-weight:600}
+.hm-hero h1 .lang-fr{color:#bfeafc;font-size:clamp(18px,3.4vw,26px)}
+.hm-hero .lead{color:#dbeaf2;max-width:780px;margin:14px auto 0;font-size:16.5px}
+.hm-hero .cta-row{margin:26px 0 6px}
+.offer{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-top:24px}
+.offer .o{background:#fff;border:1px solid var(--line);border-top:4px solid var(--hm);
+border-radius:14px;padding:26px 24px;box-shadow:0 12px 32px rgba(12,30,33,.07)}
+.offer .o small{display:block;color:var(--hmd);font-weight:800;letter-spacing:1.8px;font-size:11.5px;
+text-transform:uppercase}
+.offer .o b{display:block;font-size:clamp(21px,3.6vw,27px);color:var(--hmnavy);margin:10px 0 2px;
+letter-spacing:-.02em;font-weight:800;line-height:1.25}
+.offer .o b.free{color:var(--hmd)}
+.offer .o p{font-size:14.5px;color:var(--mut);margin-top:10px}
+.hm-note{background:#f2fbff;border:1px solid rgba(0,174,239,.4);border-radius:12px;
+padding:16px 20px;margin-top:20px;font-size:14.5px;color:var(--mut);text-align:left}
+.hm-note b{color:var(--hmnavy)}
+.steps{display:grid;gap:14px;margin-top:24px}
+.step{display:grid;grid-template-columns:60px 1fr;gap:16px;align-items:start;background:#fff;
+border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:0 10px 28px rgba(12,30,33,.06)}
+.step .n{width:44px;height:44px;border-radius:50%;background:var(--hm);color:#06222c;
+font-weight:800;display:flex;align-items:center;justify-content:center;font-size:18px}
+.step b{display:block;font-size:17.5px;color:var(--hmnavy)}
+.step p{font-size:15px;color:var(--mut);margin-top:5px}
+.social{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.social a{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:700;
+font-size:14.5px;color:var(--hmnavy);background:#fff;border:1.5px solid rgba(0,174,239,.5);
+border-radius:50px;padding:11px 20px;transition:.2s}
+.social a:hover{background:var(--hm);border-color:var(--hm);color:#06222c;transform:translateY(-2px)}
+@media(max-width:640px){.hm-band{padding:26px 18px}.hm-hero{padding:30px 18px}
+.hm-partner{padding:22px 18px}.step{grid-template-columns:44px 1fr;gap:12px;padding:16px}
+.btn{font-size:15px;padding:13px 22px}}
+@media(prefers-reduced-motion:reduce){.hm-partner,.social a,.btn-hm,.btn-wa{transition:none}
+.hm-partner:hover,.social a:hover,.btn-hm:hover,.btn-wa:hover{transform:none}}
 </style></head>
 <body data-langmode="en"><nav><div class="wrap">
 <img class="logo" src="assets/logo-transparent.png" alt="Ceyteq logo">
 <div class="brand">CEYTEQ<small><span class="lang-en">EMPOWERING DIGITAL EVOLUTION</span><span class="lang-si">ඩිජිටල් පරිණාමය සවිබල ගැන්වීම</span><span class="lang-fr">FAVORISER L'ÉVOLUTION NUMÉRIQUE</span></small></div>
-<div class="links"><a class="active" href="index.html"><span class="lang-en">Home</span><span class="lang-si">මුල් පිටුව</span><span class="lang-fr">Accueil</span></a><a class="hot" href="digitalrace.html"><span class="lang-en">Digital Race</span><span class="lang-si">දිජිටල් රේස්</span><span class="lang-fr">Digital Race</span></a><a class="" href="services.html"><span class="lang-en">Services</span><span class="lang-si">සේවා</span><span class="lang-fr">Services</span></a><a class="" href="packages.html"><span class="lang-en">Packages</span><span class="lang-si">පැකේජ</span><span class="lang-fr">Forfaits</span></a><a class="" href="learn-earn.html"><span class="lang-en">Learn &amp; Earn</span><span class="lang-si">ඉගෙන ගන්න</span><span class="lang-fr">Formations</span></a><a class="" href="offers.html"><span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></a><a class="" href="about.html"><span class="lang-en">About</span><span class="lang-si">අප ගැන</span><span class="lang-fr">À propos</span></a><a class="" href="careers.html"><span class="lang-en">Careers</span><span class="lang-si">රැකියා</span><span class="lang-fr">Carrières</span></a><a class="" href="contact.html"><span class="lang-en">Contact</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">Contact</span></a></div>
+<div class="links"><a class="active" href="index.html"><span class="lang-en">Home</span><span class="lang-si">මුල් පිටුව</span><span class="lang-fr">Accueil</span></a><a class="hot" href="digitalrace.html"><span class="lang-en">Digital Race</span><span class="lang-si">දිජිටල් රේස්</span><span class="lang-fr">Digital Race</span></a><a class="" href="services.html"><span class="lang-en">Services</span><span class="lang-si">සේවා</span><span class="lang-fr">Services</span></a><a class="hm" href="hotelmate.html"><span class="lang-en">HotelMate</span><span class="lang-si">HotelMate</span><span class="lang-fr">HotelMate</span></a><a class="" href="packages.html"><span class="lang-en">Packages</span><span class="lang-si">පැකේජ</span><span class="lang-fr">Forfaits</span></a><a class="" href="learn-earn.html"><span class="lang-en">Learn &amp; Earn</span><span class="lang-si">ඉගෙන ගන්න</span><span class="lang-fr">Formations</span></a><a class="" href="offers.html"><span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></a><a class="" href="about.html"><span class="lang-en">About</span><span class="lang-si">අප ගැන</span><span class="lang-fr">À propos</span></a><a class="" href="careers.html"><span class="lang-en">Careers</span><span class="lang-si">රැකියා</span><span class="lang-fr">Carrières</span></a><a class="" href="contact.html"><span class="lang-en">Contact</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">Contact</span></a></div>
 <div class="langsw">
 <button data-m="si" onclick="setLang('si')"><span class="lang-en">SINHALA</span><span class="lang-si">සිංහල</span><span class="lang-fr">SINGHALAIS</span></button>
 <button data-m="en" onclick="setLang('en')"><span class="lang-en">ENGLISH</span><span class="lang-si">ඉංග්‍රීසි</span><span class="lang-fr">ANGLAIS</span></button>
@@ -330,6 +436,27 @@ border-radius:50px;padding:5px 16px;font-size:14px}
 </div>
 </div>
 </section>
+
+
+<section id="hotelmate">
+<div class="hm-band">
+<div class="kick">★ <span class="lang-en">FEATURED HOSPITALITY TECHNOLOGY PARTNER</span><span class="lang-si">ප්‍රධාන හෝටල් තාක්ෂණ හවුල්කරු</span><span class="lang-fr">PARTENAIRE TECHNOLOGIQUE HÔTELIER EN VEDETTE</span> ★</div>
+<div class="ah"><span class="hm-mark"><span class="hm-dot" aria-hidden="true"></span>Hotel<span class="hm-mate">Mate</span></span>
+<span><span class="lang-en">HotelMate, featured by Ceyteq</span><span class="lang-si">Ceyteq highlight කරන HotelMate</span><span class="lang-fr">HotelMate, mis en avant par Ceyteq</span></span></div>
+<p><span class="lang-en">Ceyteq is your full-service technology company — websites, ads, print, media, AI and travel. HotelMate is the hospitality software we feature for hotels, villas and guest houses: reservations, rates, billing and owner reports in one cloud system.</span><span class="lang-si">Ceyteq තමයි ඔබේ full-service technology company — වෙබ්, ads, print, media, AI සහ travel. හෝටල්, villas සහ guest houses සඳහා අපි highlight කරන hospitality software එක HotelMate: reservations, rates, billing සහ හිමිකරුට වාර්තා එකම cloud පද්ධතියක.</span><span class="lang-fr">Ceyteq est votre société de technologie complète — web, publicité, impression, médias, IA et voyage. HotelMate est le logiciel hôtelier que nous mettons en avant pour hôtels, villas et maisons d’hôtes : réservations, tarifs, facturation et rapports dans un seul système cloud.</span></p>
+<ul>
+<li><b><span class="lang-en">Ceyteq coordinates</span><span class="lang-si">Ceyteq සම්බන්ධීකරණය කරනවා</span><span class="lang-fr">Ceyteq coordonne</span></b> — <span class="lang-en">introduction, qualification, demo booking</span><span class="lang-si">introduction, qualification, demo booking</span><span class="lang-fr">mise en relation, qualification, réservation de la démo</span></li>
+<li><b><span class="lang-en">HotelMate delivers</span><span class="lang-si">HotelMate සපයනවා</span><span class="lang-fr">HotelMate fournit</span></b> — <span class="lang-en">final product demo, licence and activation</span><span class="lang-si">අවසාන product demo, licence සහ activation</span><span class="lang-fr">démo finale, licence et mise en service</span></li>
+<li><b><span class="lang-en">Campaign offer</span><span class="lang-si">campaign offer එක</span><span class="lang-fr">Offre de campagne</span></b> — <span class="lang-en">terms and pricing on the HotelMate page</span><span class="lang-si">කොන්දේසි සහ මිල HotelMate පිටුවේ</span><span class="lang-fr">conditions et tarifs sur la page HotelMate</span></li>
+</ul>
+<div class="cta-row">
+<a class="btn btn-hm" href="hotelmate.html">🏨 <span class="lang-en">Explore HotelMate →</span><span class="lang-si">HotelMate බලන්න →</span><span class="lang-fr">Découvrir HotelMate →</span></a>
+<a class="btn btn-wa" href="https://wa.me/94768607143?text=Hello%20Ceyteq%20%E2%80%94%20I%20would%20like%20to%20speak%20with%20a%20HotelMate%20specialist%20about%20my%20hotel%2Fguest%20house.%20Please%20send%20the%20campaign%20offer%20%28setup%20fee%20FREE%20for%20the%20campaign%20period%2C%20US%2439%2Fmonth%20for%20the%20first%2010%20rooms%29%20and%20book%20my%20demo." target="_blank" rel="noopener" data-utm aria-label="WhatsApp a HotelMate specialist — +94 76 860 7143">💬 <span class="lang-en">WhatsApp a HotelMate specialist</span><span class="lang-si">HotelMate specialist කෙනෙකුට WhatsApp කරන්න</span><span class="lang-fr">Écrire à un spécialiste HotelMate sur WhatsApp</span></a>
+</div>
+<div class="hm-disclose"><small><span class="lang-en">Demo coordination by Ceyteq. Final product demo and activation are completed with the HotelMate team.</span><span class="lang-si">ඩෙමෝ සම්බන්ධීකරණය Ceyteq විසින්. අවසාන product demo එක සහ activation සිදු කරන්නේ HotelMate කණ්ඩායම සමඟයි.</span><span class="lang-fr">Coordination de la démo par Ceyteq. La démo finale du produit et l’activation sont réalisées avec l’équipe HotelMate.</span></small></div>
+</div>
+</section>
+
 
 <section id="learnearn">
 <div class="eyebrow"><span class="lang-en">Learn &amp; Earn</span><span class="lang-si">ඉගෙන ගන්න, උපයන්න</span><span class="lang-fr">Apprendre et gagner</span></div>
@@ -447,4 +574,70 @@ document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 })();
 (function(){try{var els=document.querySelectorAll('.card,.teaser,.pkg,.month,.hlbox,.stat');if(!('IntersectionObserver' in window))return;var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}})},{threshold:.08});els.forEach(function(el){el.classList.add('rv');o.observe(el)});}catch(e){}})();
-</script></body></html>
+</script>
+<script>
+/* HotelMate campaign — UTM passthrough into the wa.me links. */
+(function(){try{
+var KEEP=/^(utm_|gclid|fbclid|gbraid|wbraid|twclid|ttclid|msclkid|dclid|ef_id|gclsrc|ref|cid|igsh)/;
+var out=[];
+try{
+  var qs=(self.location&&location.search)?String(location.search).replace(/^\?/,''):'';
+  var parts=qs?qs.split('&'):[];
+  for(var i=0;i<parts.length;i++){
+    var kv=parts[i];if(!kv)continue;
+    var k=decodeURIComponent(kv.split('=')[0]||'').replace(/[^a-zA-Z0-9_.\-]/g,'');
+    if(k.length>40||!KEEP.test(k+'='))continue;
+    var v=decodeURIComponent((kv.split('=')[1]||'').replace(/\+/g,' ')).slice(0,120);
+    v=v.replace(/[^a-zA-Z0-9_.:@+\/ \-]/g,'');
+    if(k&&v)out.push([k,v]);
+  }
+}catch(e){out=[]}
+function stamp(){
+  if(!out.length)return'';
+  var s='';
+  for(var j=0;j<out.length;j++)s+='\n  '+out[j][0]+' = '+out[j][1];
+  return s;
+}
+function enhance(a){
+  try{
+    if(!a||!a.getAttribute)return;
+    var href=a.getAttribute('href')||'';
+    if(href.indexOf('wa.me/')<0)return;
+    if(a.getAttribute('data-hm-utm')==='done')return;
+    var qi=href.indexOf('?');
+    var path=qi<0?href:href.slice(0,qi);
+    var pairs=qi<0?[]:href.slice(qi+1).split('&');
+    var pre='';
+    for(var m=pairs.length-1;m>=0;m--){
+      if(pairs[m].indexOf('text=')===0){pre=pairs[m];pairs.splice(m,1);}
+    }
+    if(!out.length){a.setAttribute('data-hm-utm','done');return;}
+    for(var n=0;n<out.length;n++)
+      pairs.push(encodeURIComponent(out[n][0])+'='+encodeURIComponent(out[n][1]));
+    if(pre){
+      var dec=pre.slice(5);
+      try{dec=decodeURIComponent(pre.slice(5).replace(/\+/g,' '));}catch(e3){}
+      if(stamp()&&dec.indexOf('Campaign:')<0)dec+='\n\nCampaign:'+stamp();
+      pairs.unshift('text='+encodeURIComponent(dec));
+    }
+    a.setAttribute('href',path+(pairs.length?'?'+pairs.join('&'):''));
+    a.setAttribute('data-hm-utm','done');
+  }catch(e){}
+}
+function run(){
+  var list=document.querySelectorAll('a[href*="wa.me/"]');
+  for(var i=0;i<list.length;i++)enhance(list[i]);
+}
+run();
+if(document.addEventListener){
+  document.addEventListener('click',function(ev){
+    var t=ev.target;
+    while(t&&t!==document){
+      if(t.nodeName==='A'){enhance(t);return;}
+      t=t.parentNode;
+    }
+  },true);
+}
+}catch(e){}})();
+</script>
+</body></html>
