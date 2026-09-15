@@ -9,6 +9,9 @@ Brand names, platform names and numbers stay universal (no translation).
 Edit any text below and run:  python3 build_site.py
 """
 
+import content_hotelmate as HM   # featured-partner campaign layer (additive)
+
+
 # ----------------------------------------------------------------------------
 # helpers
 # ----------------------------------------------------------------------------
@@ -187,6 +190,8 @@ def home():
 </div>
 </section>
 
+{HM.featured_band()}
+
 <section id="learnearn">
 <div class="eyebrow">{T('Learn &amp; Earn', 'ඉගෙන ගන්න, උපයන්න', 'Apprendre et gagner')}</div>
 <h2>{T('Learn the Skill. Earn From It.', 'නිපුණතාව ඉගෙන ගන්න. එයින් උපයන්න.', 'Apprenez la compétence. Gagnez avec.')}</h2>
@@ -257,6 +262,7 @@ def services_hub():
 <section>
 <div class="svcgrid">{cards}</div>
 </section>
+{HM.partners_section()}
 <section>
 <div class="eyebrow">{T('How we work', 'අප වැඩ කරන ආකාරය', 'Notre méthode')}</div>
 <h2>{T('Five Steps From Idea to Launch', 'අදහසේ සිට launch දක්වා පියවර 5', 'Cinq étapes de l’idée au lancement')}</h2>
@@ -664,7 +670,8 @@ def about():
 # ----------------------------------------------------------------------------
 
 SERVICE_OPTIONS = ['Web Services', 'Advertising', 'Printing &amp; Digital', 'Photography &amp; Video',
-                   'Design &amp; Editing', 'AI &amp; ERP', 'Ceylon Voyage (Travel)', 'Digital Race Program', 'Other']
+                   'Design &amp; Editing', 'AI &amp; ERP', 'Ceylon Voyage (Travel)', 'Digital Race Program',
+                   'HotelMate PMS (via Ceyteq)', 'Other']
 
 
 def contact():

@@ -31,7 +31,7 @@ RUN IT (2 minutes)
   CEYTEQ_ADMIN_PASSWORD for automated deploys)
 
 
-PAGES (19 + 1 redirect)
+PAGES (20 + 1 redirect)
   index.html          HOME — company: hero, Digital Race highlight,
                       9 service cards, platforms, why Ceyteq, Ceylon
                       Voyage teaser. No long price lists.
@@ -72,6 +72,12 @@ PAGES (19 + 1 redirect)
                       ready-to-share offers (reads the database first,
                       then the Google Sheet, then the built-in list)
                       + hidden Admin Login link.
+  hotelmate.html      HOTELMATE PARTNER CAMPAIGN — Ceyteq's featured hospitality
+                      technology partner. Campaign offer, the WhatsApp-first flow
+                      (WhatsApp -> Ceyteq qualification -> HotelMate back-office
+                      final demo), HotelMate social links and an enquiry form
+                      that saves to the same leads table. UTM parameters on the
+                      page URL are passed through to the WhatsApp links.
   flyers.html         redirect to offers.html (old links keep working).
   admin.html          Admin panel — flyers CRUD (order, titles,
                       visibility, upload) + customer enquiries.
@@ -119,9 +125,20 @@ BACKEND (server.py) — stdlib only, no pip install needed
 
 
 FILES
-  *.html                       the 18 pages (generated — do not hand-edit)
+  *.html                       the 19 pages (generated — do not hand-edit)
   build_site.py                builds all pages (path-independent)
   content_services.py          all main-site service content (edit text here)
+  content_hotelmate.py         HotelMate campaign layer: colours, campaign
+                               WhatsApp number, homepage band, Services partner
+                               card, the /hotelmate.html page, UTM passthrough
+                               and campaign CSS. Additive and isolated: Ceyteq
+                               content is not rewritten by it.
+  assets/hotelmate-logo.png    HOTELMATE LOGO — NOT SUPPLIED YET. Until the file
+                               exists the build renders a CSS wordmark; drop the
+                               supplied logo in (png/svg/jpg) and re-run
+                               build_site.py — every HotelMate mark switches to
+                               the real logo with no code change. (Also accepted:
+                               assets/hotelmate-logo.svg / .jpg / .jpeg.)
   server.py                    backend: static + API + SQLite
   make_flyers.py               regenerates the 10 flyers (needs Pillow)
   assets/logo-transparent.png  logo (also used as favicon)
@@ -136,6 +153,29 @@ REBUILD THE PAGES:      python3 build_site.py
 REGENERATE THE FLYERS:  python3 make_flyers.py   (pip install Pillow)
 RUN THE SITE LOCALLY:   python3 server.py --port 8000
 
+
+HOTELMATE FEATURED-PARTNER CAMPAIGN (see content_hotelmate.py)
+  Nav: a 10th item "HotelMate" (brand name identical in EN/SI/FR per the site
+  rule) on all 20 pages, styled as a partner pill, not as a Ceyteq division.
+  Home: #hotelmate band under the Digital Race feature block — two buttons only:
+  "Explore HotelMate" -> hotelmate.html and "WhatsApp a HotelMate specialist"
+  -> https://wa.me/94768607143. No price is shown on the homepage.
+  Services: a "Technology partners" section with the HotelMate card, added AFTER
+  the 08 divisions — nothing removed or renumbered.
+  Colours: HotelMate #00AEEF, site accent #27A3C9, navy #1A1A2E. Small text on
+  white uses a darker tint of the brand blue (#0179AB) because #00AEEF on white
+  fails WCAG AA; every fill and border uses the approved #00AEEF exactly.
+  Campaign wording rules: the setup-fee waiver and US$39/month are written ONLY
+  on hotelmate.html and always "for the campaign period"; the page states the
+  offer is not permanently free; no "official partner", no testimonials, no
+  revenue or occupancy guarantees. "Demo coordination by Ceyteq. Final product
+  demo and activation are completed with the HotelMate team." is printed on all
+  three campaign views. The campaign WhatsApp number is +94 76 860 7143, and on
+  this page only, the form's offline WhatsApp fallback is routed to that number
+  too (window.CEYTEQ_ENQ; other pages keep the Ceyteq hotline).
+  To remove the campaign: delete the content_hotelmate imports + the two call
+  sites in content_services.py, the HotelMate nav item and the two hotelmate
+  entries in build_site.py, then rebuild.
 
 ALWAYS-ON FLOATING ACTIONS (every page)
   * "Start Digital Race" (red, pulsing) -> digitalrace.html#start
