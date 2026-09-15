@@ -14,3 +14,8 @@ uploads/
 # OS
 .DS_Store
 Thumbs.db
+
+# Front-end check tooling (node check_hotelmate_dom.mjs) — npm i jsdom state
+node_modules/
+package-lock.json
+/package.json

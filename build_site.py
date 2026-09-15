@@ -1034,13 +1034,15 @@ PAGES = [
     ('admin.html', 'Ceyteq Admin | පරිපාලක | Admin', 'admin.html', ADMIN),
 ]
 
-# per-page <script> appended after the shared JS (contact form needs it).
-# hotelmate.html gets the same enquiry JS as contact.html (saves the lead into
-# the Ceyteq backend, falls back to WhatsApp when the server is offline) plus the
+# per-page <script> appended after the shared JS. contact.html and
+# learn-earn.html keep the shared enquiry JS (saves the lead into the Ceyteq
+# backend, falls back to WhatsApp when the server is offline). hotelmate.html
+# is WhatsApp-ONLY: HM.WA_FORM_JS composes ONE WhatsApp message and navigates
+# to the campaign number — no fetch, no api/leads, nothing stored — plus the
 # campaign UTM passthrough. index.html gets the UTM passthrough too, so the
 # homepage "WhatsApp a HotelMate specialist" CTA is attributed as well.
 PAGE_TAIL = {'contact.html': ENQUIRY_JS, 'learn-earn.html': ENQUIRY_JS,
-             'hotelmate.html': HM.FORM_CONFIG + ENQUIRY_JS + HM.UTM_JS,
+             'hotelmate.html': HM.WA_FORM_JS + HM.UTM_JS,
              'index.html': HM.UTM_JS}
 
 for fname, title, active, body in PAGES:

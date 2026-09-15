@@ -25,6 +25,9 @@ CAMPAIGN RULES ENFORCED HERE
     claims.
   * "Demo coordination by Ceyteq. Final product demo and activation are
     completed with the HotelMate team." appears on every HotelMate view.
+  * Lead handoff is WhatsApp-only: the campaign form composes ONE message and
+    navigates to wa.me — no fetch, no api/leads, no window.open, nothing
+    stored. contact.html and learn-earn.html keep the Ceyteq backend form.
 
 CLIENT ASSET STATUS (at the time of this build)
   assets/hotelmate-logo.png  — not in the repository yet. While it is missing
@@ -310,11 +313,110 @@ if(document.addEventListener){
 </script>
 """
 
-# The shared enquiry JS (build_site.ENQUIRY_JS) falls back to WhatsApp when the
-# backend is offline — which is exactly how the site runs on GitHub Pages. On the
-# campaign page that fallback must reach the CAMPAIGN number, so the page sets:
-FORM_CONFIG = ("<script>window.CEYTEQ_ENQ={wa:'" + WA_NUMBER + "',"
-               "tag:'CEYTEQ HotelMate enquiry'};</script>")
+# ------------------------------------------------ WhatsApp-only form JS -----
+# The campaign page hands leads to Ceyteq on WhatsApp ONLY — no fetch, no
+# api/leads call, no window.open and nothing stored anywhere. Submitting the
+# form composes ONE WhatsApp message and navigates the same tab synchronously
+# to https://wa.me/<campaign number>?text=...  The message keeps a fixed order
+# (Name, Contact, Email when filled, Property type, Rooms when filled, then the
+# message) followed by utm_source / utm_medium / utm_campaign / utm_content
+# when the page URL carries them; blank optional fields are omitted entirely.
+# fitLines() keeps the finished URL under ~1900 chars even for long Sinhala
+# text (which URI-encodes at ~9 chars per letter). contact.html and
+# learn-earn.html keep the shared Ceyteq backend form — this is campaign-only.
+WA_FORM_JS = r"""<script>
+/* HotelMate campaign — WhatsApp-only lead handoff (no backend, nothing
+   stored). One submit = ONE WhatsApp message; the tab navigates synchronously
+   to the campaign number. fitLines() guards the URL length, blank optional
+   fields are omitted, and campaign parameters ride along only when the page
+   URL has them. */
+(function(){
+var API={};
+var NUM='""" + WA_NUMBER + r"""';
+var BASE='https://wa.me/'+NUM+'?text=';
+var CAP=1900;               /* max chars of the finished wa.me URL */
+var UTM_ORDER=['utm_source','utm_medium','utm_campaign','utm_content'];
+var ERR={en:'Please fill your name, contact number and a short message.',
+         si:'ඔබේ නම, සම්බන්ධතා අංකය සහ කෙටි පණිවිඩයක් දෙන්න.',
+         fr:'Indiquez votre nom, votre numéro et un court message.'};
+function g(id){return document.getElementById(id)}
+function val(id){var e=g(id);return e?String(e.value||'').trim():''}
+function readUtms(){
+  var qs=String((typeof location!=='undefined'&&location.search)||'').replace(/^\?/,'');
+  var parts=qs?qs.split('&'):[],map={};
+  for(var i=0;i<parts.length;i++){
+    var kv=parts[i];if(!kv)continue;
+    var eq=kv.indexOf('='),k='',v='';
+    try{k=decodeURIComponent(eq<0?kv:kv.slice(0,eq));}catch(e){k=eq<0?kv:kv.slice(0,eq);}
+    if(eq>=0){try{v=decodeURIComponent(kv.slice(eq+1).replace(/\+/g,' '));}catch(e2){v=kv.slice(eq+1);}}
+    v=String(v).replace(/\s+/g,' ').trim();
+    if(k&&v&&map[k]===undefined)map[k]=v;
+  }
+  var out=[];
+  for(var j=0;j<UTM_ORDER.length;j++){var k2=UTM_ORDER[j];if(map[k2]!==undefined)out.push([k2,map[k2]]);}
+  return out;
+}
+function compose(f){
+  var L=[];
+  L.push('Name: '+f.name);
+  L.push('Contact: '+f.contact);
+  if(f.email)L.push('Email: '+f.email);
+  L.push('Property type: '+f.type);
+  if(f.rooms)L.push('Rooms: '+f.rooms);
+  var msgIndex=L.length;
+  L.push(String(f.message||''));
+  var u=f.utms||[];
+  for(var i=0;i<u.length;i++)L.push(u[i][0]+': '+u[i][1]);
+  return {lines:L,msgIndex:msgIndex};
+}
+function pairSafe(s){return /[\uD800-\uDBFF]$/.test(s)?s.slice(0,-1):s}
+function fitLines(lines,msgIndex){
+  /* URL-length guard: the finished wa.me URL must stay under ~1900 chars for
+     long English AND long Sinhala text (which URI-encodes at ~9 chars per
+     letter). Whole trailing lines are given up first — the campaign parameter
+     lines sit last by design — then the free-text message is trimmed, then a
+     final clamp guarantees the URL always fits. Fixed fields are never
+     dropped and UTF-16 surrogate pairs are never split. */
+  function ok(ls){try{return (BASE+encodeURIComponent(ls.join('\n'))).length<=CAP}catch(e){return false}}
+  var ls=lines.slice();
+  if(ok(ls))return ls.join('\n');
+  while(ls.length>msgIndex+1&&!ok(ls))ls=ls.slice(0,-1);
+  var m=String(ls[msgIndex]||'');
+  while(m&&!ok(ls)){
+    m=pairSafe(m.slice(0,Math.max(1,Math.floor(m.length*0.9)-1)));
+    ls[msgIndex]=m;
+  }
+  if(ls[msgIndex]==='')ls.splice(msgIndex,1);
+  var s=ls.join('\n');
+  while(s&&!ok([s]))s=pairSafe(s.slice(0,Math.max(1,Math.floor(s.length*0.95))-1));
+  return s;
+}
+function urlFor(f){
+  var c=compose(f);
+  return BASE+encodeURIComponent(fitLines(c.lines,c.msgIndex));
+}
+function go(url){window.location.href=url;}  /* ONE synchronous navigation — same tab */
+function send(ev){
+  if(ev&&ev.preventDefault)ev.preventDefault();
+  var note=g('eqNote');
+  var name=val('eqName'),contact=val('eqContact'),message=val('eqMsg');
+  if(!name||!contact||!message){
+    if(note){note.className='form-note form-err';
+             note.textContent=ERR[document.body.getAttribute('data-langmode')||'en']||ERR.en;}
+    return false;
+  }
+  var t=g('eqType');
+  API.go(urlFor({name:name,contact:contact,email:val('eqEmail'),
+                 type:t?String(t.value||'').trim():'',rooms:val('eqRooms'),
+                 message:message,utms:readUtms()}));
+  return false;
+}
+API.number=NUM;API.base=BASE;API.cap=CAP;API.readUtms=readUtms;API.compose=compose;
+API.fitLines=fitLines;API.urlFor=urlFor;API.go=go;API.send=send;
+window.HMWA=API;
+})();
+</script>
+"""
 
 # ------------------------------------------------- shared campaign content ---
 # Campaign offer — the exact approved wording, "for the campaign period".
@@ -677,11 +779,11 @@ def follow_block():
 
 
 def form_block():
-    """Same markup, ids and shared sendEnquiry() as contact.html: the enquiry is
-    saved as a lead in the Ceyteq backend and falls back to WhatsApp when the
-    server is offline (static GitHub Pages mode)."""
-    options = ['HotelMate PMS (via Ceyteq)', 'AI &amp; ERP', 'Web Services',
-               'Advertising', 'Other']
+    """WhatsApp-only enquiry. There is no backend call and nothing is stored:
+    submitting composes ONE WhatsApp message and navigates the tab
+    synchronously to the campaign number (see WA_FORM_JS). Blank optional
+    fields are omitted from the message entirely."""
+    options = ['Hotel', 'Resort', 'Villa', 'Guest house', 'Hostel', 'Other']
     opts = ''
     for o in options:
         sel = ' selected' if o == options[0] else ''
@@ -689,27 +791,24 @@ def form_block():
     return f"""
 <section id="enquiry">
 <div class="eyebrow">{T('HotelMate enquiry', 'HotelMate විමසුම', 'Demande HotelMate')}</div>
-<h2>{T('Or Send the Details', 'නැත්නම් විස්තර යවන්න', 'Ou envoyez les détails')}</h2>
-<form class="enquiry" id="enquiryForm" onsubmit="return sendEnquiry(event)"
+<h2>{T('Or Send the Details on WhatsApp', 'නැත්නම් විස්තර WhatsApp වලට යවන්න', 'Ou envoyez les détails sur WhatsApp')}</h2>
+<form class="enquiry" id="enquiryForm" onsubmit="return HMWA.send(event)"
       aria-label="HotelMate enquiry form">
 <input id="eqName" required maxlength="120" placeholder="Your name / ඔබේ නම" autocomplete="name"
        aria-label="Your name">
 <input id="eqContact" required maxlength="60" placeholder="WhatsApp or phone number / දුරකථන අංකය"
        autocomplete="tel" aria-label="WhatsApp or phone number">
-<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional)" aria-label="Email, optional">
-<select id="eqService" aria-label="Which service you are asking about">{opts}</select>
+<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional) / ඊමේල්" aria-label="Email, optional">
+<select id="eqType" aria-label="Property type">{opts}</select>
+<input id="eqRooms" type="number" min="1" max="9999" inputmode="numeric"
+       placeholder="Number of rooms (optional) / කාමර ගණන" aria-label="Number of rooms, optional">
 <textarea id="eqMsg" required maxlength="2000" rows="5"
-          placeholder="Property type, rooms, current system / property වර්ගය, කාමර ගණන, දැනට පද්ධතිය"
-          aria-label="Property type, number of rooms and current system"></textarea>
-<button class="btn btn-cyan" type="submit" id="eqBtn">{T('Send enquiry', 'විමසුම යවන්න', 'Envoyer la demande')}</button>
-<div class="form-note" id="eqNote">{T('Your enquiry is saved as a Ceyteq lead and we reply on ' + WA_DISPLAY + '. '
-                                      'If the enquiry server is offline the button sends WhatsApp instead.',
-                                      'ඔබේ enquiry එක Ceyteq lead එකක් විදිහට සුරැකිලා ' + WA_DISPLAY +
-                                      ' වලින් පිළිතුරු දෙනවා. enquiry server එක offline නම් button එක '
-                                      'WhatsApp වලට යනවා.',
-                                      'Votre demande est enregistrée chez Ceyteq et nous répondons au ' +
-                                      WA_DISPLAY + '. Si le serveur est hors ligne, le bouton envoie '
-                                      'WhatsApp à la place.')}</div>
+          placeholder="Tell us about your property / ඔබේ property එක ගැන කියන්න"
+          aria-label="About your property"></textarea>
+<button class="btn btn-wa" type="submit" id="eqBtn">{T('Send on WhatsApp', 'WhatsApp වලට යවන්න', 'Envoyer sur WhatsApp')}</button>
+<div class="form-note" id="eqNote">{T('Your details will be sent to Ceyteq on WhatsApp. A campaign representative will reply.',
+                                      'ඔබේ විස්තර Ceyteq වෙත WhatsApp හරහා යවනු ලැබේ. campaign representative කෙනෙකු පිළිතුරු දෙනවා.',
+                                      'Vos détails seront envoyés à Ceyteq sur WhatsApp. Un représentant de campagne vous répondra.')}</div>
 </form>
 </section>
 """

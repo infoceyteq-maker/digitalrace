@@ -451,20 +451,22 @@ border-radius:50px;padding:11px 20px;transition:.2s}
 
 <section id="enquiry">
 <div class="eyebrow"><span class="lang-en">HotelMate enquiry</span><span class="lang-si">HotelMate විමසුම</span><span class="lang-fr">Demande HotelMate</span></div>
-<h2><span class="lang-en">Or Send the Details</span><span class="lang-si">නැත්නම් විස්තර යවන්න</span><span class="lang-fr">Ou envoyez les détails</span></h2>
-<form class="enquiry" id="enquiryForm" onsubmit="return sendEnquiry(event)"
+<h2><span class="lang-en">Or Send the Details on WhatsApp</span><span class="lang-si">නැත්නම් විස්තර WhatsApp වලට යවන්න</span><span class="lang-fr">Ou envoyez les détails sur WhatsApp</span></h2>
+<form class="enquiry" id="enquiryForm" onsubmit="return HMWA.send(event)"
       aria-label="HotelMate enquiry form">
 <input id="eqName" required maxlength="120" placeholder="Your name / ඔබේ නම" autocomplete="name"
        aria-label="Your name">
 <input id="eqContact" required maxlength="60" placeholder="WhatsApp or phone number / දුරකථන අංකය"
        autocomplete="tel" aria-label="WhatsApp or phone number">
-<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional)" aria-label="Email, optional">
-<select id="eqService" aria-label="Which service you are asking about"><option value="HotelMate PMS (via Ceyteq)" selected>HotelMate PMS (via Ceyteq)</option><option value="AI &amp; ERP">AI &amp; ERP</option><option value="Web Services">Web Services</option><option value="Advertising">Advertising</option><option value="Other">Other</option></select>
+<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional) / ඊමේල්" aria-label="Email, optional">
+<select id="eqType" aria-label="Property type"><option value="Hotel" selected>Hotel</option><option value="Resort">Resort</option><option value="Villa">Villa</option><option value="Guest house">Guest house</option><option value="Hostel">Hostel</option><option value="Other">Other</option></select>
+<input id="eqRooms" type="number" min="1" max="9999" inputmode="numeric"
+       placeholder="Number of rooms (optional) / කාමර ගණන" aria-label="Number of rooms, optional">
 <textarea id="eqMsg" required maxlength="2000" rows="5"
-          placeholder="Property type, rooms, current system / property වර්ගය, කාමර ගණන, දැනට පද්ධතිය"
-          aria-label="Property type, number of rooms and current system"></textarea>
-<button class="btn btn-cyan" type="submit" id="eqBtn"><span class="lang-en">Send enquiry</span><span class="lang-si">විමසුම යවන්න</span><span class="lang-fr">Envoyer la demande</span></button>
-<div class="form-note" id="eqNote"><span class="lang-en">Your enquiry is saved as a Ceyteq lead and we reply on +94 76 860 7143. If the enquiry server is offline the button sends WhatsApp instead.</span><span class="lang-si">ඔබේ enquiry එක Ceyteq lead එකක් විදිහට සුරැකිලා +94 76 860 7143 වලින් පිළිතුරු දෙනවා. enquiry server එක offline නම් button එක WhatsApp වලට යනවා.</span><span class="lang-fr">Votre demande est enregistrée chez Ceyteq et nous répondons au +94 76 860 7143. Si le serveur est hors ligne, le bouton envoie WhatsApp à la place.</span></div>
+          placeholder="Tell us about your property / ඔබේ property එක ගැන කියන්න"
+          aria-label="About your property"></textarea>
+<button class="btn btn-wa" type="submit" id="eqBtn"><span class="lang-en">Send on WhatsApp</span><span class="lang-si">WhatsApp වලට යවන්න</span><span class="lang-fr">Envoyer sur WhatsApp</span></button>
+<div class="form-note" id="eqNote"><span class="lang-en">Your details will be sent to Ceyteq on WhatsApp. A campaign representative will reply.</span><span class="lang-si">ඔබේ විස්තර Ceyteq වෙත WhatsApp හරහා යවනු ලැබේ. campaign representative කෙනෙකු පිළිතුරු දෙනවා.</span><span class="lang-fr">Vos détails seront envoyés à Ceyteq sur WhatsApp. Un représentant de campagne vous répondra.</span></div>
 </form>
 </section>
 
@@ -522,36 +524,99 @@ document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 })();
 (function(){try{var els=document.querySelectorAll('.card,.teaser,.pkg,.month,.hlbox,.stat');if(!('IntersectionObserver' in window))return;var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}})},{threshold:.08});els.forEach(function(el){el.classList.add('rv');o.observe(el)});}catch(e){}})();
-</script><script>window.CEYTEQ_ENQ={wa:'94768607143',tag:'CEYTEQ HotelMate enquiry'};</script><script>
-function sendEnquiry(ev){try{ev.preventDefault()}catch(e){}
-var g=function(i){var e=document.getElementById(i);return e?e.value.trim():''};
-var f={name:g('eqName'),contact:g('eqContact'),email:g('eqEmail'),service:g('eqService'),message:g('eqMsg')};
-var note=document.getElementById('eqNote'),btn=document.getElementById('eqBtn');
-var LM=document.body.getAttribute('data-langmode')||'en';
-var MSG={ok:{en:'Thank you — your enquiry is saved. We will contact you shortly.',
-             si:'ස්තූතියි — ඔබේ විමසුම සුරැකුණා. අපි ඉක්මනින් සම්බන්ධ වෙනවා.',
-             fr:'Merci — votre demande est enregistrée. Nous vous contactons bientôt.'},
-         fallback:{en:'Sent on WhatsApp instead (the enquiry server is offline).',
-             si:'WhatsApp හරහා යවන ලදී (enquiry server එක offline).',
-             fr:'Envoyé via WhatsApp (le serveur est hors ligne).'},
-         err:{en:'Please fill name, contact number and your message.',
-             si:'නම, දුරකථන අංකය සහ පණිවිඩය පුරවන්න.',
-             fr:'Remplissez le nom, le contact et votre message.'}};
-function T(k){var m=MSG[k];return m[LM]||m.en}
-if(!f.name||!f.contact||!f.message){note.className='form-note form-err';note.textContent=T('err');return false}
-btn.disabled=true;
-/* The campaign page overrides the fallback number + tag through window.CEYTEQ_ENQ
-   (see content_hotelmate.FORM_CONFIG); every other page keeps the Ceyteq hotline. */
-var NUM=(window.CEYTEQ_ENQ&&CEYTEQ_ENQ.wa)||'94788607143';
-var TAG=(window.CEYTEQ_ENQ&&CEYTEQ_ENQ.tag)||'CEYTEQ enquiry';
-function wa(){var t=TAG+'%0A'+'Name: '+f.name+'%0AContact: '+f.contact+(f.email?'%0AEmail: '+f.email:'')+'%0AService: '+f.service+'%0A%0A'+f.message;
-window.open('https://wa.me/'+NUM+'?text='+encodeURIComponent(decodeURIComponent(t)),'_blank');}
-fetch('api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(f)})
-.then(function(r){if(!r.ok)throw 0;return r.json()})
-.then(function(){note.className='form-note form-ok';note.textContent=T('ok');document.getElementById('enquiryForm').reset();btn.disabled=false})
-.catch(function(){wa();note.className='form-note';note.textContent=T('fallback');btn.disabled=false});
-return false}
+</script><script>
+/* HotelMate campaign — WhatsApp-only lead handoff (no backend, nothing
+   stored). One submit = ONE WhatsApp message; the tab navigates synchronously
+   to the campaign number. fitLines() guards the URL length, blank optional
+   fields are omitted, and campaign parameters ride along only when the page
+   URL has them. */
+(function(){
+var API={};
+var NUM='94768607143';
+var BASE='https://wa.me/'+NUM+'?text=';
+var CAP=1900;               /* max chars of the finished wa.me URL */
+var UTM_ORDER=['utm_source','utm_medium','utm_campaign','utm_content'];
+var ERR={en:'Please fill your name, contact number and a short message.',
+         si:'ඔබේ නම, සම්බන්ධතා අංකය සහ කෙටි පණිවිඩයක් දෙන්න.',
+         fr:'Indiquez votre nom, votre numéro et un court message.'};
+function g(id){return document.getElementById(id)}
+function val(id){var e=g(id);return e?String(e.value||'').trim():''}
+function readUtms(){
+  var qs=String((typeof location!=='undefined'&&location.search)||'').replace(/^\?/,'');
+  var parts=qs?qs.split('&'):[],map={};
+  for(var i=0;i<parts.length;i++){
+    var kv=parts[i];if(!kv)continue;
+    var eq=kv.indexOf('='),k='',v='';
+    try{k=decodeURIComponent(eq<0?kv:kv.slice(0,eq));}catch(e){k=eq<0?kv:kv.slice(0,eq);}
+    if(eq>=0){try{v=decodeURIComponent(kv.slice(eq+1).replace(/\+/g,' '));}catch(e2){v=kv.slice(eq+1);}}
+    v=String(v).replace(/\s+/g,' ').trim();
+    if(k&&v&&map[k]===undefined)map[k]=v;
+  }
+  var out=[];
+  for(var j=0;j<UTM_ORDER.length;j++){var k2=UTM_ORDER[j];if(map[k2]!==undefined)out.push([k2,map[k2]]);}
+  return out;
+}
+function compose(f){
+  var L=[];
+  L.push('Name: '+f.name);
+  L.push('Contact: '+f.contact);
+  if(f.email)L.push('Email: '+f.email);
+  L.push('Property type: '+f.type);
+  if(f.rooms)L.push('Rooms: '+f.rooms);
+  var msgIndex=L.length;
+  L.push(String(f.message||''));
+  var u=f.utms||[];
+  for(var i=0;i<u.length;i++)L.push(u[i][0]+': '+u[i][1]);
+  return {lines:L,msgIndex:msgIndex};
+}
+function pairSafe(s){return /[\uD800-\uDBFF]$/.test(s)?s.slice(0,-1):s}
+function fitLines(lines,msgIndex){
+  /* URL-length guard: the finished wa.me URL must stay under ~1900 chars for
+     long English AND long Sinhala text (which URI-encodes at ~9 chars per
+     letter). Whole trailing lines are given up first — the campaign parameter
+     lines sit last by design — then the free-text message is trimmed, then a
+     final clamp guarantees the URL always fits. Fixed fields are never
+     dropped and UTF-16 surrogate pairs are never split. */
+  function ok(ls){try{return (BASE+encodeURIComponent(ls.join('\n'))).length<=CAP}catch(e){return false}}
+  var ls=lines.slice();
+  if(ok(ls))return ls.join('\n');
+  while(ls.length>msgIndex+1&&!ok(ls))ls=ls.slice(0,-1);
+  var m=String(ls[msgIndex]||'');
+  while(m&&!ok(ls)){
+    m=pairSafe(m.slice(0,Math.max(1,Math.floor(m.length*0.9)-1)));
+    ls[msgIndex]=m;
+  }
+  if(ls[msgIndex]==='')ls.splice(msgIndex,1);
+  var s=ls.join('\n');
+  while(s&&!ok([s]))s=pairSafe(s.slice(0,Math.max(1,Math.floor(s.length*0.95))-1));
+  return s;
+}
+function urlFor(f){
+  var c=compose(f);
+  return BASE+encodeURIComponent(fitLines(c.lines,c.msgIndex));
+}
+function go(url){window.location.href=url;}  /* ONE synchronous navigation — same tab */
+function send(ev){
+  if(ev&&ev.preventDefault)ev.preventDefault();
+  var note=g('eqNote');
+  var name=val('eqName'),contact=val('eqContact'),message=val('eqMsg');
+  if(!name||!contact||!message){
+    if(note){note.className='form-note form-err';
+             note.textContent=ERR[document.body.getAttribute('data-langmode')||'en']||ERR.en;}
+    return false;
+  }
+  var t=g('eqType');
+  API.go(urlFor({name:name,contact:contact,email:val('eqEmail'),
+                 type:t?String(t.value||'').trim():'',rooms:val('eqRooms'),
+                 message:message,utms:readUtms()}));
+  return false;
+}
+API.number=NUM;API.base=BASE;API.cap=CAP;API.readUtms=readUtms;API.compose=compose;
+API.fitLines=fitLines;API.urlFor=urlFor;API.go=go;API.send=send;
+window.HMWA=API;
+})();
 </script>
+
 <script>
 /* HotelMate campaign — UTM passthrough into the wa.me links. */
 (function(){try{
