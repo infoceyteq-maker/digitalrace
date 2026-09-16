@@ -69,6 +69,13 @@ WA_TEXT = ('Hello Ceyteq — I would like to speak with a HotelMate specialist '
            '(setup fee FREE for the campaign period, US$39/month for the first '
            '10 rooms) and book my demo.')
 
+# First message for the LED screens/signage enquiry (Ceyteq service, quoted
+# per job — the US$39/month HotelMate licence wording is deliberately NOT
+# bundled into this message).
+LED_TEXT = ('Hello Ceyteq — I would like to talk about HotelMate for my '
+            'hotel/guest house, and about LED screens/signage for the lobby '
+            'or entrance. Please send the details and a quote.')
+
 # The mandated disclosure — this English wording must stay verbatim.
 DISCLOSURE = ('Demo coordination by Ceyteq. Final product demo and activation '
               'are completed with the HotelMate team.')
@@ -234,6 +241,18 @@ border-radius:50px;padding:11px 20px;transition:.2s}}
 .btn{{font-size:15px;padding:13px 22px}}}}
 @media(prefers-reduced-motion:reduce){{.hm-partner,.social a,.btn-hm,.btn-wa{{transition:none}}
 .hm-partner:hover,.social a:hover,.btn-hm:hover,.btn-wa:hover{{transform:none}}}}
+"""
+
+# Shipped ONLY on hotelmate.html — the LED screens/signage block renders
+# nowhere else, so index.html and services.html stay byte-identical to the
+# pre-LED build (see check_hotelmate.py section 5).
+CSS_LED = f"""
+/* hotel extra — LED screens & signage (a Ceyteq service, quoted per job) */
+.hm-extra{{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px;
+grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}}
+.hm-extra li{{background:#f2fbff;border:1px solid rgba(0,174,239,.4);border-left:5px solid var(--hm);
+border-radius:10px;padding:13px 18px;font-size:14.5px;color:var(--mut)}}
+.hm-extra li b{{color:var(--hmnavy);display:block;font-size:15.5px;margin-bottom:3px}}
 """
 
 # ------------------------------------------------- UTM-aware WhatsApp JS ----
@@ -653,6 +672,7 @@ def hero_block():
 <div class="cta-row">
 {wa_button('Start on WhatsApp', 'WhatsApp එකෙන් පටන් ගන්න', 'Commencer sur WhatsApp')}
 <a class="btn btn-ghost" href="#offer">💵 {T('Campaign offer', 'campaign offer එක', 'Offre de campagne')}</a>
+<a class="btn btn-ghost" href="#led">🖥️ {T('LED screens extra', 'LED screens extra', 'Écrans LED en plus')}</a>
 <a class="btn btn-ghost" href="#how">🧭 {T('How the demo works', 'ඩෙමෝ ක්‍රමය', 'Déroulé de la démo')}</a>
 </div>
 {disclose()}
@@ -723,6 +743,62 @@ def fit_block():
                    'ne promet de résultat : aucune garantie de revenus ni d’occupation n’est donnée par '
                    'Ceyteq ou HotelMate dans cette campagne.')}</p>
 <div class="grid">{cards}</div>
+</section>
+"""
+
+
+def led_block():
+    """The optional Ceyteq service paired with the campaign page: LED screens
+    and signage for the hotel. It is Ceyteq's own Print & Digital work,
+    quoted per job — it is never bundled into the US$39/month HotelMate
+    licence, and no price is invented here (site price-lock rule: quote on
+    request). The dedicated WhatsApp button keeps the campaign number and
+    rides the same UTM passthrough as every other wa.me link."""
+    return f"""
+<section id="led">
+<div class="eyebrow">{T('Hotel extra', 'හෝටල් extra එක', 'Extra pour votre hôtel')}</div>
+<h2>{T('Add LED Screens & Signage', 'LED Screens & Signage එකතු කරන්න',
+       'Écrans LED & enseigne en plus')}</h2>
+<p class="lead">{T('While you roll out HotelMate, Ceyteq can fit your lobby, reception or entrance '
+                   'with LED screens and signage — today’s menus, offers and promotions, updated in '
+                   'minutes. It is a Ceyteq Print & Digital service, quoted per job: sizes, mounting '
+                   'and the content are confirmed on WhatsApp before any work starts.',
+                   'HotelMate rollout කරන කාලයේ, Ceyteq වගේ lobby, reception හෝ entrance වලට LED '
+                   'screens සහ signage එකතු කරන්න පුළුවන් — දැන් තියෙන menus, offers සහ promotions '
+                   'minutes කිහිපයකින් update කරනවා. මේක Ceyteq Print & Digital service එකක් — quote '
+                   'per job: sizes, mounting සහ content work පටන් ගන්නකලින් WhatsApp වල තහවුරු කරගන්න.',
+                   'Pendant le déploiement de HotelMate, Ceyteq peut équiper votre hall, votre '
+                   'réception ou votre entrée d’écrans LED et d’une enseigne — menus, offres et '
+                   'promotions du jour, mis à jour en quelques minutes. C’est un service Ceyteq '
+                   'Print & Digital, chiffré par projet : dimensions, fixation et contenu sont '
+                   'confirmés sur WhatsApp avant tout travaux.')}</p>
+<ul class="hm-extra">
+<li>🖥️ <b>{T('Lobby & reception screens', 'lobby & reception screens',
+            'Écrans hall & réception')}</b> — {T('today’s offers, events and notices',
+            'දැන් තියෙන offers, events සහ notices',
+            'offres du jour, événements et avis')}</li>
+<li>🪧 <b>{T('Outdoor & entrance signage', 'outdoor & entrance signage',
+            'Enseigne extérieure & entrée')}</b> — {T('your name, your menu, in light',
+            'ඔබේ නම, ඔබේ menu එක — ආලෝකයෙන්',
+            'votre nom, votre menu, en lumière')}</li>
+<li>📋 <b>{T('Content you can change', 'change කරන්න පුළුවන් content එක',
+            'Contenu modifiable')}</b> — {T('swap the picture or the words in minutes',
+            'picture එක හෝ වචන minutes කිහිපයකින් මාරු කරන්න',
+            'changez l’image ou le texte en quelques minutes')}</li>
+<li>💬 <b>{T('Quote on request', 'quote on request', 'Devis sur demande')}</b> — {T(
+            'sizes, mounting and content confirmed on WhatsApp',
+            'sizes, mounting සහ content WhatsApp වල තහවුරු කරනවා',
+            'dimensions, fixation et contenu confirmés sur WhatsApp')}</li>
+</ul>
+<div class="cta-row">
+<a class="btn btn-wa" href="{wa_link(LED_TEXT)}" target="_blank" rel="noopener" data-utm
+   aria-label="WhatsApp about HotelMate and LED screens — {WA_DISPLAY}">💬 {T(
+            'WhatsApp about HotelMate + LED',
+            'HotelMate + LED ගැන WhatsApp කරන්න',
+            'WhatsApp pour HotelMate + LED')}</a>
+<a class="btn btn-ghost" href="print.html">🖨️ {T('Ceyteq Print & Digital',
+            'Ceyteq Print & Digital', 'Ceyteq Print & Digital')}</a>
+</div>
 </section>
 """
 
@@ -848,5 +924,5 @@ def closing_block():
 
 def hotelmate_page():
     """Body of /hotelmate.html — the HotelMate campaign landing page."""
-    return (hero_block() + offer_block() + fit_block() + how_block()
+    return (hero_block() + offer_block() + fit_block() + led_block() + how_block()
             + follow_block() + form_block() + closing_block())

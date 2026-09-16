@@ -1053,7 +1053,8 @@ for fname, title, active, body in PAGES:
                 .replace('__TSV__', TSV_DATA).replace('__LOGO__', LOGO))
     html = page(title, active, body, contact=(fname not in ('index.html', 'admin.html')),
                 fname=fname, tail=PAGE_TAIL.get(fname, ''),
-                extra_css=(HM.CSS_PAGE if fname in HM.PAGES_WITH_CAMPAIGN_CSS else ''))
+                extra_css=(HM.CSS_PAGE if fname in HM.PAGES_WITH_CAMPAIGN_CSS else '')
+                + (HM.CSS_LED if fname == 'hotelmate.html' else ''))
     assert '__' not in html.replace('data-langmode', ''), fname
     with open(f'{ROOT}/{fname}', 'w') as f:
         f.write(html)
