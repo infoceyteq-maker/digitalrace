@@ -54,14 +54,25 @@ def quote_cta(text_en='Get a free quote on WhatsApp', text_si='නොමිල�
             f'</div>')
 
 
-def svc_card(s):
-    return f"""<a class="svc" href="{s['f']}">
+def svc_card(s, href=None, portfolio=False):
+    """Service-division card.
+
+    The homepage can route matching divisions straight into the relevant
+    Portfolio tab, while the Services hub keeps linking to each full division
+    page. This keeps both journeys available without duplicating cards.
+    """
+    target = href or s['f']
+    if portfolio:
+        go = T('View in Portfolio →', 'Portfolio එකේ බලන්න →', 'Voir dans le portfolio →')
+    else:
+        go = T('Open ' + s['en'] + ' →', s['si'] + ' බලන්න →', 'Voir ' + s['fr'] + ' →')
+    return f"""<a class="svc" href="{target}">
 <div class="ico">{s['icon']}</div>
 <div class="no">{s['n']} • {T(s['tag_en'], s['tag_si'], s['tag_fr'])}</div>
 <h3>{T(s['en'], s['si'], s['fr'])}</h3>
 <p>{T(s['desc_en'], s['desc_si'], s['desc_fr'])}</p>
 <ul>{''.join(f'<li>{i}</li>' for i in s['items'][:4])}</ul>
-<div class="go">{T('Open ' + s['en'] + ' →', s['si'] + ' බලන්න →', 'Voir ' + s['fr'] + ' →')}</div>
+<div class="go">{go}</div>
 </a>"""
 
 
@@ -152,7 +163,19 @@ BOOKING_CHANNELS = ['Booking.com', 'Airbnb', 'Agoda', 'Expedia', 'HostelWorld', 
 # ----------------------------------------------------------------------------
 
 def home():
-    cards = ''.join(svc_card(s) for s in SERVICES)
+    # Connect the homepage's matching core divisions directly to the Portfolio
+    # catalogue. Travel and Careers retain their dedicated detail pages because
+    # they are not part of the five portfolio tabs.
+    portfolio_routes = {
+        '01': 'portfolio.html?tab=web#services',
+        '02': 'portfolio.html?tab=ads#services',
+        '03': 'portfolio.html?tab=print#services',
+        '04': 'portfolio.html?tab=media#services',
+        '05': 'portfolio.html?tab=design#services',
+        '06': 'portfolio.html#products',
+    }
+    cards = ''.join(svc_card(s, portfolio_routes.get(s['n']), s['n'] in portfolio_routes)
+                    for s in SERVICES)
     return f"""
 <div class="hero">
 <img class="main-logo" src="__LOGO__" alt="Ceyteq — Empowering Digital Evolution">
@@ -167,6 +190,7 @@ def home():
 <div class="cta-row">
 <a class="btn btn-red" href="digitalrace.html#start">🏁 {T('Start Digital Race', 'ඩිජිටල් රේස් පටන්ගන්න', 'Démarrer Digital Race')}</a>
 <a class="btn btn-navy" href="services.html">🧩 {T('All Services', 'සියලු සේවා', 'Tous les services')}</a>
+<a class="btn btn-cyan" href="portfolio.html">📂 {T('Our Portfolio', 'අපේ Portfolio', 'Notre portfolio')}</a>
 <a class="btn btn-ghost" href="contact.html">📩 {T('Get a Quote', 'මිල ගණන් ගන්න', 'Devis')}</a>
 </div>
 <div class="stats">
@@ -210,6 +234,9 @@ def home():
 <p class="lead">{T('From the first website to the last printed box — technology, creativity and marketing under one roof.',
                    'පළමු website එකේ සිට අවසන් printed box එක දක්වා — තාක්ෂණය, නිර්මාණශීලීත්වය සහ marketing එකම වහලක් යටට.',
                    'Du premier site web au dernier emballage imprimé — technologie, créativité et marketing sous un même toit.')}</p>
+<div class="cta-row" style="justify-content:flex-start;margin:20px 0 4px">
+<a class="btn btn-cyan" href="portfolio.html">📂 {T('Explore 107 Portfolio Solutions →', 'Portfolio විසඳුම් 107 බලන්න →', 'Explorer les 107 solutions →')}</a>
+</div>
 <div class="svcgrid">{cards}</div>
 </section>
 
@@ -696,11 +723,11 @@ def contact():
                    'ඔබට අවශ්‍ය දේ කියන්න — පැහැදිලි සැලසුමක් සහ මිලක් සමඟ අපි නැවත කතා කරනවා. ඔබේ තොරතුරු සුරක්ෂිතව තබා ගන්නවා, කිසිවෙකුට දෙන්නේ නෑ.',
                    'Dites-nous ce dont vous avez besoin : nous revenons avec un plan et un prix clairs. Vos données restent confidentielles.')}</p>
 <form class="enquiry" id="enquiryForm" onsubmit="return sendEnquiry(event)">
-<input id="eqName" required maxlength="120" placeholder="Your name / ඔබේ නම" autocomplete="name">
-<input id="eqContact" required maxlength="60" placeholder="WhatsApp / phone number / දුරකථන අංකය" autocomplete="tel">
-<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional)">
+<input id="eqName" required maxlength="120" placeholder="Your name" data-ph-en="Your name" data-ph-si="ඔබේ නම" data-ph-fr="Votre nom" autocomplete="name">
+<input id="eqContact" required maxlength="60" placeholder="WhatsApp / phone number" data-ph-en="WhatsApp / phone number" data-ph-si="WhatsApp / දුරකථන අංකය" data-ph-fr="WhatsApp / numéro de téléphone" autocomplete="tel">
+<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional)" data-ph-en="Email (optional)" data-ph-si="ඊමේල් (අවශ්‍ය නම්)" data-ph-fr="E-mail (facultatif)">
 <select id="eqService">{opts}</select>
-<textarea id="eqMsg" required maxlength="2000" rows="5" placeholder="What do you need? / ඔබට අවශ්‍ය දේ?"></textarea>
+<textarea id="eqMsg" required maxlength="2000" rows="5" placeholder="What do you need?" data-ph-en="What do you need?" data-ph-si="ඔබට අවශ්‍ය දේ?" data-ph-fr="De quoi avez-vous besoin ?"></textarea>
 <button class="btn btn-cyan" type="submit" id="eqBtn">{T('Send enquiry', 'විමසුම යවන්න', 'Envoyer la demande')}</button>
 <div class="form-note" id="eqNote">{T('Or message us directly on WhatsApp — faster for photos and artwork.', 'නැත්නම් කෙලින්ම WhatsApp කරන්න — ඡායාරූප සහ artwork සඳහා වේගවත්.', 'Ou écrivez-nous sur WhatsApp — plus rapide pour les visuels.')}</div>
 </form>
@@ -878,11 +905,11 @@ def learn_earn():
                    'මේ form එක යවන්න — ඊළඟ batch දිනය, කාලසටහන සහ ගෙවීම් විස්තර සමඟ අපි පිළිතුරු දෙනවා. නැත්නම් WhatsApp කරන්න.',
                    'Envoyez ce formulaire — nous répondons avec la prochaine session, le planning et le paiement.')}</p>
 <form class="enquiry" id="enquiryForm" onsubmit="return sendEnquiry(event)">
-<input id="eqName" required maxlength="120" placeholder="Your name / ඔබේ නම" autocomplete="name">
-<input id="eqContact" required maxlength="60" placeholder="WhatsApp / phone number / දුරකථන අංකය" autocomplete="tel">
-<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional)">
+<input id="eqName" required maxlength="120" placeholder="Your name" data-ph-en="Your name" data-ph-si="ඔබේ නම" data-ph-fr="Votre nom" autocomplete="name">
+<input id="eqContact" required maxlength="60" placeholder="WhatsApp / phone number" data-ph-en="WhatsApp / phone number" data-ph-si="WhatsApp / දුරකථන අංකය" data-ph-fr="WhatsApp / numéro de téléphone" autocomplete="tel">
+<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional)" data-ph-en="Email (optional)" data-ph-si="ඊමේල් (අවශ්‍ය නම්)" data-ph-fr="E-mail (facultatif)">
 <select id="eqService">{courses_opts}</select>
-<textarea id="eqMsg" required maxlength="2000" rows="4" placeholder="Which course and level? Any questions? / කැමති පාඨමාලාව සහ මට්ටම?"></textarea>
+<textarea id="eqMsg" required maxlength="2000" rows="4" placeholder="Which course and level? Any questions?" data-ph-en="Which course and level? Any questions?" data-ph-si="කැමති පාඨමාලාව සහ මට්ටම? ප්‍රශ්න තිබේද?" data-ph-fr="Quel cours et quel niveau ? Des questions ?"></textarea>
 <button class="btn btn-red" type="submit" id="eqBtn">{T('Send enrolment', 'ලියාපදිංචි වීම යවන්න', 'Envoyer l’inscription')}</button>
 <div class="form-note" id="eqNote">{T('Prefer WhatsApp? Send the same details and we will enrol you there.', 'WhatsApp කැමතිද? එම විස්තර එවන්න, එතනින්ම ලියාපදිංචි කරනවා.', 'WhatsApp ? Envoyez les mêmes détails.')}</div>
 </form>

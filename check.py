@@ -38,6 +38,7 @@ import subprocess
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -88,7 +89,9 @@ for page in sorted(glob.glob(os.path.join(ROOT, '*.html'))):
             continue
         if "'" in ref or '+' in ref:
             continue
-        target = ref.split('#')[0]
+        # Query parameters select UI state (for example a Portfolio tab) and
+        # are not part of the local filesystem path being checked.
+        target = urllib.parse.urlsplit(ref).path
         if target and not os.path.exists(os.path.join(ROOT, target)):
             fail(f'{os.path.basename(page)}: missing {ref}')
             broken += 1

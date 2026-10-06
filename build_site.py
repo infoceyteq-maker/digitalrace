@@ -47,9 +47,9 @@ nav .links{display:flex;gap:2px;flex-wrap:wrap;margin-left:8px}
 nav .links a{color:var(--ink);text-decoration:none;font-size:15px;font-weight:600;padding:8px 13px;border-radius:50px;transition:.2s}
 nav .links a:hover{color:var(--prime);background:rgba(39,163,201,.1)}
 nav .links a.active{background:var(--ink);color:#fff}
-.langsw{margin-left:auto;display:flex;gap:6px}
-.langsw button{border:1.5px solid var(--prime);background:#fff;color:var(--ink);font-weight:700;font-size:12px;
-border-radius:50px;padding:7px 15px;cursor:pointer;transition:.2s;font-family:inherit}
+.langsw{margin-left:auto;display:flex;gap:4px}
+.langsw button{border:1px solid var(--prime);background:#fff;color:var(--ink);font-weight:700;font-size:10px;line-height:1;
+border-radius:50px;padding:6px 10px;cursor:pointer;transition:.2s;font-family:inherit;letter-spacing:.02em}
 .langsw button.active,.langsw button:hover{background:var(--prime);color:#fff;border-color:var(--prime)}
 /* hero panel */
 .hero{text-align:center;padding:64px 34px 54px;margin:26px 0 6px;border-radius:24px;color:var(--ink);
@@ -287,14 +287,15 @@ border-radius:50px;padding:5px 16px;font-size:14px}
 JS = """
 var _T0=document.title;
 function _T(m){try{var p=_T0.split('|');if(p.length>=3){document.title=m==='en'?p[0].trim():m==='si'?p[1].trim():(p[0].split('—')[0].trim()+' — '+p[2].trim())}}catch(e){}}
+function _PH(m){try{document.querySelectorAll('[data-ph-en]').forEach(function(el){el.placeholder=el.getAttribute('data-ph-'+m)||el.getAttribute('data-ph-en')||''})}catch(e){}}
 function setLang(m){try{
-document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);
+document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);_PH(m);
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 try{localStorage.setItem('ceyteq_lang',m)}catch(e){}
 }catch(e){}}
 (function(){var m='en';try{m=localStorage.getItem('ceyteq_lang')||'en'}catch(e){}
 if(['si','en','fr'].indexOf(m)<0)m='en';
-document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);
+document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);_PH(m);
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 })();
 (function(){try{var els=document.querySelectorAll('.card,.teaser,.pkg,.month,.hlbox,.stat');if(!('IntersectionObserver' in window))return;var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}})},{threshold:.08});els.forEach(function(el){el.classList.add('rv');o.observe(el)});}catch(e){}})();
@@ -390,7 +391,7 @@ def head_meta(fname, title):
 NAVITEMS = [
     ('index.html', 'Home', 'මුල් පිටුව', 'Accueil'),
     ('digitalrace.html', 'Digital Race', 'දිජිටල් රේස්', 'Digital Race'),
-    ('services.html', 'Services', 'සේවා', 'Services'),
+    ('portfolio.html', 'Portfolio', 'Portfolio', 'Portfolio'),
     # Featured hospitality technology partner — the brand name "HotelMate" is
     # kept identical in EN / SI / FR (site rule: brand names stay universal).
     ('hotelmate.html', 'HotelMate', 'HotelMate', 'HotelMate'),
