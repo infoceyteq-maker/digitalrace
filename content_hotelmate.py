@@ -870,16 +870,16 @@ def form_block():
 <h2>{T('Or Send the Details on WhatsApp', 'නැත්නම් විස්තර WhatsApp වලට යවන්න', 'Ou envoyez les détails sur WhatsApp')}</h2>
 <form class="enquiry" id="enquiryForm" onsubmit="return HMWA.send(event)"
       aria-label="HotelMate enquiry form">
-<input id="eqName" required maxlength="120" placeholder="Your name / ඔබේ නම" autocomplete="name"
+<input id="eqName" required maxlength="120" placeholder="Your name" data-ph-en="Your name" data-ph-si="ඔබේ නම" data-ph-fr="Votre nom" autocomplete="name"
        aria-label="Your name">
-<input id="eqContact" required maxlength="60" placeholder="WhatsApp or phone number / දුරකථන අංකය"
+<input id="eqContact" required maxlength="60" placeholder="WhatsApp or phone number" data-ph-en="WhatsApp or phone number" data-ph-si="WhatsApp හෝ දුරකථන අංකය" data-ph-fr="WhatsApp ou numéro de téléphone"
        autocomplete="tel" aria-label="WhatsApp or phone number">
-<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional) / ඊමේල්" aria-label="Email, optional">
+<input id="eqEmail" type="email" maxlength="160" placeholder="Email (optional)" data-ph-en="Email (optional)" data-ph-si="ඊමේල් (අවශ්‍ය නම්)" data-ph-fr="E-mail (facultatif)" aria-label="Email, optional">
 <select id="eqType" aria-label="Property type">{opts}</select>
 <input id="eqRooms" type="number" min="1" max="9999" inputmode="numeric"
-       placeholder="Number of rooms (optional) / කාමර ගණන" aria-label="Number of rooms, optional">
+       placeholder="Number of rooms (optional)" data-ph-en="Number of rooms (optional)" data-ph-si="කාමර ගණන (අවශ්‍ය නම්)" data-ph-fr="Nombre de chambres (facultatif)" aria-label="Number of rooms, optional">
 <textarea id="eqMsg" required maxlength="2000" rows="5"
-          placeholder="Tell us about your property / ඔබේ property එක ගැන කියන්න"
+          placeholder="Tell us about your property" data-ph-en="Tell us about your property" data-ph-si="ඔබේ දේපළ ගැන අපට කියන්න" data-ph-fr="Parlez-nous de votre établissement"
           aria-label="About your property"></textarea>
 <button class="btn btn-wa" type="submit" id="eqBtn">{T('Send on WhatsApp', 'WhatsApp වලට යවන්න', 'Envoyer sur WhatsApp')}</button>
 <div class="form-note" id="eqNote">{T('Your details will be sent to Ceyteq on WhatsApp. A campaign representative will reply.',

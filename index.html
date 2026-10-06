@@ -55,9 +55,9 @@ nav .links{display:flex;gap:2px;flex-wrap:wrap;margin-left:8px}
 nav .links a{color:var(--ink);text-decoration:none;font-size:15px;font-weight:600;padding:8px 13px;border-radius:50px;transition:.2s}
 nav .links a:hover{color:var(--prime);background:rgba(39,163,201,.1)}
 nav .links a.active{background:var(--ink);color:#fff}
-.langsw{margin-left:auto;display:flex;gap:6px}
-.langsw button{border:1.5px solid var(--prime);background:#fff;color:var(--ink);font-weight:700;font-size:12px;
-border-radius:50px;padding:7px 15px;cursor:pointer;transition:.2s;font-family:inherit}
+.langsw{margin-left:auto;display:flex;gap:4px}
+.langsw button{border:1px solid var(--prime);background:#fff;color:var(--ink);font-weight:700;font-size:10px;line-height:1;
+border-radius:50px;padding:6px 10px;cursor:pointer;transition:.2s;font-family:inherit;letter-spacing:.02em}
 .langsw button.active,.langsw button:hover{background:var(--prime);color:#fff;border-color:var(--prime)}
 /* hero panel */
 .hero{text-align:center;padding:64px 34px 54px;margin:26px 0 6px;border-radius:24px;color:var(--ink);
@@ -397,7 +397,7 @@ border-radius:50px;padding:11px 20px;transition:.2s}
 <body data-langmode="en"><nav><div class="wrap">
 <img class="logo" src="assets/logo-transparent.png" alt="Ceyteq logo">
 <div class="brand">CEYTEQ<small><span class="lang-en">EMPOWERING DIGITAL EVOLUTION</span><span class="lang-si">ඩිජිටල් පරිණාමය සවිබල ගැන්වීම</span><span class="lang-fr">FAVORISER L'ÉVOLUTION NUMÉRIQUE</span></small></div>
-<div class="links"><a class="active" href="index.html"><span class="lang-en">Home</span><span class="lang-si">මුල් පිටුව</span><span class="lang-fr">Accueil</span></a><a class="hot" href="digitalrace.html"><span class="lang-en">Digital Race</span><span class="lang-si">දිජිටල් රේස්</span><span class="lang-fr">Digital Race</span></a><a class="" href="services.html"><span class="lang-en">Services</span><span class="lang-si">සේවා</span><span class="lang-fr">Services</span></a><a class="hm" href="hotelmate.html"><span class="lang-en">HotelMate</span><span class="lang-si">HotelMate</span><span class="lang-fr">HotelMate</span></a><a class="" href="packages.html"><span class="lang-en">Packages</span><span class="lang-si">පැකේජ</span><span class="lang-fr">Forfaits</span></a><a class="" href="learn-earn.html"><span class="lang-en">Learn &amp; Earn</span><span class="lang-si">ඉගෙන ගන්න</span><span class="lang-fr">Formations</span></a><a class="" href="offers.html"><span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></a><a class="" href="about.html"><span class="lang-en">About</span><span class="lang-si">අප ගැන</span><span class="lang-fr">À propos</span></a><a class="" href="careers.html"><span class="lang-en">Careers</span><span class="lang-si">රැකියා</span><span class="lang-fr">Carrières</span></a><a class="" href="contact.html"><span class="lang-en">Contact</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">Contact</span></a></div>
+<div class="links"><a class="active" href="index.html"><span class="lang-en">Home</span><span class="lang-si">මුල් පිටුව</span><span class="lang-fr">Accueil</span></a><a class="hot" href="digitalrace.html"><span class="lang-en">Digital Race</span><span class="lang-si">දිජිටල් රේස්</span><span class="lang-fr">Digital Race</span></a><a class="" href="portfolio.html"><span class="lang-en">Portfolio</span><span class="lang-si">Portfolio</span><span class="lang-fr">Portfolio</span></a><a class="hm" href="hotelmate.html"><span class="lang-en">HotelMate</span><span class="lang-si">HotelMate</span><span class="lang-fr">HotelMate</span></a><a class="" href="packages.html"><span class="lang-en">Packages</span><span class="lang-si">පැකේජ</span><span class="lang-fr">Forfaits</span></a><a class="" href="learn-earn.html"><span class="lang-en">Learn &amp; Earn</span><span class="lang-si">ඉගෙන ගන්න</span><span class="lang-fr">Formations</span></a><a class="" href="offers.html"><span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></a><a class="" href="about.html"><span class="lang-en">About</span><span class="lang-si">අප ගැන</span><span class="lang-fr">À propos</span></a><a class="" href="careers.html"><span class="lang-en">Careers</span><span class="lang-si">රැකියා</span><span class="lang-fr">Carrières</span></a><a class="" href="contact.html"><span class="lang-en">Contact</span><span class="lang-si">සම්බන්ධය</span><span class="lang-fr">Contact</span></a></div>
 <div class="langsw">
 <button data-m="si" onclick="setLang('si')"><span class="lang-en">SINHALA</span><span class="lang-si">සිංහල</span><span class="lang-fr">SINGHALAIS</span></button>
 <button data-m="en" onclick="setLang('en')"><span class="lang-en">ENGLISH</span><span class="lang-si">ඉංග්‍රීසි</span><span class="lang-fr">ANGLAIS</span></button>
@@ -416,6 +416,7 @@ border-radius:50px;padding:11px 20px;transition:.2s}
 <div class="cta-row">
 <a class="btn btn-red" href="digitalrace.html#start">🏁 <span class="lang-en">Start Digital Race</span><span class="lang-si">ඩිජිටල් රේස් පටන්ගන්න</span><span class="lang-fr">Démarrer Digital Race</span></a>
 <a class="btn btn-navy" href="services.html">🧩 <span class="lang-en">All Services</span><span class="lang-si">සියලු සේවා</span><span class="lang-fr">Tous les services</span></a>
+<a class="btn btn-cyan" href="portfolio.html">📂 <span class="lang-en">Our Portfolio</span><span class="lang-si">අපේ Portfolio</span><span class="lang-fr">Notre portfolio</span></a>
 <a class="btn btn-ghost" href="contact.html">📩 <span class="lang-en">Get a Quote</span><span class="lang-si">මිල ගණන් ගන්න</span><span class="lang-fr">Devis</span></a>
 </div>
 <div class="stats">
@@ -472,48 +473,51 @@ border-radius:50px;padding:11px 20px;transition:.2s}
 <div class="eyebrow"><span class="lang-en">What we do</span><span class="lang-si">අප කරන දේ</span><span class="lang-fr">Ce que nous faisons</span></div>
 <h2><span class="lang-en">09 Service Divisions, One Team</span><span class="lang-si">සේවා අංශ 09ක්, එකම කණ්ඩායමක්</span><span class="lang-fr">09 divisions de services, une seule équipe</span></h2>
 <p class="lead"><span class="lang-en">From the first website to the last printed box — technology, creativity and marketing under one roof.</span><span class="lang-si">පළමු website එකේ සිට අවසන් printed box එක දක්වා — තාක්ෂණය, නිර්මාණශීලීත්වය සහ marketing එකම වහලක් යටට.</span><span class="lang-fr">Du premier site web au dernier emballage imprimé — technologie, créativité et marketing sous un même toit.</span></p>
-<div class="svcgrid"><a class="svc" href="web.html">
+<div class="cta-row" style="justify-content:flex-start;margin:20px 0 4px">
+<a class="btn btn-cyan" href="portfolio.html">📂 <span class="lang-en">Explore 107 Portfolio Solutions →</span><span class="lang-si">Portfolio විසඳුම් 107 බලන්න →</span><span class="lang-fr">Explorer les 107 solutions →</span></a>
+</div>
+<div class="svcgrid"><a class="svc" href="portfolio.html?tab=web#services">
 <div class="ico">🌐</div>
 <div class="no">01 • <span class="lang-en">Division 01</span><span class="lang-si">අංශය 01</span><span class="lang-fr">Division 01</span></div>
 <h3><span class="lang-en">Web Services</span><span class="lang-si">වෙබ් සේවා</span><span class="lang-fr">Services web</span></h3>
 <p><span class="lang-en">Web platform creation & optimization, e-commerce, SEO, Google Business Profile and every social channel connected and managed for you.</span><span class="lang-si">වෙබ් පද්ධති නිර්මාණය හා ප්‍රශස්තකරණය, e-commerce, SEO, Google Business Profile සහ හැම social channel එකක්ම ඔබ වෙනුවෙන් සකසා කළමනාකරණය.</span><span class="lang-fr">Création et optimisation de plateformes web, e-commerce, SEO, Google Business Profile et gestion de tous vos réseaux sociaux.</span></p>
 <ul><li>Website</li><li>E-Commerce</li><li>SEO</li><li>Google Business Profile</li></ul>
-<div class="go"><span class="lang-en">Open Web Services →</span><span class="lang-si">වෙබ් සේවා බලන්න →</span><span class="lang-fr">Voir Services web →</span></div>
-</a><a class="svc" href="ads.html">
+<div class="go"><span class="lang-en">View in Portfolio →</span><span class="lang-si">Portfolio එකේ බලන්න →</span><span class="lang-fr">Voir dans le portfolio →</span></div>
+</a><a class="svc" href="portfolio.html?tab=ads#services">
 <div class="ico">📣</div>
 <div class="no">02 • <span class="lang-en">Division 02</span><span class="lang-si">අංශය 02</span><span class="lang-fr">Division 02</span></div>
 <h3><span class="lang-en">Advertising</span><span class="lang-si">ප්‍රචාරණ</span><span class="lang-fr">Publicité</span></h3>
 <p><span class="lang-en">Social media ad campaigns, Google Ads, YouTube promotions and web traffic campaigns that bring real customers.</span><span class="lang-si">Social media ad campaigns, Google Ads, YouTube ප්‍රචාරණ සහ web traffic campaigns — ඇත්ත customers ගෙනෙන ප්‍රචාරණ.</span><span class="lang-fr">Campagnes publicitaires sociales, Google Ads, promotions YouTube et campagnes de trafic web qui amènent de vrais clients.</span></p>
 <ul><li>Facebook Ads</li><li>Instagram Ads</li><li>TikTok Ads</li><li>Google Ads</li></ul>
-<div class="go"><span class="lang-en">Open Advertising →</span><span class="lang-si">ප්‍රචාරණ බලන්න →</span><span class="lang-fr">Voir Publicité →</span></div>
-</a><a class="svc" href="print.html">
+<div class="go"><span class="lang-en">View in Portfolio →</span><span class="lang-si">Portfolio එකේ බලන්න →</span><span class="lang-fr">Voir dans le portfolio →</span></div>
+</a><a class="svc" href="portfolio.html?tab=print#services">
 <div class="ico">🖨️</div>
 <div class="no">03 • <span class="lang-en">Division 03</span><span class="lang-si">අංශය 03</span><span class="lang-fr">Division 03</span></div>
 <h3><span class="lang-en">Printing & Digital</span><span class="lang-si">මුද්‍රණ හා ඩිජිටල්</span><span class="lang-fr">Impression & Digital</span></h3>
 <p><span class="lang-en">Offset printing, packaging, business cards, menus, posters, digital LED boards, signage, paper bags, food packing and merchandise.</span><span class="lang-si">Offset මුද්‍රණ, packaging, business cards, menu, poster, digital LED board, signage, paper bag, food packing සහ merchandise.</span><span class="lang-fr">Impression offset, emballage, cartes de visite, menus, affiches, panneaux LED, signalétique, sacs en papier et produits dérivés.</span></p>
 <ul><li>Offset printing</li><li>Packaging</li><li>Signage & LED</li><li>Paper bags</li></ul>
-<div class="go"><span class="lang-en">Open Printing & Digital →</span><span class="lang-si">මුද්‍රණ හා ඩිජිටල් බලන්න →</span><span class="lang-fr">Voir Impression & Digital →</span></div>
-</a><a class="svc" href="media.html">
+<div class="go"><span class="lang-en">View in Portfolio →</span><span class="lang-si">Portfolio එකේ බලන්න →</span><span class="lang-fr">Voir dans le portfolio →</span></div>
+</a><a class="svc" href="portfolio.html?tab=media#services">
 <div class="ico">📸</div>
 <div class="no">04 • <span class="lang-en">Division 04</span><span class="lang-si">අංශය 04</span><span class="lang-fr">Division 04</span></div>
 <h3><span class="lang-en">Photography & Video</span><span class="lang-si">ඡායාරූප හා වීඩියෝ</span><span class="lang-fr">Photo & Vidéo</span></h3>
 <p><span class="lang-en">Professional photography and videography for events, weddings, cultural events, products, business places and marketing content.</span><span class="lang-si">Event, මංගල උත්සව, සංස්කෘතික උත්සව, products, ව්‍යාපාරික ස්ථාන සහ marketing content සඳහා වෘත්තීය ඡායාරූප හා වීඩියෝ.</span><span class="lang-fr">Photographie et vidéo professionnelles pour événements, mariages, événements culturels, produits et locaux commerciaux.</span></p>
 <ul><li>Events</li><li>Weddings</li><li>Product shoots</li><li>Business places</li></ul>
-<div class="go"><span class="lang-en">Open Photography & Video →</span><span class="lang-si">ඡායාරූප හා වීඩියෝ බලන්න →</span><span class="lang-fr">Voir Photo & Vidéo →</span></div>
-</a><a class="svc" href="design.html">
+<div class="go"><span class="lang-en">View in Portfolio →</span><span class="lang-si">Portfolio එකේ බලන්න →</span><span class="lang-fr">Voir dans le portfolio →</span></div>
+</a><a class="svc" href="portfolio.html?tab=design#services">
 <div class="ico">🎨</div>
 <div class="no">05 • <span class="lang-en">Division 05</span><span class="lang-si">අංශය 05</span><span class="lang-fr">Division 05</span></div>
 <h3><span class="lang-en">Design & Editing</span><span class="lang-si">නිර්මාණ හා එඩිටින්</span><span class="lang-fr">Design & Montage</span></h3>
 <p><span class="lang-en">Graphic design, photo editing, flyer and poster design, video editing and film production for your brand.</span><span class="lang-si">Graphic design, photo editing, flyer හා poster නිර්මාණ, video editing සහ film නිර්මාණ — ඔබේ brand එකට.</span><span class="lang-fr">Design graphique, retouche photo, création de flyers et affiches, montage vidéo et production de films pour votre marque.</span></p>
 <ul><li>Photo editing</li><li>Graphic design</li><li>Flyer design</li><li>Poster design</li></ul>
-<div class="go"><span class="lang-en">Open Design & Editing →</span><span class="lang-si">නිර්මාණ හා එඩිටින් බලන්න →</span><span class="lang-fr">Voir Design & Montage →</span></div>
-</a><a class="svc" href="ai.html">
+<div class="go"><span class="lang-en">View in Portfolio →</span><span class="lang-si">Portfolio එකේ බලන්න →</span><span class="lang-fr">Voir dans le portfolio →</span></div>
+</a><a class="svc" href="portfolio.html#products">
 <div class="ico">🤖</div>
 <div class="no">06 • <span class="lang-en">Division 06</span><span class="lang-si">අංශය 06</span><span class="lang-fr">Division 06</span></div>
 <h3><span class="lang-en">AI & ERP</span><span class="lang-si">AI හා ERP</span><span class="lang-fr">IA & ERP</span></h3>
 <p><span class="lang-en">AI integration consulting, ERP for hospitality & retail, AI customer care, CRM automation and AI messaging robots.</span><span class="lang-si">AI integration consulting, hospitality හා retail සඳහා ERP, AI customer care, CRM automation සහ AI messaging robots.</span><span class="lang-fr">Conseil en intégration IA, ERP pour l’hôtellerie et le commerce, service client IA, automatisation CRM et robots de messagerie IA.</span></p>
 <ul><li>AI chatbots</li><li>Voice bots</li><li>CRM automation</li><li>Hospitality ERP</li></ul>
-<div class="go"><span class="lang-en">Open AI & ERP →</span><span class="lang-si">AI හා ERP බලන්න →</span><span class="lang-fr">Voir IA & ERP →</span></div>
+<div class="go"><span class="lang-en">View in Portfolio →</span><span class="lang-si">Portfolio එකේ බලන්න →</span><span class="lang-fr">Voir dans le portfolio →</span></div>
 </a><a class="svc" href="travel.html">
 <div class="ico">✈️</div>
 <div class="no">07 • <span class="lang-en">Division 07</span><span class="lang-si">අංශය 07</span><span class="lang-fr">Division 07</span></div>
@@ -563,14 +567,15 @@ border-radius:50px;padding:11px 20px;transition:.2s}
 <script>
 var _T0=document.title;
 function _T(m){try{var p=_T0.split('|');if(p.length>=3){document.title=m==='en'?p[0].trim():m==='si'?p[1].trim():(p[0].split('—')[0].trim()+' — '+p[2].trim())}}catch(e){}}
+function _PH(m){try{document.querySelectorAll('[data-ph-en]').forEach(function(el){el.placeholder=el.getAttribute('data-ph-'+m)||el.getAttribute('data-ph-en')||''})}catch(e){}}
 function setLang(m){try{
-document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);
+document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);_PH(m);
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 try{localStorage.setItem('ceyteq_lang',m)}catch(e){}
 }catch(e){}}
 (function(){var m='en';try{m=localStorage.getItem('ceyteq_lang')||'en'}catch(e){}
 if(['si','en','fr'].indexOf(m)<0)m='en';
-document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);
+document.documentElement.lang=m;document.body.setAttribute('data-langmode',m);_T(m);_PH(m);
 document.querySelectorAll('.langsw button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m)});
 })();
 (function(){try{var els=document.querySelectorAll('.card,.teaser,.pkg,.month,.hlbox,.stat');if(!('IntersectionObserver' in window))return;var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}})},{threshold:.08});els.forEach(function(el){el.classList.add('rv');o.observe(el)});}catch(e){}})();

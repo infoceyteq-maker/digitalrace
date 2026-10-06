@@ -31,7 +31,7 @@ RUN IT (2 minutes)
   CEYTEQ_ADMIN_PASSWORD for automated deploys)
 
 
-PAGES (20 + 1 redirect)
+PAGES (21 + 1 redirect)
   index.html          HOME — company: hero, Digital Race highlight,
                       9 service cards, platforms, why Ceyteq, Ceylon
                       Voyage teaser. No long price lists.
@@ -40,6 +40,9 @@ PAGES (20 + 1 redirect)
                       5 doors (System / Training / Packages / AI /
                       Flyers) and the AI roadmap section (#ai).
   services.html       All 8 service divisions + how-we-work steps.
+  portfolio.html      OUR PORTFOLIO — standalone Ceyteq-themed showcase with
+                      7 software products, 100 services in 5 accessible tabs,
+                      animated counters, SEO schema and responsive navigation.
   web.html            01 Web Services — platforms, e-commerce, SEO,
                       Google Business Profile, booking channels,
                       hosting, AI messaging + website packages table.
