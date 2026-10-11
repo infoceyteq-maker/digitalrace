@@ -4,6 +4,7 @@ import base64, os
 
 import content_services as CS   # main-site service pages (01–08)
 import content_hotelmate as HM  # HotelMate featured-partner campaign layer (additive)
+import content_business_card as BC  # standalone shareable digital business card
 
 # Project root = the folder this script lives in (works on any machine / CI).
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -148,10 +149,16 @@ details p{color:var(--mut);font-size:15px;margin-top:8px}
 .cbox{background:#fff;border:1.5px solid var(--prime);border-radius:12px;padding:18px 14px;text-align:center}
 .cbox small{display:block;color:var(--mut2);font-size:11.5px;letter-spacing:2px;font-weight:700}
 .cbox a,.cbox b{font-size:17px;font-weight:700;text-decoration:none;color:var(--ink)}
-.socials{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
-.socials a{text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);border-radius:50px;padding:8px 20px;
-font-size:14px;font-weight:600;background:#fff;transition:.2s}
-.socials a:hover{background:var(--ink);color:#fff}
+.footer-social-label{margin:24px 0 0;color:#a9dfe8;text-align:center;text-transform:uppercase;letter-spacing:2px;font-size:10px;font-weight:700}
+.socials{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;width:min(100%,980px);margin:12px auto 0}
+.socials .social-btn{min-width:0;min-height:48px;display:flex;align-items:center;gap:9px;padding:8px 10px;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:rgba(255,255,255,.055);color:#f3fcff;text-decoration:none;text-align:left;transition:.2s}
+.socials .social-btn:hover{background:rgba(255,255,255,.14);border-color:var(--prime);transform:translateY(-2px)}
+.socials .social-icon{display:grid;place-items:center;flex:0 0 25px;width:25px;height:25px}
+.socials .social-icon svg{display:block;width:24px;height:24px}
+.socials .social-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;font-weight:700}
+.socials .social-btn>b{margin-left:auto;color:#9ab5be;font-size:12px}
+.btn-card{border:1.5px solid rgba(255,255,255,.48);background:rgba(255,255,255,.08);color:#fff}
+.btn-card:hover{background:rgba(255,255,255,.16);color:#fff}
 footer{text-align:center;padding:36px 20px;font-size:14px;background:var(--ink);color:#a9b8b8;margin-top:60px;line-height:2}
 footer b{color:#fff}
 .big-cta{background:linear-gradient(135deg,#0c1e21,#16424b);color:#fff;border-radius:24px;padding:48px 26px;
@@ -278,9 +285,10 @@ text-align:center;padding:18px 10px;font-size:15px;line-height:1.35}
 .lvl .d p{color:var(--mut);font-size:15px;margin-top:6px}
 .lvl .d .fee{display:inline-block;margin-top:10px;background:#fdeeee;color:var(--redd);font-weight:800;
 border-radius:50px;padding:5px 16px;font-size:14px}
-@media(max-width:1000px){nav .links a{padding:7px 10px;font-size:14px}}
+@media(max-width:1000px){nav .links a{padding:7px 10px;font-size:14px}.socials{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:640px){body{padding-bottom:78px}.fab{font-size:14px;padding:12px 18px}
-.lvl{grid-template-columns:1fr}.floats{right:12px;bottom:12px;gap:10px}}
+.lvl{grid-template-columns:1fr}.floats{right:12px;bottom:12px;gap:10px}
+.socials{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.socials .social-btn{min-height:44px;padding:7px 8px;gap:7px}.socials .social-name{font-size:10px}.socials .social-icon{flex-basis:23px;width:23px;height:23px}.socials .social-icon svg{width:22px;height:22px}}
 @media(prefers-reduced-motion:reduce){.fab,.fab.wa{animation:none}}
 """
 
@@ -353,6 +361,8 @@ PAGE_META = {
                     'flyer-10-ai-future-contact.png'),
     'hotelmate.html': ("HotelMate — the cloud property management system Ceyteq features for hotels, villas and guest houses in Sri Lanka. Campaign terms, the demo flow and a WhatsApp line to a HotelMate specialist. | HotelMate PMS campaign CEYTEQ සමඟ.",
                         'assets/logo-transparent.png'),
+    'business-card.html': ("Ceyteq — Ceylon Technology. A shareable digital business card with WhatsApp, contact download, QR code, digital marketing, print, creative media and AI services.",
+                           'assets/logo-transparent.png'),
 }
 FAVICON = 'assets/logo-transparent.png'
 
@@ -425,28 +435,23 @@ def nav(active):
 </div>"""
 
 CONTACT = f"""<section id="contact"><div class="wrap">
+<div class="contact-grid">
+<div class="cbox"><small><span class="lang-en">HOTLINE</span><span class="lang-si">හොට්ලයින්</span><span class="lang-fr">LIGNE DIRECTE</span></small><a href="tel:+94788607143">+94 78 860 7143</a></div>
+<div class="cbox"><small><span class="lang-en">WHATSAPP INTL</span><span class="lang-si">WHATSAPP (විදේශ)</span><span class="lang-fr">WHATSAPP INTL</span></small><a href="https://wa.me/33744284269" target="_blank" rel="noopener noreferrer">+33 7 44 28 42 69</a></div>
+<div class="cbox"><small><span class="lang-en">WHATSAPP / MOBILE</span><span class="lang-si">WHATSAPP / ජංගම</span><span class="lang-fr">WHATSAPP / MOBILE</span></small><a href="https://wa.me/94768607143" target="_blank" rel="noopener noreferrer">+94 76 860 7143</a></div>
+<div class="cbox"><small><span class="lang-en">EMAIL</span><span class="lang-si">ඊමේල්</span><span class="lang-fr">E-MAIL</span></small><a href="mailto:info.ceyteq@gmail.com">info.ceyteq@gmail.com</a></div>
+</div>
 <div class="big-cta">
 <h2><span class="lang-en">START YOUR DIGITAL RACE TODAY</span><span class="lang-si">අදම Digital Race පටන්ගන්න</span><span class="lang-fr">DÉMARREZ VOTRE DIGITAL RACE AUJOURD'HUI</span></h2>
 <p><span class="lang-en">Message us now — reply within business hours. Team Creat + Ceyteq.</span><span class="lang-si">දැන් message කරන්න — Team Creat + Ceyteq.</span><span class="lang-fr">Écrivez-nous — réponse pendant les heures ouvrables.</span></p>
-<p><a class="btn btn-cyan" href="https://wa.me/94768607143" target="_blank">💬 WhatsApp: +94 76 860 7143</a>
+<p><a class="btn btn-cyan" href="https://wa.me/94768607143" target="_blank" rel="noopener noreferrer">💬 WhatsApp: +94 76 860 7143</a>
 <a class="btn btn-cyan" href="tel:+94788607143" style="background:#fff;color:#0b1f33">📞 +94 78 860 7143</a>
-<a class="btn btn-cyan" href="contact.html">📩 <span class="lang-en">Send the form</span><span class="lang-si">form එක යවන්න</span><span class="lang-fr">Envoyer le formulaire</span></a></p>
+<a class="btn btn-cyan" href="contact.html">📩 <span class="lang-en">Send the form</span><span class="lang-si">form එක යවන්න</span><span class="lang-fr">Envoyer le formulaire</span></a>
+<a class="btn btn-card" href="business-card.html">↗ <span class="lang-en">Open digital business card</span><span class="lang-si">ඩිජිටල් ව්‍යාපාරික කාඩ්පත බලන්න</span><span class="lang-fr">Voir la carte numérique</span></a></p>
+<p class="footer-social-label"><span class="lang-en">Connect with Ceyteq</span><span class="lang-si">Ceyteq සමඟ සම්බන්ධ වන්න</span><span class="lang-fr">Retrouvez Ceyteq</span></p>
+<div class="socials">{BC.social_links_html('social-btn')}</div>
 </div>
-<div class="contact-grid">
-<div class="cbox"><small><span class="lang-en">HOTLINE</span><span class="lang-si">හොට්ලයින්</span><span class="lang-fr">LIGNE DIRECTE</span></small><a href="tel:+94788607143">+94 78 860 7143</a></div>
-<div class="cbox"><small><span class="lang-en">WHATSAPP INTL</span><span class="lang-si">WHATSAPP (විදේශ)</span><span class="lang-fr">WHATSAPP INTL</span></small><a href="https://wa.me/33744284269" target="_blank">+33 7 44 28 42 69</a></div>
-<div class="cbox"><small><span class="lang-en">WHATSAPP / MOBILE</span><span class="lang-si">WHATSAPP / ජංගම</span><span class="lang-fr">WHATSAPP / MOBILE</span></small><a href="https://wa.me/94768607143" target="_blank">+94 76 860 7143</a></div>
-<div class="cbox"><small><span class="lang-en">EMAIL</span><span class="lang-si">ඊමේල්</span><span class="lang-fr">E-MAIL</span></small><a href="mailto:info.ceyteq@gmail.com">info.ceyteq@gmail.com</a></div>
-</div>
-<div class="socials">
-<a href="https://www.facebook.com/share/1KM2kZvaCC/" target="_blank">Facebook</a>
-<a href="https://www.instagram.com/ceyteq/" target="_blank">Instagram</a>
-<a href="https://www.tiktok.com/@ceyteq?is_from_webapp=1&sender_device=pc" target="_blank">TikTok</a>
-<a href="https://youtube.com/@ceylontechnology-ceyteq?si=a4L-B_OZjvhjO7sw" target="_blank">YouTube</a>
-<a href="https://www.linkedin.com/in/ceylon-technology" target="_blank">LinkedIn</a>
-<a href="https://www.pinterest.com/infoceyteq/" target="_blank">Pinterest</a>
-<a href="https://x.com/CeylonTech22598" target="_blank">X (Twitter)</a>
-</div></div></section>
+</div></section>
 <footer><b>© 2026 Ceylon Technology — Ceyteq</b> • <span class="lang-en">Empowering Digital Evolution • Digital Race Program</span><span class="lang-si">ඩිජිටල් පරිණාමය සවිබල ගැන්වීම • ඩිජිටල් රේස් වැඩසටහන</span><span class="lang-fr">Favoriser l'évolution numérique • Programme Digital Race</span><br>
 <span class="lang-en">Starter $19 • Standard $60 • Advanced $80 • Premium Ultimate $250 • Ad spend $1–$2/day to platforms</span><span class="lang-si">Starter $19 • Standard $60 • Advanced $80 • Premium Ultimate $250 • Platforms වලට දවසට $1–$2</span><span class="lang-fr">Starter 19 $ • Standard 60 $ • Advanced 80 $ • Premium Ultimate 250 $ • 1–2 $/jour aux plateformes</span></footer>"""
 
@@ -1060,6 +1065,18 @@ for fname, title, active, body in PAGES:
     with open(f'{ROOT}/{fname}', 'w') as f:
         f.write(html)
     print(fname, len(html)//1024, 'KB')
+
+# Standalone shareable digital business card. The QR assets are generated once
+# for SITE_URL + '/business-card.html' and live in assets/ (no runtime QR API).
+CARD_TITLE = 'CEYTEQ — Ceylon Technology | Digital Business Card'
+card_html = BC.render(SITE_URL, head_meta('business-card.html', CARD_TITLE), LOGO)
+assert '__' not in card_html.replace('data-langmode', ''), 'business-card.html'
+with open(f'{ROOT}/business-card.html', 'w', encoding='utf-8') as f:
+    f.write(card_html)
+with open(f'{ROOT}/ceyteq-contact.vcf', 'w', encoding='utf-8', newline='') as f:
+    f.write(BC.vcard(SITE_URL))
+print('business-card.html', len(card_html)//1024, 'KB')
+print('ceyteq-contact.vcf')
 
 # old address kept alive: /flyers.html -> /offers.html (never break a shared link)
 with open(f'{ROOT}/flyers.html', 'w') as f:
