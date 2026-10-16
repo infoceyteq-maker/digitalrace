@@ -7,12 +7,15 @@ What it does
 ------------
 * serves the static site (index.html, digitalrace.html, …) on one port
 * provides the JSON API the site needs:
-      public : GET  /api/health, GET /api/flyers, POST /api/leads
+      public : GET  /api/health, GET /api/flyers, GET /api/portfolio, POST /api/leads
       admin  : POST /api/login, POST /api/logout, GET /api/me,
                GET/POST /api/admin/flyers, PATCH/DELETE /api/admin/flyers/<id>,
                POST /api/admin/flyers/reorder, POST /api/admin/upload,
+               GET/POST /api/admin/portfolio, PATCH/DELETE /api/admin/portfolio/<id>,
                GET /api/admin/leads, PATCH/DELETE /api/admin/leads/<id>
-* stores everything in SQLite (data/ceyteq.db) — flyers + customer enquiries
+* stores everything in SQLite (data/ceyteq.db) — flyers, portfolio entries and
+  customer enquiries. /api/portfolio is what portfolio.html paints, so the
+  "Portfolio Upload" form in admin.html updates the public page live.
 * keeps the admin password hashed with PBKDF2-HMAC-SHA256 (never in the HTML)
 
 No third-party packages. Run it with:
@@ -115,9 +118,46 @@ CREATE TABLE IF NOT EXISTS leads (
     status     TEXT NOT NULL DEFAULT 'new',
     created_at TEXT NOT NULL
 );
+/* Portfolio Upload form (admin panel) -> rendered on portfolio.html.
+   One row = one finished client project: who the client is, where they are,
+   what business category they belong to, which Ceyteq service models were
+   delivered, the image/video links or Drive folder, and the service tags. */
+CREATE TABLE IF NOT EXISTS portfolio (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    client_name   TEXT NOT NULL,
+    project_title TEXT NOT NULL DEFAULT '',
+    area          TEXT NOT NULL DEFAULT '',
+    category      TEXT NOT NULL DEFAULT '',
+    services      TEXT NOT NULL DEFAULT '',
+    summary       TEXT NOT NULL DEFAULT '',
+    media_links   TEXT NOT NULL DEFAULT '',
+    folder_url    TEXT NOT NULL DEFAULT '',
+    website_url   TEXT NOT NULL DEFAULT '',
+    logo_url      TEXT NOT NULL DEFAULT '',
+    tags          TEXT NOT NULL DEFAULT '',
+    featured      INTEGER NOT NULL DEFAULT 0,
+    visible       INTEGER NOT NULL DEFAULT 1,
+    created_at    TEXT NOT NULL
+);
 CREATE INDEX IF NOT EXISTS idx_leads_status ON leads(status);
 CREATE INDEX IF NOT EXISTS idx_flyers_pos  ON flyers(position);
+CREATE INDEX IF NOT EXISTS idx_portfolio_vis ON portfolio(visible,featured);
 """
+
+
+# The two pick-lists behind the Portfolio Upload form. They are the same lists
+# the Portfolio page shows as buttons/chips, so a value typed in the admin can
+# never drift away from what the public page can filter on.
+PORTFOLIO_CATEGORIES = [
+    'IT & Digital', 'Tourism', 'Mobile & Accessory', 'Transportation', 'Hospitality',
+    'Fashion & Design', 'Pharmaceuticals', 'Finance', 'Export & Import',
+    'Food & Beverage', 'Printing',
+]
+PORTFOLIO_SERVICES = [
+    'Website', 'Management System', 'AI Media', 'Designing', 'Photography',
+    'Videography', 'Research', 'Ads & Promotion', 'Business Consulting',
+    'Business Documents', 'Printing',
+]
 
 
 def now_iso() -> str:
@@ -252,6 +292,150 @@ def safe_filename(name: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# portfolio helpers (Portfolio Upload form -> portfolio.html)
+# ---------------------------------------------------------------------------
+
+SAFE_URL = re.compile(r'^https?://[^\s<>"\'`]+$', re.I)
+LOCAL_ASSET = re.compile(r'^(?:uploads|assets|flyers)/[A-Za-z0-9._/-]+$', re.I)
+
+
+def safe_url(value, limit=500) -> str:
+    """Only http(s) links and files that live next to the site are ever sent
+    back to the browser, so a pasted javascript:/data: string can never turn
+    into a link on the Portfolio page."""
+    url = clean(value, limit)
+    if SAFE_URL.match(url):
+        return url
+    return ''
+
+
+def local_asset(value) -> str:
+    """Relative asset written by the admin upload (uploads/<file>) or a path
+    the site already ships (assets/…, flyers/…)."""
+    name = clean(value, 200)
+    if LOCAL_ASSET.match(name) and '..' not in name:
+        return name
+    return ''
+
+
+def link_list(value, limit=24) -> list[str]:
+    """Media field: one link per line (or comma separated). Absolute http(s)
+    URLs pass through, a path that really exists next to the site (an admin
+    upload, assets/, flyers/) is kept, and anything else is dropped — so a
+    typo or a javascript: string can never reach the Portfolio page as a link."""
+    if isinstance(value, (list, tuple)):
+        parts = [str(v) for v in value]
+    else:
+        parts = re.split(r'[\n,]+', str(value or ''))
+    out: list[str] = []
+    for part in parts:
+        part = part.strip()
+        if not part:
+            continue
+        link = safe_url(part)
+        if not link:
+            rel = local_asset(part)
+            if rel and os.path.isfile(os.path.join(ROOT, rel)):
+                link = rel
+            else:                                    # bare name = an admin upload
+                name = safe_filename(part)
+                if name and any(os.path.isfile(os.path.join(folder, name))
+                                for folder in (UPLOAD_DIR, FLYER_DIR, os.path.join(ROOT, 'assets'))):
+                    link = flyer_src(name)
+        if link and link not in out:
+            out.append(link)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def asset_or_url(value) -> str:
+    """A logo may be a link OR an image the admin uploaded (uploads/…), because
+    a client logo is the one media file people would rather drop in than host."""
+    url = safe_url(value)
+    if url:
+        return url
+    rel = local_asset(value)
+    if rel and os.path.isfile(os.path.join(ROOT, rel)):
+        return rel
+    name = safe_filename(value)
+    if name and any(os.path.isfile(os.path.join(folder, name))
+                    for folder in (UPLOAD_DIR, FLYER_DIR, os.path.join(ROOT, 'assets'))):
+        return flyer_src(name)
+    return ''
+
+
+def text_list(value, limit=12, item_limit=60) -> list[str]:
+    """Service models / service tags: a list, or one string with , / ; / newlines."""
+    if isinstance(value, (list, tuple)):
+        parts = [str(v) for v in value]
+    else:
+        parts = re.split(r'[;\n,]+', str(value or ''))
+    out: list[str] = []
+    for part in parts:
+        part = clean(part, item_limit)
+        if part and part.lower() not in [o.lower() for o in out]:
+            out.append(part)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def portfolio_json(row: sqlite3.Row) -> dict:
+    """One DB row -> the JSON the Portfolio page renders as a card."""
+    return {
+        'id': row['id'],
+        'client': row['client_name'],
+        'project': row['project_title'],
+        'area': row['area'],
+        'category': row['category'],
+        'services': text_list(row['services'], limit=14, item_limit=60),
+        'tags': text_list(row['tags'], limit=12, item_limit=40),
+        'summary': row['summary'],
+        'media': link_list(row['media_links']),
+        'folder': row['folder_url'],
+        'website': row['website_url'],
+        'logo': row['logo_url'],
+        'featured': int(row['featured'] or 0),
+        'visible': int(row['visible'] or 0),
+        'created_at': row['created_at'],
+    }
+
+
+def portfolio_fields(data: dict, *, partial: bool = False) -> tuple[dict, str]:
+    """Validate + normalise one Portfolio Upload form submission.
+    Returns (fields, error) — error is '' when the payload is usable."""
+    allowed = {
+        'client_name': 120, 'project_title': 160, 'area': 120, 'category': 60,
+        'summary': 600, 'folder_url': 500, 'website_url': 500, 'logo_url': 500,
+    }
+    out: dict = {}
+    for key, size in allowed.items():
+        if key in data:
+            out[key] = clean(data.get(key), size)
+    for key in ('folder_url', 'website_url'):
+        if key in out:
+            out[key] = safe_url(out[key])       # links out of the site: http(s) only
+    if 'logo_url' in out:
+        out['logo_url'] = asset_or_url(out['logo_url'])
+    if 'services' in data:
+        out['services'] = ', '.join(text_list(data.get('services'), limit=14, item_limit=60))[:500]
+    if 'tags' in data:
+        out['tags'] = ', '.join(text_list(data.get('tags'), limit=12, item_limit=40))[:400]
+    if 'media_links' in data:
+        out['media_links'] = '\n'.join(link_list(data.get('media_links')))[:2000]
+    for key in ('featured', 'visible'):
+        if key in data:
+            val = data.get(key)
+            out[key] = 1 if val in (1, '1', True, 'true', 'yes', 'on') else 0
+    if not out:
+        return {}, 'nothing to save'
+    if not partial and not out.get('client_name'):
+        return {}, 'client name is required'
+    return out, ''
+
+
+# ---------------------------------------------------------------------------
 # request handler
 # ---------------------------------------------------------------------------
 
@@ -285,6 +469,18 @@ class Handler(BaseHTTPRequestHandler):
             return None
         morsel = cookie.get(SESSION_COOKIE)
         return session_user(morsel.value) if morsel else None
+
+    def _drain(self):
+        """Discard a request body we are not going to read."""
+        try:
+            length = int(self.headers.get('Content-Length') or 0)
+        except ValueError:
+            length = 0
+        while length > 0:
+            chunk = self.rfile.read(min(length, 65536))
+            if not chunk:
+                break
+            length -= len(chunk)
 
     def _same_origin_json(self) -> bool:
         """State-changing requests must be JSON (blocks simple form CSRF)."""
@@ -333,6 +529,8 @@ class Handler(BaseHTTPRequestHandler):
                     'flyers': con.execute('SELECT COUNT(*) c FROM flyers').fetchone()['c'],
                     'leads': con.execute('SELECT COUNT(*) c FROM leads').fetchone()['c'],
                     'new_leads': con.execute("SELECT COUNT(*) c FROM leads WHERE status='new'").fetchone()['c'],
+                    'portfolio': con.execute('SELECT COUNT(*) c FROM portfolio').fetchone()['c'],
+                    'portfolio_visible': con.execute('SELECT COUNT(*) c FROM portfolio WHERE visible=1').fetchone()['c'],
                 })
 
         if route == 'flyers' and method == 'GET':
@@ -340,6 +538,45 @@ class Handler(BaseHTTPRequestHandler):
                 rows = con.execute('SELECT id,filename,title_en,title_si,title_fr,visible,position'
                                    ' FROM flyers WHERE visible=1 ORDER BY position,id').fetchall()
             return ok(self, [dict(r, src=flyer_src(r['filename'])) for r in rows])
+
+        # Public portfolio feed. portfolio.html renders exactly these fields, so
+        # a new entry saved by the admin form appears on the page with no rebuild.
+        # `q` filters client / area / category / service / tag, `category` and
+        # `service` narrow one facet, `view` groups the response for the two buttons.
+        if route == 'portfolio' and method == 'GET':
+            term = clean((query.get('q') or [''])[0], 120).lower()
+            category = clean((query.get('category') or [''])[0], 60)
+            service = clean((query.get('service') or [''])[0], 60)
+            with connect() as con:
+                rows = con.execute('SELECT * FROM portfolio WHERE visible=1'
+                                   ' ORDER BY featured DESC, id DESC LIMIT 300').fetchall()
+            items = [portfolio_json(r) for r in rows]
+            if category:
+                items = [i for i in items if i['category'].lower() == category.lower()]
+            if service:
+                items = [i for i in items
+                         if any(s.lower() == service.lower() for s in i['services'])]
+            if term:
+                def hit(item):
+                    hay = ' '.join([item['client'], item['project'], item['area'], item['category'],
+                                    item['summary'], ' '.join(item['services']), ' '.join(item['tags']),
+                                    item['created_at']]).lower()
+                    return term in hay
+                items = [i for i in items if hit(i)]
+            counts = {'total': len(rows)}
+            for item in (portfolio_json(r) for r in rows):
+                if item['category']:
+                    counts[item['category']] = counts.get(item['category'], 0) + 1
+                for name in item['services']:
+                    counts[name] = counts.get(name, 0) + 1
+            return ok(self, {
+                'items': items,
+                'count': len(items),
+                'total': len(rows),
+                'categories': PORTFOLIO_CATEGORIES,
+                'services': PORTFOLIO_SERVICES,
+                'counts': counts,
+            })
 
         if route == 'leads' and method == 'POST':
             if not self._same_origin_json():
@@ -387,6 +624,7 @@ class Handler(BaseHTTPRequestHandler):
 
         # --- everything below needs a session ---
         if not user:
+            self._drain()      # read the rejected body, or keep-alive sees it as a new request
             return fail(self, 401, 'admin login required')
 
         if route == 'admin/flyers' and method == 'GET':
@@ -474,6 +712,49 @@ class Handler(BaseHTTPRequestHandler):
                 f.write(raw)
             self.log_message('flyer uploaded: %s (%d bytes)', target, len(raw))
             return ok(self, {'ok': True, 'filename': target}, 201)
+
+        # --- Portfolio Upload form (admin) ---
+        PORTFOLIO_COLS = ('client_name', 'project_title', 'area', 'category', 'services',
+                          'summary', 'media_links', 'folder_url', 'website_url',
+                          'logo_url', 'tags', 'featured', 'visible')
+
+        if route == 'admin/portfolio' and method == 'GET':
+            with connect() as con:
+                rows = con.execute('SELECT * FROM portfolio ORDER BY id DESC LIMIT 500').fetchall()
+            return ok(self, [dict(r) for r in rows])
+
+        if route == 'admin/portfolio' and method == 'POST':
+            fields, error = portfolio_fields(self._json_body() or {})
+            if error:
+                return fail(self, 400, error)
+            cols = [c for c in PORTFOLIO_COLS if c in fields]
+            with _db_lock, connect() as con:
+                cur = con.execute('INSERT INTO portfolio (%s,created_at) VALUES (%s,?)'
+                                  % (','.join(cols), ','.join('?' * len(cols))),
+                                  tuple(fields[c] for c in cols) + (now_iso(),))
+                row = con.execute('SELECT * FROM portfolio WHERE id=?', (cur.lastrowid,)).fetchone()
+            self.log_message('portfolio entry #%s: %s', row['id'], row['client_name'])
+            return ok(self, dict(row), 201)
+
+        m = re.fullmatch(r'admin/portfolio/(\d+)', route)
+        if m and method in ('PATCH', 'DELETE'):
+            pid = int(m.group(1))
+            with _db_lock, connect() as con:
+                if not con.execute('SELECT 1 FROM portfolio WHERE id=?', (pid,)).fetchone():
+                    return fail(self, 404, 'portfolio entry not found')
+                if method == 'DELETE':
+                    con.execute('DELETE FROM portfolio WHERE id=?', (pid,))
+                    return ok(self, {'ok': True})
+                fields, error = portfolio_fields(self._json_body() or {}, partial=True)
+                if error:
+                    return fail(self, 400, error)
+                cols = [c for c in PORTFOLIO_COLS if c in fields]
+                if not cols:
+                    return fail(self, 400, 'nothing to update')
+                con.execute('UPDATE portfolio SET %s WHERE id=?' % ','.join(c + '=?' for c in cols),
+                            tuple(fields[c] for c in cols) + (pid,))
+                row = con.execute('SELECT * FROM portfolio WHERE id=?', (pid,)).fetchone()
+            return ok(self, dict(row))
 
         if route == 'admin/leads' and method == 'GET':
             status = (query.get('status') or [''])[0]

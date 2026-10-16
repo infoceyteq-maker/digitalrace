@@ -183,7 +183,7 @@
 
     /* Stats and CTA */
     .stats-section { position: relative; overflow: hidden; }
-    .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--line); }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--line); }
     .stat-card { padding: 2rem 1rem; text-align: center; background: var(--surface); }
     .stat-card strong { display: block; color: var(--accent-gold); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; }
     .stat-card span { color: var(--text-gray); font-size: .76rem; }
@@ -215,12 +215,94 @@
     .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
     .reveal.is-visible { opacity: 1; transform: none; }
 
+    /* ---- Client Work: painted live from the Portfolio Upload form (admin.html) ---- */
+    .pf-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-bottom: 1.1rem; }
+    .pf-view { display: flex; gap: .35rem; padding: .35rem; border: 1px solid var(--line); border-radius: 999px; background: #fff; box-shadow: 0 8px 22px rgba(12,30,33,.06); }
+    .pf-view button { display: inline-flex; align-items: center; gap: .45rem; padding: .62rem 1.1rem; border: 0; border-radius: 999px; color: var(--text-gray); background: transparent; font-size: .84rem; font-weight: 700; cursor: pointer; transition: .2s; }
+    .pf-view button:hover { color: var(--accent-gold-hover); background: rgba(39,163,201,.08); }
+    .pf-view button[aria-pressed="true"] { color: #fff; background: var(--accent-gold); box-shadow: 0 8px 20px rgba(39,163,201,.22); }
+    .pf-search { position: relative; flex: 1 1 280px; min-width: 210px; }
+    .pf-search input { width: 100%; min-height: 48px; padding: .6rem 2.6rem .6rem 2.4rem; border: 1px solid var(--line); border-radius: 999px; color: var(--primary-dark); background: #fff; font: inherit; font-size: .92rem; box-shadow: 0 8px 22px rgba(12,30,33,.05); transition: .2s; }
+    .pf-search input::placeholder { color: #8aa0a4; }
+    .pf-search input:focus { outline: none; border-color: var(--accent-gold); box-shadow: 0 0 0 4px rgba(39,163,201,.14); }
+    .pf-search .pf-glass { position: absolute; top: 50%; left: .9rem; transform: translateY(-50%); pointer-events: none; font-size: .95rem; }
+    .pf-search .pf-clear { position: absolute; top: 50%; right: .45rem; transform: translateY(-50%); display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; color: var(--text-gray); background: var(--tint); cursor: pointer; transition: .2s; }
+    .pf-search .pf-clear:hover { color: #fff; background: var(--accent-gold); }
+    .pf-count { margin: 0 0 1rem; color: var(--text-gray); font-size: .78rem; font-weight: 600; }
+    .pf-count b { color: var(--accent-gold-hover); }
+    .pf-chips { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 1.7rem; }
+    .pf-chips button { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem .85rem; border: 1px solid var(--line); border-radius: 999px; color: var(--text-gray); background: #fff; font-size: .76rem; font-weight: 700; cursor: pointer; transition: .2s; }
+    .pf-chips button:hover { border-color: var(--accent-gold); color: var(--accent-gold-hover); background: rgba(39,163,201,.07); }
+    .pf-chips button[aria-pressed="true"] { border-color: var(--primary-dark); color: #fff; background: var(--primary-dark); }
+    .pf-chips button b { opacity: .7; font-size: .68rem; }
+    .pf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; }
+    .pf-card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card-bg); box-shadow: 0 10px 30px rgba(12,30,33,.06); animation: panelIn .35s ease; transition: transform .3s, border-color .3s, box-shadow .3s; }
+    .pf-card:hover { transform: translateY(-6px); border-color: var(--accent-gold); box-shadow: 0 20px 44px rgba(39,163,201,.18); }
+    .pf-cover { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(135deg, #d9efe9, #e4f5fc); }
+    .pf-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pf-cover .pf-ph { position: absolute; inset: 0; display: grid; place-items: center; font-size: 1.9rem; color: var(--accent-gold-hover); opacity: .5; }
+    .pf-cat { position: absolute; top: .7rem; left: .7rem; padding: .3rem .68rem; border-radius: 999px; color: #fff; background: rgba(12,30,33,.82); font-size: .65rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; backdrop-filter: blur(6px); }
+    .pf-star { position: absolute; top: .7rem; right: .7rem; padding: .3rem .6rem; border-radius: 999px; color: #fff; background: var(--accent-gold); font-size: .65rem; font-weight: 800; }
+    .pf-body { display: flex; flex-direction: column; gap: .5rem; flex: 1; padding: 1.05rem 1.15rem 1.15rem; }
+    .pf-client { display: flex; align-items: center; gap: .45rem; margin: 0; color: var(--accent-gold-hover); font-size: .7rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .pf-client img { width: 22px; height: 22px; padding: 2px; border: 1px solid var(--line); border-radius: 6px; object-fit: contain; background: #fff; }
+    .pf-body h3 { margin: 0; font-size: 1.04rem; line-height: 1.25; }
+    .pf-meta { margin: 0; color: var(--text-gray); font-size: .76rem; }
+    .pf-desc { margin: 0; color: #364e52; font-size: .8rem; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .pf-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin: .1rem 0 0; padding: 0; list-style: none; }
+    .pf-tags li { padding: .24rem .6rem; border: 1px solid rgba(39,163,201,.28); border-radius: 999px; color: var(--accent-gold-hover); background: rgba(39,163,201,.07); font-size: .68rem; font-weight: 700; }
+    .pf-actions { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: auto; padding-top: .7rem; border-top: 1px dashed var(--line); }
+    .pf-actions button, .pf-actions a { display: inline-flex; align-items: center; gap: .35rem; padding: .45rem .8rem; border: 1px solid var(--line); border-radius: 999px; color: var(--primary-dark); background: #fff; font: inherit; font-size: .73rem; font-weight: 700; text-decoration: none; cursor: pointer; transition: .2s; }
+    .pf-actions button:hover, .pf-actions a:hover { border-color: var(--accent-gold); color: var(--accent-gold-hover); background: rgba(39,163,201,.08); }
+    .pf-actions .pf-quote { color: var(--accent-gold); border-color: rgba(39,163,201,.4); }
+    .pf-group + .pf-group { margin-top: 2.4rem; }
+    .pf-note { margin: 1.4rem 0 0; padding: 1.1rem 1.2rem; border: 1px dashed var(--line); border-radius: var(--radius); color: var(--text-gray); background: rgba(255,255,255,.72); font-size: .84rem; text-align: center; }
+    .pf-note a { color: var(--accent-gold); font-weight: 700; }
+    .pf-note strong { color: var(--primary-dark); }
+
+    /* client logo strip — scrolls, pauses on hover/focus */
+    .pf-logos { margin-top: 3rem; padding: 1.15rem 0; overflow: hidden; border-block: 1px solid var(--line); background: rgba(255,255,255,.66); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+    .pf-logos[hidden] { display: none; }
+    .pf-logos-label { margin: 0 0 .85rem; color: var(--text-gray); font-size: .7rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; text-align: center; }
+    .pf-track { display: flex; width: max-content; animation: pfScroll 34s linear infinite; }
+    .pf-logos:hover .pf-track, .pf-logos:focus-within .pf-track { animation-play-state: paused; }
+    @keyframes pfScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .pf-slide { display: flex; gap: 1rem; padding-right: 1rem; }
+    .pf-logo { display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .95rem; border: 1px solid var(--line); border-radius: 12px; color: var(--primary-dark); background: #fff; font-size: .8rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: .25s; font-family: inherit; }
+    .pf-logo:hover { border-color: var(--accent-gold); transform: translateY(-3px); box-shadow: 0 12px 26px rgba(39,163,201,.16); }
+    .pf-logo img { width: 26px; height: 26px; object-fit: contain; border-radius: 6px; }
+    .pf-logo .mono { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; color: #fff; background: var(--primary-dark); font-size: .66rem; font-weight: 800; }
+
+    /* media viewer */
+    .pf-modal { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 1rem; }
+    .pf-modal[hidden] { display: none; }
+    .pf-modal-bg { position: absolute; inset: 0; border: 0; padding: 0; background: rgba(12,30,33,.74); backdrop-filter: blur(3px); cursor: zoom-out; }
+    .pf-modal-panel { position: relative; width: min(940px, 100%); max-height: 88vh; overflow: auto; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); animation: panelIn .25s ease; }
+    .pf-modal-head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.94); backdrop-filter: blur(8px); }
+    .pf-modal-head h3 { margin: 0; font-size: 1.05rem; line-height: 1.3; }
+    .pf-modal-head p { margin: .15rem 0 0; color: var(--text-gray); font-size: .76rem; }
+    .pf-modal-close { margin-left: auto; flex-shrink: 0; display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; color: var(--primary-dark); background: #fff; font-size: 1rem; cursor: pointer; transition: .2s; }
+    .pf-modal-close:hover { color: #fff; background: var(--accent-gold); border-color: var(--accent-gold); }
+    .pf-media { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; padding: 1rem 1.2rem 0; }
+    .pf-media figure { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #0c1e21; }
+    .pf-media img, .pf-media video { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+    .pf-media iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
+    .pf-media figcaption { padding: .5rem .7rem; color: var(--text-gray); background: #fff; font-size: .72rem; overflow-wrap: anywhere; }
+    .pf-media figcaption a { color: var(--accent-gold); font-weight: 700; text-decoration: none; }
+    .pf-media .pf-link-tile { display: grid; place-items: center; min-height: 150px; padding: 1.3rem; background: #fff; font-size: .84rem; font-weight: 700; }
+    .pf-media .pf-link-tile a { color: var(--accent-gold); text-decoration: none; }
+    .pf-modal-foot { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin: 0; padding: 1.1rem 1.2rem 1.3rem; }
+    body.pf-lock { overflow: hidden; }
+
     @media (max-width: 980px) {
       .menu-toggle { display: block; }
       .nav-links { position: absolute; top: calc(100% + 1px); left: 0; right: 0; margin: 0; padding: 1rem; display: grid; gap: .25rem; border-bottom: 1px solid var(--line); background: #fff; box-shadow: 0 20px 32px rgba(12,30,33,.16); transform-origin: top; transform: scaleY(0); opacity: 0; visibility: hidden; transition: .2s; }
       .nav-links.is-open { transform: scaleY(1); opacity: 1; visibility: visible; }
       .nav-links a { text-align: center; }
-      .product-grid, .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .product-grid, .service-grid, .pf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pf-toolbar { align-items: stretch; }
+      .pf-view { flex: 1 1 100%; }
+      .pf-view button { flex: 1; justify-content: center; }
       .tab-list { grid-template-columns: repeat(3, 1fr); }
       .stats-grid { grid-template-columns: repeat(3, 1fr); }
       .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -235,7 +317,8 @@
       .hero-counters { margin-top: 2.4rem; }
       .mini-stat { padding: 1rem .35rem; }
       .mini-stat span { font-size: .63rem; }
-      .product-grid, .service-grid { grid-template-columns: 1fr; }
+      .product-grid, .service-grid, .pf-grid { grid-template-columns: 1fr; }
+      .pf-media { grid-template-columns: 1fr; }
       .tab-list { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; }
       .tab-button { flex: 0 0 170px; scroll-snap-align: start; }
       .panel-heading { align-items: flex-start; }
@@ -249,6 +332,11 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       .reveal { opacity: 1; transform: none; }
+      /* the client logo strip stops scrolling and simply wraps instead */
+      .pf-track { animation: none !important; transform: none !important; width: auto; flex-wrap: wrap; justify-content: center; gap: .6rem; }
+      .pf-slide { flex-wrap: wrap; justify-content: center; }
+      .pf-slide + .pf-slide { display: none; }
+      .pf-card, .tab-panel { animation: none; }
     }
   </style>
   <script type="application/ld+json">
@@ -412,6 +500,35 @@
       </div>
     </section>
 
+    <section class="section" id="clients" aria-labelledby="clients-title">
+      <div class="container">
+        <div class="section-head center reveal">
+          <p class="eyebrow">Published From The Ceyteq Admin</p>
+          <h2 class="section-title" id="clients-title">🤝 Client Work</h2>
+          <p class="section-subtitle">Every client project our team uploads — switch between the client list and the service list, then search by client, area, business category or service tag.</p>
+        </div>
+        <div class="pf-toolbar reveal" id="pf-toolbar">
+          <div class="pf-view" role="group" aria-label="Portfolio display mode">
+            <button type="button" data-view="client" aria-pressed="true">🏢 Clients</button>
+            <button type="button" data-view="service" aria-pressed="false">🛠️ Services</button>
+          </div>
+          <div class="pf-search">
+            <span class="pf-glass" aria-hidden="true">🔍</span>
+            <input id="pf-search" type="search" autocomplete="off" placeholder="Search client, area, category, service or tag…" aria-label="Search client projects" aria-controls="pf-results">
+            <button type="button" class="pf-clear" id="pf-clear" aria-label="Clear the search" hidden>✕</button>
+          </div>
+        </div>
+        <p class="pf-count" id="pf-count" role="status" aria-live="polite"></p>
+        <div class="pf-chips" id="pf-chips" role="group" aria-label="Filter client work by business category"></div>
+        <div id="pf-results"></div>
+        <noscript><p class="pf-note">The client list is loaded with JavaScript. The full service catalogue above stays readable without it, and every service is also on our <a href="services.html">services page</a>.</p></noscript>
+      </div>
+      <div class="pf-logos" id="pf-logos" hidden>
+        <p class="pf-logos-label">Clients &amp; brands behind the work above — click a logo to filter</p>
+        <div class="pf-track" id="pf-track"></div>
+      </div>
+    </section>
+
     <section class="section stats-section" aria-labelledby="stats-title">
       <div class="container">
         <div class="section-head center reveal">
@@ -424,6 +541,7 @@
           <div class="stat-card"><strong><span data-counter="5">0</span></strong><span>Service Categories</span></div>
           <div class="stat-card"><strong><span data-counter="15">0</span>+</strong><span>Years Experience</span></div>
           <div class="stat-card"><strong><span data-counter="50">0</span>+</strong><span>Happy Clients</span></div>
+          <div class="stat-card"><strong><span id="pf-stat">0</span>+</strong><span>Client Projects Published</span></div>
         </div>
       </div>
     </section>
@@ -467,6 +585,22 @@
       <p class="copyright">© 2025 Ceyteq. All Rights Reserved.</p>
     </div>
   </footer>
+
+  <div class="pf-modal" id="pf-modal" role="dialog" aria-modal="true" aria-labelledby="pf-modal-title" hidden>
+    <button type="button" class="pf-modal-bg" data-close aria-label="Close the project media viewer"></button>
+    <div class="pf-modal-panel">
+      <div class="pf-modal-head">
+        <div>
+          <h3 id="pf-modal-title">Project media</h3>
+          <p id="pf-modal-sub"></p>
+        </div>
+        <button type="button" class="pf-modal-close" aria-label="Close the project media viewer">✕</button>
+      </div>
+      <div class="pf-media" id="pf-modal-body"></div>
+      <p class="pf-modal-foot" id="pf-modal-foot"></p>
+    </div>
+  </div>
+
 
   <script>
     'use strict';
@@ -760,8 +894,309 @@
       document.querySelectorAll('.reveal').forEach(item => item.classList.add('is-visible'));
       document.querySelectorAll('[data-counter]').forEach(animateCounter);
     }
+
+    /* =====================================================================
+       CLIENT WORK — the public half of the Portfolio Upload form.
+       admin.html posts to /api/admin/portfolio, this page reads GET
+       /api/portfolio and paints the same card UI the page already uses.
+       No rebuild: save in the admin, refresh here.
+       Static hosting (GitHub Pages) has no API, so the section degrades to a
+       short explainer instead of an empty grid.
+       ===================================================================== */
+    const pf = {
+      items: [], q: '', category: '', service: '', view: 'client', online: false,
+      results: document.getElementById('pf-results'),
+      chips: document.getElementById('pf-chips'),
+      count: document.getElementById('pf-count'),
+      search: document.getElementById('pf-search'),
+      clear: document.getElementById('pf-clear'),
+      toolbar: document.getElementById('pf-toolbar'),
+      logos: document.getElementById('pf-logos'),
+      track: document.getElementById('pf-track'),
+      modal: document.getElementById('pf-modal'),
+    };
+
+    function pfJoin(item) {
+      return [item.client, item.project, item.area, item.category, item.summary,
+              (item.services || []).join(' '), (item.tags || []).join(' ')]
+        .filter(Boolean).join('  ').toLowerCase();
+    }
+
+    function pfMatch(item) {
+      if (pf.category && item.category !== pf.category) return false;
+      if (pf.service && !(item.services || []).some(s => s.toLowerCase() === pf.service.toLowerCase())) return false;
+      const words = pf.q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      if (!words.length) return true;
+      const hay = pfJoin(item);
+      return words.every(word => hay.includes(word));
+    }
+
+    /* One media field entry -> something the card can actually show. Drive and
+       YouTube/Vimeo links become embeds, files become <img>/<video>, anything
+       else stays a plain "open the file" link. */
+    function pfMedia(url) {
+      const u = String(url || '');
+      const yt = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/i);
+      if (yt) return { type: 'embed', src: 'https://www.youtube-nocookie.com/embed/' + yt[1], raw: u };
+      const vm = u.match(/vimeo\.com\/(\d+)/i);
+      if (vm) return { type: 'embed', src: 'https://player.vimeo.com/video/' + vm[1], raw: u };
+      const dr = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/i);
+      if (dr) return { type: 'image', src: 'https://drive.google.com/thumbnail?id=' + dr[1] + '&sz=w1600', raw: 'https://drive.google.com/file/d/' + dr[1] + '/view' };
+      if (/\.(mp4|webm|m4v|mov)(\?|$)/i.test(u)) return { type: 'video', src: u, raw: u };
+      if (/\.(png|jpe?g|webp|gif|svg|avif)(\?|$)/i.test(u) || /^(uploads|assets|flyers)\//i.test(u)) return { type: 'image', src: u, raw: u };
+      return { type: 'link', src: u, raw: u };
+    }
+
+    function pfInitials(name) {
+      return String(name || '·').split(/\s+/).filter(Boolean).slice(0, 2)
+        .map(w => w[0]).join('').toUpperCase() || '·';
+    }
+
+    function pfCard(item) {
+      const media = (item.media || []).map(pfMedia);
+      const cover = media.find(m => m.type === 'image');
+      const services = item.services || [];
+      const tags = item.tags || [];
+      const headline = item.project || (item.client + ' — Ceyteq project');
+      const meta = [item.area ? '📍 ' + escapeHtml(item.area) : '', services.map(escapeHtml).join(' · ')].filter(Boolean).join(' &nbsp;·&nbsp; ');
+      const quote = 'Hello Ceyteq, I saw the ' + (item.project || item.client) + ' project (' + (services.join(', ') || item.category || 'portfolio') + ') on your Portfolio page. I would like something similar for my business.';
+      return `<article class="pf-card">
+        <div class="pf-cover">
+          ${cover ? `<img src="${escapeHtml(cover.src)}" alt="${escapeHtml(headline)}" loading="lazy" onerror="pfBrokenImage(this)">` : '<span class="pf-ph" aria-hidden="true">🖼️</span>'}
+          ${item.category ? `<span class="pf-cat">${escapeHtml(item.category)}</span>` : ''}
+          ${item.featured ? '<span class="pf-star">★ Featured</span>' : ''}
+        </div>
+        <div class="pf-body">
+          <p class="pf-client">${item.logo ? `<img src="${escapeHtml(item.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ''}<span>${escapeHtml(item.client)}</span></p>
+          <h3>${escapeHtml(headline)}</h3>
+          ${meta ? `<p class="pf-meta">${meta}</p>` : ''}
+          ${item.summary ? `<p class="pf-desc">${escapeHtml(item.summary)}</p>` : ''}
+          ${tags.length ? `<ul class="pf-tags">${tags.map(t => `<li>${escapeHtml(t)}</li>`).join('')}</ul>` : ''}
+          <div class="pf-actions">
+            ${media.length ? `<button type="button" onclick="pfOpenMedia(${Number(item.id) || 0})">🖼️ Media (${media.length})</button>` : ''}
+            ${item.folder ? `<a href="${escapeHtml(item.folder)}" target="_blank" rel="noopener noreferrer">📁 Folder ↗</a>` : ''}
+            ${item.website ? `<a href="${escapeHtml(item.website)}" target="_blank" rel="noopener noreferrer">🌐 Website ↗</a>` : ''}
+            <a class="pf-quote" href="${quoteBase}${encodeURIComponent(quote)}" target="_blank" rel="noopener noreferrer">Want this? →</a>
+          </div>
+        </div>
+      </article>`;
+    }
+
+    function pfEmptyBlock() {
+      if (!pf.online) {
+        return `<div class="pf-note"><strong>Client work is published from the Ceyteq admin panel.</strong>
+          This copy of the site is static, so <code>/api/portfolio</code> is not answering — start the Ceyteq
+          backend (or open the site on the Ceyteq server) and every entry saved in
+          <a href="admin.html">Admin → Portfolio Upload</a> shows up here instantly.</div>`;
+      }
+      return `<div class="pf-note"><strong>No client projects published yet.</strong>
+        Fill the <a href="admin.html">Portfolio Upload form</a> in the admin panel — client name, area,
+        business category, service model, image/video links and tags — and the first card lands here.</div>`;
+    }
+
+    function pfRender() {
+      const items = pf.items.filter(pfMatch);
+      if (!pf.items.length) {
+        pf.toolbar.hidden = true;
+        pf.chips.hidden = true;
+        pf.logos.hidden = true;
+        pf.count.innerHTML = '';
+        pf.chips.innerHTML = '';
+        pf.track.innerHTML = '';
+        pfSetStat(0);
+        pf.results.innerHTML = pfEmptyBlock();
+        return;
+      }
+      pf.toolbar.hidden = false;
+      pf.chips.hidden = false;
+      const catCount = new Set(pf.items.map(i => i.category).filter(Boolean)).size;
+      const svcCount = new Set(pf.items.reduce((all, i) => all.concat(i.services || []), [])).size;
+      pf.count.innerHTML = `Showing <b>${items.length}</b> of ${pf.items.length} client project${pf.items.length === 1 ? '' : 's'}`
+        + ` · <b>${catCount}</b> business categor${catCount === 1 ? 'y' : 'ies'} · <b>${svcCount}</b> service models delivered`
+        + (pf.q ? ` · search: “${escapeHtml(pf.q.trim())}”` : '')
+        + (pf.category ? ` · category: ${escapeHtml(pf.category)}` : '');
+      if (!items.length) {
+        pf.results.innerHTML = `<div class="pf-note"><strong>No client project matches that search.</strong>
+          Try a town, a business category or a service (Website, Photography, Printing…).
+          <a href="#clients" onclick="pfReset()">Clear the filters</a></div>`;
+        return;
+      }
+      if (pf.view === 'service') {
+        const groups = new Map();
+        items.forEach(item => {
+          (item.services && item.services.length ? item.services : ['More Ceyteq services']).forEach(name => {
+            if (!groups.has(name)) groups.set(name, []);
+            groups.get(name).push(item);
+          });
+        });
+        const ordered = [...groups.entries()].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+        pf.results.innerHTML = ordered.map(([name, list]) => `
+          <section class="pf-group">
+            <h4 class="subcategory-title">🛠️ ${escapeHtml(name)} <small>(${list.length})</small></h4>
+            <div class="pf-grid">${list.map(pfCard).join('')}</div>
+          </section>`).join('');
+        return;
+      }
+      pf.results.innerHTML = `<div class="pf-grid">${items.map(pfCard).join('')}</div>`;
+    }
+
+    function pfRenderChips() {
+      const counts = new Map();
+      pf.items.forEach(item => {
+        const key = item.category || 'Other';
+        counts.set(key, (counts.get(key) || 0) + 1);
+      });
+      const cats = [...counts.keys()].sort((a, b) => counts.get(b) - counts.get(a) || a.localeCompare(b));
+      pf.chips.innerHTML = [`<button type="button" data-cat="" aria-pressed="${!pf.category}">All clients <b>${pf.items.length}</b></button>`]
+        .concat(cats.map(c => `<button type="button" data-cat="${escapeHtml(c)}" aria-pressed="${pf.category === c}">${escapeHtml(c)} <b>${counts.get(c)}</b></button>`))
+        .join('');
+    }
+
+    function pfRenderLogos() {
+      const seen = new Set();
+      const list = pf.items.filter(item => {
+        const key = String(item.client || '').toLowerCase();
+        if (!item.client || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+      if (!list.length) { pf.logos.hidden = true; return; }
+      const tiles = list.map(item => `<button class="pf-logo" type="button" data-client="${escapeHtml(item.client)}" title="Show only ${escapeHtml(item.client)}">
+        ${item.logo ? `<img src="${escapeHtml(item.logo)}" alt="" loading="lazy" onerror="this.remove()">` : `<span class="mono" aria-hidden="true">${escapeHtml(pfInitials(item.client))}</span>`}
+        <span>${escapeHtml(item.client)}</span></button>`).join('');
+      pf.track.innerHTML = `<span class="pf-slide">${tiles}</span>`
+        + `<span class="pf-slide" aria-hidden="true">${tiles.replace(/<button /g, '<button tabindex="-1" ')}</span>`;
+      pf.logos.hidden = false;
+    }
+
+    window.pfReset = function () {
+      pf.q = ''; pf.category = ''; pf.service = '';
+      pf.search.value = ''; pf.clear.hidden = true;
+      pfRenderChips(); pfRender();
+    };
+
+    /* A media link that 404s (a private Drive file, a moved image) never leaves
+       a broken icon on the card — it quietly becomes the placeholder. */
+    window.pfBrokenImage = function (img) {
+      const parent = img.parentElement;
+      img.remove();
+      if (parent && !parent.querySelector('img')) parent.insertAdjacentHTML('afterbegin', '<span class="pf-ph" aria-hidden="true">🔗</span>');
+    };
+
+    /* ---- media viewer ---- */
+    let pfLastFocus = null;
+    window.pfOpenMedia = function (id) {
+      const item = pf.items.find(i => String(i.id) === String(id));
+      if (!item) return;
+      const media = (item.media || []).map(pfMedia);
+      document.getElementById('pf-modal-title').textContent = (item.project || item.client) + ' — media';
+      document.getElementById('pf-modal-sub').textContent = [item.client, item.area, item.category].filter(Boolean).join(' · ');
+      document.getElementById('pf-modal-body').innerHTML = media.map((m, i) => {
+        const caption = `<figcaption>Media ${i + 1} · <a href="${escapeHtml(m.raw)}" target="_blank" rel="noopener noreferrer">open original ↗</a></figcaption>`;
+        if (m.type === 'image') return `<figure><img src="${escapeHtml(m.src)}" alt="${escapeHtml(item.client)} project media ${i + 1}" loading="lazy">${caption}</figure>`;
+        if (m.type === 'video') return `<figure><video src="${escapeHtml(m.src)}" controls preload="metadata"></video>${caption}</figure>`;
+        if (m.type === 'embed') return `<figure><iframe src="${escapeHtml(m.src)}" title="${escapeHtml(item.client)} video ${i + 1}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>${caption}</figure>`;
+        return `<figure><div class="pf-link-tile"><a href="${escapeHtml(m.raw)}" target="_blank" rel="noopener noreferrer">🔗 Open this link ↗</a></div>${caption}</figure>`;
+      }).join('');
+      const folder = item.folder || item.website;
+      document.getElementById('pf-modal-foot').innerHTML = [
+        folder ? `<a class="btn btn-outline" href="${escapeHtml(folder)}" target="_blank" rel="noopener noreferrer">📁 Open the full folder ↗</a>` : '',
+        `<a class="btn btn-primary" href="${quoteBase}${encodeURIComponent('Hello Ceyteq, I saw the ' + (item.project || item.client) + ' project on your Portfolio page. I would like a quote for the same for my business.')}" target="_blank" rel="noopener noreferrer">Get a quote like this</a>`,
+      ].filter(Boolean).join('');
+      pfLastFocus = document.activeElement;
+      pf.modal.hidden = false;
+      document.body.classList.add('pf-lock');
+      pf.modal.querySelector('.pf-modal-close').focus();
+    };
+    function pfCloseMedia() {
+      if (pf.modal.hidden) return;
+      pf.modal.hidden = true;
+      document.body.classList.remove('pf-lock');
+      pf.modal.querySelectorAll('iframe, video').forEach(node => node.remove());  // stop any playing video
+      if (pfLastFocus && pfLastFocus.focus) pfLastFocus.focus();
+    }
+
+    pf.modal.addEventListener('keydown', event => {
+      if (event.key !== 'Tab') return;
+      const inside = pf.modal.querySelectorAll('a[href], button, video, iframe');
+      if (!inside.length) return;
+      const first = inside[0], last = inside[inside.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    });
+    pf.modal.addEventListener('click', event => {
+      if (event.target.matches('[data-close], .pf-modal-close')) pfCloseMedia();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !pf.modal.hidden) { event.stopPropagation(); pfCloseMedia(); }
+    });
+
+    /* ---- controls: service button / client button, search bar, category chips ---- */
+    document.querySelectorAll('.pf-view button').forEach(button => {
+      button.addEventListener('click', () => {
+        pf.view = button.dataset.view;
+        document.querySelectorAll('.pf-view button').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+        pfRender();
+      });
+    });
+    pf.search.addEventListener('input', () => {
+      pf.q = pf.search.value;
+      pf.clear.hidden = !pf.q;
+      pfRender();
+    });
+    pf.clear.addEventListener('click', () => { pf.search.value = ''; pf.q = ''; pf.clear.hidden = true; pf.search.focus(); pfRender(); });
+    pf.chips.addEventListener('click', event => {
+      const button = event.target.closest('button[data-cat]');
+      if (!button) return;
+      pf.category = pf.category === button.dataset.cat ? '' : button.dataset.cat;
+      pfRenderChips();
+      pfRender();
+    });
+    pf.track.addEventListener('click', event => {
+      const button = event.target.closest('.pf-logo');
+      if (!button || !button.dataset.client) return;
+      pf.q = button.dataset.client;
+      pf.search.value = pf.q;
+      pf.clear.hidden = false;
+      pfRender();
+      pf.results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    /* The 6th number in the stats band. Deliberately NOT a [data-counter]
+       element: that one is owned by the scroll observer and would animate back
+       to 0 whenever the section is scrolled into view. */
+    function pfSetStat(total) {
+      const stat = document.getElementById('pf-stat');
+      if (!stat) return;
+      if (reducedMotion || !total) { stat.textContent = total; return; }
+      const start = performance.now(), duration = 900;
+      (function frame(now) {
+        const p = Math.min((now - start) / duration, 1);
+        stat.textContent = Math.round(total * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(frame);
+      })(performance.now());
+    }
+
+    function pfLoad() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('view') === 'service') {
+        pf.view = 'service';
+        document.querySelectorAll('.pf-view button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === 'service')));
+      }
+      if (params.get('q')) { pf.q = params.get('q').slice(0, 120); pf.search.value = pf.q; pf.clear.hidden = false; }
+      fetch('api/portfolio', { credentials: 'same-origin' })
+        .then(r => { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+        .then(data => {
+          pf.items = Array.isArray(data) ? data : (data && data.items) || [];
+          pf.online = true;
+          pf.toolbar.hidden = false;
+          pf.chips.hidden = false;
+          pfRenderChips(); pfRender(); pfRenderLogos(); pfSetStat(pf.items.length);
+        })
+        .catch(() => { pf.items = []; pf.online = false; pfRender(); });
+    }
+    pfLoad();
+
   </script>
 </body>
-</html>
-y>
 </html>
