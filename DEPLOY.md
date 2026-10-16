@@ -145,14 +145,15 @@ python3 server.py
 
 ---
 
-## Step 4 — Live උනාට පස්සේ (5 මිනිත්තුවක වැඩ)
+## Step 4 — Live උනාට පස්සේ (10 මිනිත්තුවක වැඩ)
 
 1. **Password එක වෙනස් කරන්න** — admin panel එකට ගිහින් login වෙන්න (`/admin.html`), පස්සේ host එකේ `CEYTEQ_ADMIN_PASSWORD` update කරලා:
    `python3 server.py --set-password admin NewPassword`
 2. **`/api/health`** open කරන්න → `{"ok": true, ...}` පෙනෙන්න ඕන
 3. **Offers tab** එකේ flyer එකක් upload කරලා test කරන්න, **Enquiries tab** එකේ form එකක් එවලා බලන්න
-4. **Backup** — `data/ceyteq.db` කොපියක් (මේ file එකේම තමයි හැම lead + flyer එකම). දිනපතා automatic backup එකක් ඕන නම් කියන්න
-5. **Robot එකට යවන්න එපා** `data/`, `.env`, `server.py` — server එකේ 403 තියෙනවා, ඒත් hosting dashboard එකේ විස්තර private තියන්න
+4. **Portfolio Upload tab** එකේ client project එකක් දාලා `portfolio.html#clients` open කරන්න — card එක එකෙණෙම පෙනිය යුතුයි (`/api/portfolio` check කරන්න)
+5. **Backup** — `data/ceyteq.db` කොපියක් (මේ file එකේම තමයි හැම lead + flyer + portfolio entry එකම). දිනපතා automatic backup එකක් ඕන නම් කියන්න
+6. **Robot එකට යවන්න එපා** `data/`, `.env`, `server.py` — server එකේ 403 තියෙනවා, ඒත් hosting dashboard එකේ විස්තර private තියන්න
 
 ---
 
@@ -162,6 +163,7 @@ python3 server.py
 |---|---|
 | Admin panel එකේ "SERVER OFFLINE" | site එක static (GitHub Pages) — backend host කරලා නෑ. හෝ API domain එක වැරදි |
 | Contact form එක WhatsApp එකට යනවා | backend එකට reach කරන්න බෑ (fallback එක වැඩ කරනවා). `/api/health` check කරන්න |
+| Portfolio පිටුවේ client cards පෙන්නන්නේ නෑ | admin → Portfolio Upload එකේ entry එකක් save කරලා තියෙනවද, "Show on the Portfolio page" tick කරලා තියෙනවද බලන්න. ඊට පස්සේ `/api/portfolio` open කරලා `items` එකේ ඒක තියෙනවද check කරන්න |
 | Offers පිටුවේ ෆ්ලයර් පෙන්නන්නේ නෑ | `flyers/` folder + `offers.html` upload වෙලා තියෙනවද බලන්න; hard refresh (Ctrl+F5) |
 | Render free එකේ data නැති වෙනවා | persistent disk ඕන (paid plan) හෝ Fly.io volume එකක් |
 | Site එක update වෙන්නේ නෑ | Pages build වෙන්නේ `main` එකෙන් — PR merge කරලා Actions tab එකේ "pages build and deployment" බලන්න |

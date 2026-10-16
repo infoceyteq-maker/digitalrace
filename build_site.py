@@ -290,6 +290,12 @@ border-radius:50px;padding:5px 16px;font-size:14px}
 .lvl{grid-template-columns:1fr}.floats{right:12px;bottom:12px;gap:10px}
 .socials{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.socials .social-btn{min-height:44px;padding:7px 8px;gap:7px}.socials .social-name{font-size:10px}.socials .social-icon{flex-basis:23px;width:23px;height:23px}.socials .social-icon svg{width:22px;height:22px}}
 @media(prefers-reduced-motion:reduce){.fab,.fab.wa{animation:none}}
+/* ---- Ceyteq staff entry bar (Contact page) ---- */
+.staffbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;background:#fff;border:1.5px dashed var(--prime);
+border-radius:16px;padding:14px 20px;margin:22px 0 0;box-shadow:0 10px 30px rgba(12,30,33,.06)}
+.staffbar .lbl{color:var(--ink);font-weight:800;font-size:15px;letter-spacing:.3px}
+.staffbar .hint{color:var(--mut2);font-size:13.5px;flex:1;min-width:210px}
+.staffbar .btn{padding:10px 22px;font-size:14.5px}
 """
 
 JS = """
@@ -335,7 +341,7 @@ PAGE_META = {
                     'flyer-01-program-intro.png'),
     'learn-earn.html': ("Learn & Earn — professional courses in digital marketing, AI, web design, graphic design, video editing, photography, print and travel. Learn from a working team, finish with a portfolio and earn from client work. | ඉගෙන ගන්න, උපයන්න.",
                         'flyer-05-training-90-day.png'),
-    'admin.html': ("Ceyteq admin panel — flyers database management. | පරිපාලක පුවිසුම.",
+    'admin.html': ("Ceyteq admin panel — offers, customer enquiries and the Portfolio Upload form. | පරිපාලක පුවිසුම — Portfolio Upload form එක.",
                    'flyer-01-program-intro.png'),
     'digitalrace.html': ("Digital Race — Ceyteq's 90-day digital transformation program for restaurants & local businesses: Alien Marketing Matrix, websites, ordering, AI bots and training. From $19. | ඩිජිටල් රේස් වැඩසටහන.",
                          'flyer-01-program-intro.png'),
@@ -497,19 +503,25 @@ fromApi().catch(fromSheet).catch(function(){});
 }catch(e){}})();
 </script>"""
 
-ADMIN_LINK = """<div style="text-align:center;margin-top:28px"><a href="admin.html" style="color:#67787a;font-size:13px;text-decoration:none;border:1px solid #c9d1d1;border-radius:50px;padding:7px 18px;background:#fff"><span class="lang-en">\\U0001f510 Admin Login</span><span class="lang-si">\\U0001f510 Admin \\u0db4\\u0dd2\\u0dc0\\u0dd2\\u0dc3\\u0dd4\\u0db8</span><span class="lang-fr">\\U0001f510 Connexion admin</span></a></div>"""
+ADMIN_LINK = """<div style="text-align:center;margin-top:28px"><a href="admin.html" style="color:#67787a;font-size:13px;text-decoration:none;border:1px solid #c9d1d1;border-radius:50px;padding:7px 18px;background:#fff"><span class="lang-en">🔐 Admin Login</span><span class="lang-si">🔐 Admin පිවිසුම</span><span class="lang-fr">🔐 Connexion admin</span></a></div>"""
 
-TSV_DATA = ('file\\ttitle_en\\ttitle_si\\ttitle_fr\\tvisible\\n'
-'flyer-01-program-intro.png\\tProgram Intro\\t\\u0dc0\\u0dd0\\u0da9\\u0dc3\\u0da7\\u0dc4\\u0db1\\tIntro\\tYES\\n'
-'flyer-02-why-now.png\\tWhy Now\\t\\u0d87\\u0dba\\u0dd2 \\u0daf\\u0db1\\u0dca\\u0db8\\tPourquoi maintenant\\tYES\\n'
-'flyer-03-what-changes.png\\tWhat Changes\\t\\u0dc0\\u0dd9\\u0db1\\u0dc3\\tChangements\\tYES\\n'
-'flyer-04-how-it-works.png\\tHow It Works\\t\\u0d9a\\u0ddca\\u0dbb\\u0dca\\u0db8\\u0dba\\tSyst\\u00e8me\\tYES\\n'
-'flyer-05-training-90-day.png\\t90-Day Training\\t\\u0db4\\u0dd4\\u0dc4\\u0dd4\\u0dab\\u0dd4\\u0dc0\\tFormation\\tYES\\n'
-'flyer-06-package-starter.png\\tStarter $19\\t\\u0d86\\u0dbb\\u0db8\\u0dca\\u0db7\\u0d9a\\tStarter 19 $\\tYES\\n'
-'flyer-07-package-standard.png\\tStandard $60\\t\\u0dc3\\u0db8\\u0dca\\u0db8\\u0d9a\\tStandard 60 $\\tYES\\n'
-'flyer-08-package-advanced.png\\tAdvanced $80\\t\\u0d8b\\u0dc3\\u0dc3\\tAvanc\\u00e9 80 $\\tYES\\n'
-'flyer-09-package-premium.png\\tPremium $250\\t\\u0d89\\u0dc4\\u0dc5\\u0db8\\tPremium 250 $\\tYES\\n'
-'flyer-10-ai-future-contact.png\\tAI + Contact\\tAI + \\u0dc3\\u0db8\\u0dca\\u0db6\\u0dca\\u0db0\\u0dba\\tIA + Contact\\tYES')
+# The same ten offers the backend seeds (see SEED_FLYERS in server.py). This is only
+# the text of the admin "copy rows" box, so the tabs and newlines are real characters —
+# the escaped form printed \u0dc0 noise where the Sinhala titles should be.
+OFFER_ROWS = [
+    ('flyer-01-program-intro.png', 'Program Intro', 'වැඩසටහන', 'Intro'),
+    ('flyer-02-why-now.png', 'Why Now', 'ඇයි දැන්ම', 'Pourquoi maintenant'),
+    ('flyer-03-what-changes.png', 'What Changes', 'වෙනස', 'Changements'),
+    ('flyer-04-how-it-works.png', 'How It Works', 'ක්‍රමය', 'Système'),
+    ('flyer-05-training-90-day.png', '90-Day Training', 'පුහුණුව', 'Formation'),
+    ('flyer-06-package-starter.png', 'Starter $19', 'ආරම්භක', 'Starter 19 $'),
+    ('flyer-07-package-standard.png', 'Standard $60', 'සම්මත', 'Standard 60 $'),
+    ('flyer-08-package-advanced.png', 'Advanced $80', 'උසස්', 'Avancé 80 $'),
+    ('flyer-09-package-premium.png', 'Premium $250', 'ඉහළම', 'Premium 250 $'),
+    ('flyer-10-ai-future-contact.png', 'AI + Contact', 'AI + සම්බන්ධය', 'IA + Contact'),
+]
+TSV_DATA = '\n'.join(['file\ttitle_en\ttitle_si\ttitle_fr\tvisible']
+                     + ['\t'.join(row + ('YES',)) for row in OFFER_ROWS])
 
 TEASERS = [
  ("digitalrace.html", "🏁", "DIGITAL RACE", "ඩිජිටල් රේස්", "DIGITAL RACE", "\"The 90-day program that built this playbook.\"", "\"මේ ක්‍රමය ගොඩනැගුණු දින 90 වැඩසටහන.\"", "« Le programme de 90 jours. »", "Open Digital Race →", "Digital Race බලන්න →", "Voir Digital Race →"),
@@ -794,6 +806,49 @@ AI = """
 """
 
 # ================= ADMIN =================
+# CSS of the Portfolio Upload form. Kept out of the site-wide CSS2 on purpose:
+# only admin.html renders those fields, and every other page stays as light as it was.
+CSS_ADMIN_FORM = """
+.pffields{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px}
+.pffields .full{grid-column:1/-1}
+.pffields label{display:block;font-size:11.5px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;
+color:var(--mut2);margin:0 0 6px}
+.pffields input:not([type=file]):not([type=checkbox]),.pffields select,.pffields textarea{width:100%;padding:12px 15px;
+border:1.5px solid var(--line);border-radius:12px;font-size:14.5px;font-family:inherit;color:var(--ink);background:#f8fbfb}
+.pffields textarea{min-height:92px;resize:vertical;line-height:1.55;font-size:13.5px}
+.pffields input:focus,.pffields select:focus,.pffields textarea:focus{outline:none;border-color:var(--prime);background:#fff}
+.pfchecks{display:flex;flex-wrap:wrap;gap:7px}
+.pfchecks label{display:inline-flex;align-items:center;gap:7px;margin:0;padding:7px 14px;border:1.5px solid var(--line);
+border-radius:50px;background:#f8fbfb;font-size:13px;font-weight:700;letter-spacing:0;text-transform:none;color:var(--mut);cursor:pointer}
+.pfchecks label.on{border-color:var(--prime);background:var(--tint);color:var(--ink)}
+.pfchecks input{accent-color:#27a3c9;margin:0;padding:0;border:0;border-radius:0;background:none;width:auto}
+.pfsub{font-size:12.5px;color:var(--mut2);margin:6px 0 0}
+@media(max-width:700px){.pffields{grid-template-columns:1fr}}
+"""
+
+# ---------------------------------------------------------------------------
+# Portfolio Upload (admin form) — the same two pick-lists the Ceyteq backend
+# validates and the public Portfolio page filters on. One source, three uses:
+# select options here, checkbox chips here, chips on portfolio.html.
+# ---------------------------------------------------------------------------
+PORTFOLIO_CATEGORIES = [
+    'IT &amp; Digital', 'Tourism', 'Mobile &amp; Accessory', 'Transportation', 'Hospitality',
+    'Fashion &amp; Design', 'Pharmaceuticals', 'Finance', 'Export &amp; Import',
+    'Food &amp; Beverage', 'Printing',
+]
+PORTFOLIO_SERVICES = [
+    'Website', 'Management System', 'AI Media', 'Designing', 'Photography',
+    'Videography', 'Research', 'Ads &amp; Promotion', 'Business Consulting',
+    'Business Documents', 'Printing',
+]
+# <option> list for the Business Category select (empty value = not decided yet)
+PF_CATEGORY_OPTIONS = ('<option value="">— choose a business category —</option>'
+                       + ''.join(f'<option value="{c}">{c}</option>' for c in PORTFOLIO_CATEGORIES))
+# Service Model chips (a project can deliver several of them)
+PF_SERVICE_CHECKS = ''.join(
+    f'<label><input type="checkbox" value="{c}" onchange="pfChip(this)">{c}</label>'
+    for c in PORTFOLIO_SERVICES)
+
 ADMIN = """
 <div class="pagehero">
 <div class="eyebrow"><span class="lang-en">Admin Panel</span><span class="lang-si">පරිපාලක පුවරුව</span><span class="lang-fr">Panneau d'administration</span></div>
@@ -822,6 +877,7 @@ ADMIN = """
 
 <div class="admin-tabs">
 <button class="active" data-tab="flyers" onclick="showTab('flyers')">\U0001f5bc️ <span class="lang-en">Offers</span><span class="lang-si">දීමනා</span><span class="lang-fr">Offres</span></button>
+<button data-tab="portfolio" onclick="showTab('portfolio')">📁 <span class="lang-en">Portfolio Upload</span><span class="lang-si">Portfolio</span><span class="lang-fr">Portfolio</span></button>
 <button data-tab="leads" onclick="showTab('leads')">\U0001f4e9 <span class="lang-en">Enquiries</span><span class="lang-si">විමසුම්</span><span class="lang-fr">Demandes</span> <b id="leadBadge"></b></button>
 <button data-tab="setup" onclick="showTab('setup')">\U0001f527 <span class="lang-en">Setup</span><span class="lang-si">සැකසුම්</span><span class="lang-fr">Installation</span></button>
 </div>
@@ -840,6 +896,43 @@ ADMIN = """
 <div class="cta-row" style="justify-content:flex-start;margin-top:14px"><button class="btn btn-cyan" onclick="addFlyer()"><span class="lang-en">Add to database</span><span class="lang-si">Database එකට එකතු කරන්න</span><span class="lang-fr">Ajouter</span></button></div>
 <p class="form-note" id="nfNote"></p>
 </div>
+</div>
+
+<div id="tab-portfolio" style="display:none">
+<h2 style="margin-top:18px">📁 <span class="lang-en">Portfolio Upload</span><span class="lang-si">Portfolio Upload</span><span class="lang-fr">Portfolio Upload</span></h2>
+<p class="note" style="color:#67787a;font-size:14px"><span class="lang-en">Every entry saved here is painted on the public Portfolio page (Client Work section) straight away — same cards, same buttons, no code and no rebuild.</span><span class="lang-si">මෙතන save කරන හැම entry එකක්ම Portfolio පිටුවේ “Client Work” කොටසේ එකෙණෙම පෙනේ — එකේ UI එකම, rebuild එකක් අවශ්‍ය නෑ.</span><span class="lang-fr">Chaque enregistrement apparaît aussitôt sur la page Portfolio (section Client Work) — même interface, sans rebuild.</span></p>
+<div style="overflow-x:auto"><table class="dash-table" id="pfTable"><thead><tr><th>#</th><th><span class="lang-en">Client</span><span class="lang-si">සේවාලාභියා</span><span class="lang-fr">Client</span></th><th><span class="lang-en">Area</span><span class="lang-si">ප්‍රදේශය</span><span class="lang-fr">Zone</span></th><th><span class="lang-en">Category</span><span class="lang-si">ප්‍රවර්ගය</span><span class="lang-fr">Catégorie</span></th><th><span class="lang-en">Service Model</span><span class="lang-si">සේවා ආකෘතිය</span><span class="lang-fr">Services</span></th><th><span class="lang-en">Media</span><span class="lang-si">මාධ්‍ය</span><span class="lang-fr">Médias</span></th><th><span class="lang-en">Live</span><span class="lang-si">පෙන්වයි</span><span class="lang-fr">En ligne</span></th><th><span class="lang-en">Actions</span><span class="lang-si">ක්‍රියා</span><span class="lang-fr">Actions</span></th></tr></thead><tbody><tr><td colspan="8">…</td></tr></tbody></table></div>
+<h2 style="margin-top:26px" id="pfFormTitle">➕ <span class="lang-en">New portfolio entry</span><span class="lang-si">නව portfolio entry එකක්</span><span class="lang-fr">Nouvelle entrée</span></h2>
+<form class="enquiry" id="pfForm" onsubmit="return savePortfolio(event)" style="max-width:920px">
+<input type="hidden" id="pfId" value="">
+<div class="pffields">
+<div><label for="pfClient">Client Name *</label><input id="pfClient" maxlength="120" placeholder="e.g. Ceylon Spice Garden Resort" data-ph-en="e.g. Ceylon Spice Garden Resort" data-ph-si="උදා: Ceylon Spice Garden Resort" data-ph-fr="ex. Ceylon Spice Garden Resort" autocomplete="off"></div>
+<div><label for="pfArea">Area</label><input id="pfArea" maxlength="120" placeholder="e.g. Galle Road, Colombo 03" data-ph-en="e.g. Galle Road, Colombo 03" data-ph-si="උදා: ගාල්ල, මිරිස්සිය" data-ph-fr="ex. Galle Road, Colombo 03" autocomplete="off"></div>
+<div class="full"><label for="pfCategory">Business Category</label><select id="pfCategory">__PF_CATS__</select></div>
+<div class="full"><label for="pfProject">Project Title <span style="font-weight:600;text-transform:none;letter-spacing:0">(shown as the card headline)</span></label><input id="pfProject" maxlength="160" placeholder="e.g. Hotel website + direct booking engine" data-ph-en="e.g. Hotel website + direct booking engine" data-ph-si="උදා: හෝටල් website එක + booking system" data-ph-fr="ex. Site hôtelier + moteur de réservation" autocomplete="off"></div>
+<div class="full"><label>Service Model — tick everything delivered</label><div class="pfchecks" id="pfServices">__PF_SERVICES__</div></div>
+<div class="full"><label for="pfSummary">Short description</label><textarea id="pfSummary" maxlength="600" rows="3" placeholder="What we built and the result the client saw. Two lines is enough — long text is trimmed on the card."></textarea></div>
+<div class="full"><label for="pfMedia">Image / Video links — one per line</label><textarea id="pfMedia" rows="4" placeholder="https://drive.google.com/file/d/1AbCdEf/view&#10;https://www.youtube.com/watch?v=AbCdEf&#10;uploads/ceylon-spice-01.jpg"></textarea>
+<p class="pfsub">Drive share links, direct image/video URLs, YouTube links or an <code class="k">uploads/…</code> file from the box below. The first image becomes the card cover.</p></div>
+<div class="full"><label for="pfFolder">Folder Link (Google Drive / Dropbox share link)</label><input id="pfFolder" maxlength="500" placeholder="https://drive.google.com/drive/folders/…" autocomplete="off"></div>
+<div><label for="pfSite">Client website link</label><input id="pfSite" maxlength="500" placeholder="https://…" autocomplete="off"></div>
+<div><label for="pfLogo">Client logo link (animated logo strip)</label><input id="pfLogo" maxlength="500" placeholder="https://…/logo.png" autocomplete="off">
+<p class="pfsub">or <button type="button" class="mini" onclick="document.getElementById('pfLogoFile').click()">upload a logo</button><input id="pfLogoFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif" onchange="pfUploadLogo()" style="display:none"></p></div>
+<div class="full"><label for="pfTags">Service Tags — comma separated</label><input id="pfTags" maxlength="400" placeholder="Branding, SEO, WhatsApp ordering, Photography" autocomplete="off"></div>
+<div class="full"><label for="pfFiles">Upload images (optional — added to the media list)</label><input id="pfFiles" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple onchange="pfUploadFiles()">
+<p class="pfsub">png / jpg / webp / gif, max 8 MB each. Videos stay as links.</p></div>
+<div class="full"><label>Visibility</label><div class="pfchecks">
+<label id="pfVisibleWrap"><input type="checkbox" id="pfVisible" checked onchange="pfChip(this)"> Show on the Portfolio page</label>
+<label id="pfFeaturedWrap"><input type="checkbox" id="pfFeatured" onchange="pfChip(this)"> ★ Featured (pinned first)</label>
+</div></div>
+</div>
+<div class="cta-row" style="justify-content:flex-start;margin-top:16px">
+<button class="btn btn-cyan" type="submit" id="pfSaveBtn">💾 <span class="lang-en">Save &amp; publish</span><span class="lang-si">Save කර publish කරන්න</span><span class="lang-fr">Enregistrer</span></button>
+<button class="btn btn-ghost" type="button" onclick="resetPfForm()">🆕 <span class="lang-en">New entry</span><span class="lang-si">නව entry එකක්</span><span class="lang-fr">Nouvelle entrée</span></button>
+<a class="btn btn-ghost" href="portfolio.html#clients" target="_blank" rel="noopener">👀 <span class="lang-en">See it on the Portfolio page</span><span class="lang-si">Portfolio පිටුවේ බලන්න</span><span class="lang-fr">Voir la page Portfolio</span></a>
+</div>
+<p class="form-note" id="pfNote"></p>
+</form>
 </div>
 
 <div id="tab-leads" style="display:none">
@@ -867,6 +960,7 @@ ADMIN = """
 <script>
 var SHEET_ID='__SHEET_ID__';
 var rows_cache=[];
+var leads_cache=[];
 function T(si,en,fr){var m=document.body.getAttribute('data-langmode')||'en';return m==='si'?si:(m==='fr'?fr:en)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function $(i){return document.getElementById(i)}
@@ -878,18 +972,18 @@ if(!r.ok)return r.json().catch(function(){return {}}).then(function(e){throw (e&
 return r.json()})}
 function showLogin(msg){$('loginBox').style.display='block';$('dashBox').style.display='none';if(msg)$('aerr').innerHTML=esc(msg)}
 function showDash(){$('loginBox').style.display='none';$('dashBox').style.display='block'}
-function showTab(n){['flyers','leads','setup'].forEach(function(t){$('tab-'+t).style.display=(t===n?'block':'none')});
+function showTab(n){['flyers','portfolio','leads','setup'].forEach(function(t){$('tab-'+t).style.display=(t===n?'block':'none')});
 Array.prototype.forEach.call(document.querySelectorAll('.admin-tabs button'),function(b){b.classList.toggle('active',b.dataset.tab===n)})}
 function doLogin(){
 api('login',{method:'POST',body:{username:$('auser').value.trim(),password:$('apass').value}})
 .then(function(d){$('aerr').textContent='';showDash();loadAll()})
 .catch(function(e){if(e!=='auth')$('aerr').textContent=(typeof e==='string'?e:T('පිවිසුම අසාර්ථකයි','Login failed','Échec de connexion'))})}
 function doLogout(){api('logout',{method:'POST'}).then(function(){showLogin('')}).catch(function(){showLogin('')})}
-function loadAll(){loadHealth();loadFlyers();loadLeads()}
+function loadAll(){loadHealth();loadFlyers();loadPortfolio();loadLeads()}
 function loadHealth(){
 api('health').then(function(d){
 $('healthStatus').innerHTML='<span class="pill-ok">ONLINE</span> '+(d.db?'SQLite':'-');
-$('healthCounts').textContent=' • '+(d.flyers||0)+' flyers • '+(d.leads||0)+' '+(d.new_leads||0)+' new'})
+$('healthCounts').textContent=' • '+(d.flyers||0)+' flyers • '+(d.portfolio_visible||0)+'/'+(d.portfolio||0)+' portfolio • '+(d.leads||0)+' '+(d.new_leads||0)+' new'})
 .catch(function(){$('healthStatus').innerHTML='<span class="pill-no">SERVER OFFLINE</span>';
 $('healthCounts').textContent=' '+T('static hosting — database නැත','static hosting — no database','hébergement statique — pas de base')})}
 function loadFlyers(){
@@ -932,7 +1026,7 @@ rd.readAsDataURL(file);return}
 if(!name){note.className='form-note form-err';note.textContent=T('File එකක් තෝරන්න හෝ නම ලියන්න','Pick a file or type a name','Choisissez un fichier ou un nom');return}
 create(name)}
 function loadLeads(){
-api('admin/leads').then(function(rows){
+api('admin/leads').then(function(rows){leads_cache=rows;
 $('leadBadge').textContent=rows.filter(function(r){return r.status==='new'}).length||'';
 var h='';
 rows.forEach(function(r,i){
@@ -940,14 +1034,99 @@ h+='<tr><td>'+(i+1)+'</td><td>'+esc(r.created_at)+'</td><td>'+esc(r.name)+'</td>
 +'<td>'+esc(r.service)+'</td><td style="max-width:320px">'+esc(r.message)+'</td>'
 +'<td>'+(r.status==='new'?'<span class="pill-ok">NEW</span>':'<span class="pill-no">done</span>')+'</td>'
 +'<td><a class="mini" href="https://wa.me/'+esc(String(r.contact).replace(/[^0-9]/g,''))+'" target="_blank">wa</a> '
-+'<button class="mini" onclick="toggleLead('+r.id+',\''+r.status+'\')">'+(r.status==='new'?'done':'new')+'</button> '
++'<button class="mini" onclick="toggleLead('+r.id+')">'+(r.status==='new'?'done':'new')+'</button> '
 +'<button class="mini" onclick="delLead('+r.id+')">✕</button></td></tr>'});
 $('leadTable').querySelector('tbody').innerHTML=h||'<tr><td colspan="8">'+T('දැනට විමසුම් නෑ','No enquiries yet','Aucune demande')+'</td></tr>'})
 .catch(function(e){$('leadTable').querySelector('tbody').innerHTML='<tr><td colspan="8">'+esc(e)+'</td></tr>'})}
-function toggleLead(id,st){api('admin/leads/'+id,{method:'PATCH',body:{status:st==='new'?'done':'new'}}).then(loadLeads).catch(function(e){alert(e)})}
+function toggleLead(id){var r=leads_cache.filter(function(x){return x.id===id})[0];if(!r)return;api('admin/leads/'+id,{method:'PATCH',body:{status:r.status==='new'?'done':'new'}}).then(loadLeads).catch(function(e){alert(e)})}
 function delLead(id){if(!confirm(T('මේ විමසුම delete කරන්නද?','Delete this enquiry?','Supprimer cette demande ?')))return;
 api('admin/leads/'+id,{method:'DELETE'}).then(loadLeads).catch(function(e){alert(e)})}
 function copyTSV(){var t=$('tsvBox');t.select();try{document.execCommand('copy')}catch(e){}}
+/* --------- Portfolio Upload form (admin) -> GET /api/portfolio -> portfolio.html --------- */
+var pf_rows=[],pf_edit=null,pf_NL=String.fromCharCode(10);
+function pfVal(i){var el=$(i);return el?el.value.trim():''}
+function pfChip(cb){cb.parentNode.classList.toggle('on',cb.checked)}
+function pfLines(text){return String(text||'').split(pf_NL).filter(function(l){return l.trim()})}
+function pfChecked(){var out=[];Array.prototype.forEach.call(document.querySelectorAll('#pfServices input'),function(cb){if(cb.checked)out.push(cb.value)});return out}
+function pfSetServices(list){Array.prototype.forEach.call(document.querySelectorAll('#pfServices input'),function(cb){var on=list.indexOf(cb.value)>=0;cb.checked=on;cb.parentNode.classList.toggle('on',on)})}
+function pfById(id){for(var i=0;i<pf_rows.length;i++){if(String(pf_rows[i].id)===String(id))return pf_rows[i]}return null}
+function loadPortfolio(){
+api('admin/portfolio').then(function(rows){pf_rows=rows;renderPfTable()})
+.catch(function(e){$('pfTable').querySelector('tbody').innerHTML='<tr><td colspan="8">'+esc(e)+'</td></tr>'})}
+function renderPfTable(){
+var h='';
+pf_rows.forEach(function(r){
+h+='<tr><td>'+r.id+'</td><td><b>'+esc(r.client_name)+'</b>'+(r.project_title?'<br><small>'+esc(r.project_title)+'</small>':'')+'</td>'
++'<td>'+esc(r.area)+'</td><td>'+esc(r.category)+'</td><td style="max-width:230px">'+esc(r.services)+'</td>'
++'<td>'+pfLines(r.media_links).length+(r.folder_url?' + 📁':'')+'</td>'
++'<td>'+(r.visible?'<span class="pill-ok">LIVE</span>':'<span class="pill-no">HIDDEN</span>')+(r.featured?' <span class="pill-ok">★</span>':'')+'</td>'
++'<td style="white-space:nowrap"><button class="mini" onclick="pfEdit('+r.id+')">edit</button> '
++'<button class="mini" onclick="pfPatch('+r.id+',{visible:'+(r.visible?0:1)+'})">'+(r.visible?'hide':'show')+'</button> '
++'<button class="mini" onclick="pfPatch('+r.id+',{featured:'+(r.featured?0:1)+'})">★</button> '
++'<a class="mini" href="portfolio.html#clients" target="_blank" rel="noopener">↗</a> '
++'<button class="mini" onclick="pfDel('+r.id+')">✕</button></td></tr>'});
+$('pfTable').querySelector('tbody').innerHTML=h||'<tr><td colspan="8">'+T('දැනට portfolio entries නෑ — පහත form එකෙන් පළමු client project එක දාන්න','No portfolio entries yet — add the first client project with the form below','Aucune entrée — ajoutez un premier projet ci-dessous')+'</td></tr>'}
+function pfPatch(id,body){api('admin/portfolio/'+id,{method:'PATCH',body:body}).then(loadPortfolio).catch(function(e){alert(typeof e==='string'?e:'update failed')})}
+function pfDel(id){if(!confirm(T('මේ portfolio entry එක delete කරන්නද?','Delete this portfolio entry?','Supprimer cette entrée ?')))return;
+api('admin/portfolio/'+id,{method:'DELETE'}).then(function(){if(String(pf_edit)===String(id))resetPfForm();loadPortfolio();loadHealth()}).catch(function(e){alert(typeof e==='string'?e:'delete failed')})}
+function pfEdit(id){var r=pfById(id);if(!r)return;pf_edit=id;
+$('pfId').value=r.id;$('pfClient').value=r.client_name||'';$('pfProject').value=r.project_title||'';
+$('pfArea').value=r.area||'';$('pfCategory').value=r.category||'';$('pfSummary').value=r.summary||'';
+$('pfMedia').value=r.media_links||'';$('pfFolder').value=r.folder_url||'';$('pfSite').value=r.website_url||'';
+$('pfLogo').value=r.logo_url||'';$('pfTags').value=r.tags||'';
+$('pfVisible').checked=!!r.visible;$('pfFeatured').checked=!!r.featured;
+pfSetServices(String(r.services||'').split(',').map(function(x){return x.trim()}).filter(Boolean));
+Array.prototype.forEach.call(document.querySelectorAll('.pfchecks input'),pfChip);
+$('pfSaveBtn').innerHTML='💾 '+T('Update කරන්න','Update','Mettre à jour');
+var note=$('pfNote');note.className='form-note';
+note.textContent=T('මේ entry එක edit කරනවා — වෙනස්කම් save කරන්න','Editing entry #'+r.id+' — change the fields and save again.','Modification de l’entrée #'+r.id);
+$('pfForm').scrollIntoView({behavior:'smooth',block:'start'})}
+function resetPfForm(){pf_edit=null;$('pfForm').reset();$('pfId').value='';$('pfVisible').checked=true;$('pfFeatured').checked=false;
+pfSetServices([]);Array.prototype.forEach.call(document.querySelectorAll('.pfchecks input'),pfChip);
+$('pfSaveBtn').innerHTML='💾 '+T('Save කර publish කරන්න','Save &amp; publish','Enregistrer');
+var note=$('pfNote');note.className='form-note';note.textContent=''}
+function savePortfolio(ev){if(ev)ev.preventDefault();
+var id=$('pfId').value;
+var payload={client_name:pfVal('pfClient'),project_title:pfVal('pfProject'),area:pfVal('pfArea'),
+category:$('pfCategory').value,services:pfChecked(),summary:pfVal('pfSummary'),media_links:$('pfMedia').value,
+folder_url:pfVal('pfFolder'),website_url:pfVal('pfSite'),logo_url:pfVal('pfLogo'),tags:pfVal('pfTags'),
+visible:$('pfVisible').checked?1:0,featured:$('pfFeatured').checked?1:0};
+var note=$('pfNote'),btn=$('pfSaveBtn');
+if(!payload.client_name){note.className='form-note form-err';note.textContent=T('Client Name එක අනිවාර්යයි','Client Name is required','Le nom du client est requis');$('pfClient').focus();return false}
+btn.disabled=true;note.className='form-note';note.textContent=T('Save කරනවා…','Saving…','Enregistrement…');
+api(id?('admin/portfolio/'+id):'admin/portfolio',{method:id?'PATCH':'POST',body:payload})
+.then(function(){btn.disabled=false;note.className='form-note form-ok';
+note.textContent=(id?T('Update කළා','Updated','Mis à jour'):T('Publish කළා','Published','Publié'))
++' — '+T('Portfolio පිටුවේ එකෙණෙම පෙනේ','it is live on the Portfolio page','visible sur la page Portfolio')
++' • <a href="portfolio.html#clients" target="_blank" rel="noopener">'+T('බලන්න','view','voir')+'</a>';
+loadPortfolio();loadHealth()})
+.catch(function(e){btn.disabled=false;note.className='form-note form-err';note.textContent=esc(typeof e==='string'?e:'save failed')});
+return false}
+function pfUploadLogo(){
+var f=$('pfLogoFile').files&&$('pfLogoFile').files[0];if(!f)return;
+var rd=new FileReader();
+rd.onload=function(){api('admin/upload',{method:'POST',body:{filename:f.name,data:rd.result}})
+.then(function(d){$('pfLogo').value='uploads/'+d.filename;var note=$('pfNote');note.className='form-note form-ok';
+note.textContent='Logo uploaded — press Save to publish.'})
+.catch(function(e){var note=$('pfNote');note.className='form-note form-err';note.textContent=esc(typeof e==='string'?e:'logo upload failed')})
+.then(function(){$('pfLogoFile').value=''})};
+rd.readAsDataURL(f)}
+function pfUploadFiles(){
+var files=$('pfFiles').files;if(!files||!files.length)return;
+var box=$('pfMedia'),note=$('pfNote'),list=pfLines(box.value),i=0,added=0,bad=0;
+note.className='form-note';note.textContent='Uploading '+files.length+' image(s)…';
+function next(){
+if(i>=files.length){box.value=list.join(pf_NL);$('pfFiles').value='';
+note.className='form-note '+(bad?'form-err':'form-ok');
+note.textContent=added+' image(s) added to the media list'+(bad?(' — '+bad+' failed'):'')+'. Press Save to publish.';return}
+var f=files[i++],rd=new FileReader();
+rd.onload=function(){api('admin/upload',{method:'POST',body:{filename:f.name,data:rd.result}})
+.then(function(d){list.push('uploads/'+d.filename);added++;next()})
+.catch(function(e){bad++;note.className='form-note form-err';note.textContent=esc(f.name+': '+(typeof e==='string'?e:'upload failed'));next()})};
+rd.onerror=function(){bad++;next()};
+rd.readAsDataURL(f)}
+next()}
+
 (function(){api('me').then(function(){showDash();loadAll()}).catch(function(){});})();
 $('apass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
 $('auser').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin()});
@@ -1056,11 +1235,13 @@ for fname, title, active, body in PAGES:
         body = body + explore_more(active)
     body = (body.replace('__FLYER_JS__', LOADER_JS).replace('__SHEET_ID__', SHEET_ID)
                 .replace('__EDIT_URL__', SHEET_EDIT_URL).replace('__ADMIN_SIG__', ADMIN_SIG)
-                .replace('__TSV__', TSV_DATA).replace('__LOGO__', LOGO))
+                .replace('__TSV__', TSV_DATA).replace('__LOGO__', LOGO)
+                .replace('__PF_CATS__', PF_CATEGORY_OPTIONS).replace('__PF_SERVICES__', PF_SERVICE_CHECKS))
     html = page(title, active, body, contact=(fname not in ('index.html', 'admin.html')),
                 fname=fname, tail=PAGE_TAIL.get(fname, ''),
                 extra_css=(HM.CSS_PAGE if fname in HM.PAGES_WITH_CAMPAIGN_CSS else '')
-                + (HM.CSS_LED if fname == 'hotelmate.html' else ''))
+                + (HM.CSS_LED if fname == 'hotelmate.html' else '')
+                + (CSS_ADMIN_FORM if fname == 'admin.html' else ''))
     assert '__' not in html.replace('data-langmode', ''), fname
     with open(f'{ROOT}/{fname}', 'w') as f:
         f.write(html)

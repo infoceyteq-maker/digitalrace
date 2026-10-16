@@ -67,7 +67,10 @@ PAGES (21 + 1 redirect)
                       $250. Enrolment form saves to the database.
   contact.html        Contact hub — WhatsApp/hotline/email + enquiry
                       form that SAVES TO THE DATABASE (falls back to
-                      WhatsApp when the backend is offline).
+                      WhatsApp when the backend is offline). First thing on
+                      the page is the Ceyteq-team bar with the ADMIN button
+                      (same link as the small print on Offers, but easy to
+                      find when you work on the site).
   packages.html       Digital Race 4 packages (locked prices) + FAQ.
   system.html         Digital Race — the Matrix system.
   training.html       Digital Race — 90-day roadmap.
@@ -83,7 +86,11 @@ PAGES (21 + 1 redirect)
                       page URL are passed through to the WhatsApp links.
   flyers.html         redirect to offers.html (old links keep working).
   admin.html          Admin panel — flyers CRUD (order, titles,
-                      visibility, upload) + customer enquiries.
+                      visibility, upload), customer enquiries, and the
+                      PORTFOLIO UPLOAD form (client name, area, business
+                      category, service model, image/video links + Drive
+                      folder link, service tags) that publishes straight
+                      into the Client Work section of portfolio.html.
 
 LANGUAGES
   [ENGLISH] Full English (DEFAULT) | [සිංහල] Full Sinhala | [FRANÇAIS] Full French
@@ -95,7 +102,8 @@ LANGUAGES
 
 BACKEND (server.py) — stdlib only, no pip install needed
   Database : SQLite at data/ceyteq.db (created automatically)
-  Tables   : admins (PBKDF2-SHA256, 200k iterations) · flyers · leads
+  Tables   : admins (PBKDF2-SHA256, 200k iterations) · flyers · leads ·
+             portfolio (one row per published client project)
   Security : password hashed in DB — nothing secret in the HTML;
              HttpOnly + SameSite=Lax session cookie (7 days);
              JSON-only state changes; login rate-limited by delay;
@@ -105,6 +113,7 @@ BACKEND (server.py) — stdlib only, no pip install needed
   API
     public  GET  /api/health                     server + row counts
             GET  /api/flyers                     visible flyers (ordered)
+            GET  /api/portfolio                  visible client projects (+ ?q= ?category= ?service=)
             POST /api/leads                      save an enquiry
     admin   POST /api/login | /api/logout        session
             GET  /api/me
@@ -113,6 +122,8 @@ BACKEND (server.py) — stdlib only, no pip install needed
             POST            /api/admin/flyers/reorder
             POST            /api/admin/upload    (png/jpg/webp/gif, ≤8 MB)
             GET             /api/admin/leads
+            GET|POST        /api/admin/portfolio
+            PATCH|DELETE    /api/admin/portfolio/<id>
             PATCH|DELETE    /api/admin/leads/<id>
   Backup: copy data/ceyteq.db (that file is the whole database).
 

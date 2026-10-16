@@ -10,8 +10,15 @@ It does four things and exits non-zero if anything fails:
      committed HTML is out of date
   2. checks every local link/image path in every page resolves
   3. boots the backend on a free port and exercises the API
-     (/api/health, /api/flyers, admin 401 without login, POST /api/leads)
+     (/api/health, /api/flyers, /api/portfolio, admin 401 without login,
+      POST /api/leads, source files not downloadable)
   4. prints a short summary
+
+Front-end of the Portfolio Upload form (admin form -> database -> portfolio.html
+cards, search bar, service/client buttons, logo strip) is covered by:
+
+    npm i jsdom && node check_portfolio.mjs
+
 
 GitHub Actions: paste this into .github/workflows/build-check.yml on GitHub
 (the Arena app token cannot create workflow files itself):
@@ -87,8 +94,8 @@ for page in sorted(glob.glob(os.path.join(ROOT, '*.html'))):
     for ref in set(re.findall(r'(?:src|href)="([^"]+)"', html)):
         if ref.startswith(('data:', 'http', 'mailto:', 'tel:', '#', 'javascript:')):
             continue
-        if "'" in ref or '+' in ref:
-            continue
+        if "'" in ref or '+' in ref or '$' in ref:
+            continue          # JS string building / `${…}` template placeholders
         # Query parameters select UI state (for example a Portfolio tab) and
         # are not part of the local filesystem path being checked.
         target = urllib.parse.urlsplit(ref).path
@@ -147,6 +154,28 @@ try:
         fail('/api/flyers did not return rows')
     else:
         ok(f'/api/flyers returned {len(rows)} visible flyers (first src: {rows[0].get("src")})')
+
+    code, body = get('/api/portfolio')
+    if code != 200:
+        fail('/api/portfolio did not answer')
+    else:
+        pf = json.loads(body)
+        ok(f"/api/portfolio {pf['total']} published entries, "
+           f"{len(pf['categories'])} categories / {len(pf['services'])} service models offered")
+        if not (isinstance(pf.get('items'), list) and 'counts' in pf):
+            fail('/api/portfolio shape changed — portfolio.html expects items + counts')
+
+    code, _ = get('/api/admin/portfolio')
+    if code != 401:
+        fail(f'/api/admin/portfolio without login returned {code}, expected 401')
+    else:
+        ok('portfolio admin API is protected (401 without login)')
+
+    code, _ = get('/api/admin/portfolio', 'POST', {'area': 'Colombo'})
+    if code != 401:
+        fail(f'saving a portfolio entry without login returned {code}, expected 401')
+    else:
+        ok('portfolio entries cannot be written without signing in')
 
     code, _ = get('/api/admin/leads')
     if code != 401:

@@ -701,6 +701,29 @@ SERVICE_OPTIONS = ['Web Services', 'Advertising', 'Printing &amp; Digital', 'Pho
                    'HotelMate PMS (via Ceyteq)', 'Other']
 
 
+def staff_bar():
+    """Ceyteq staff entry point — first thing on the Contact page.
+
+    It is only a door to admin.html: the Portfolio Upload form, the offers
+    table and the enquiry inbox sit behind the server session (password
+    hashed in the database), so a visible link costs nothing in security and
+    saves the team from hunting for the small print at the bottom of Offers.
+    """
+    return (
+        '<div class="staffbar">'
+        '<span class="lbl">🔐 ' + T('Ceyteq team', 'Ceyteq කණ්ඩායමට', 'Équipe Ceyteq') + '</span>'
+        '<span class="hint">' + T(
+            'Publish a finished client project on the Portfolio page — name, area, '
+            'category, service model, image/video links and tags. It appears instantly.',
+            'සම්පූර්ණ කළ client project එකක් Portfolio පිටුවේ පළ කරන්න — නම, ප්‍රදේශය, '
+            'ප්‍රවර්ගය, සේවා ආකෘතිය, image/video links සහ tags. එකෙණෙම පෙනේ.',
+            'Publiez une réalisation client sur la page Portfolio — nom, zone, catégorie, '
+            'services, liens images/vidéos et tags. Publication immédiate.') + '</span>'
+        '<a class="btn btn-navy" href="admin.html">🔐 '
+        + T('Admin — Portfolio Upload', 'Admin — Portfolio Upload', 'Admin — Portfolio Upload')
+        + '</a></div>')
+
+
 def contact():
     opts = ''.join(f'<option value="{o}">{o}</option>' for o in SERVICE_OPTIONS)
     return hero('Contact', 'සම්බන්ධ වන්න', 'Contact',
@@ -708,6 +731,7 @@ def contact():
                 'WhatsApp, call or send the form — we reply during business hours, usually within the hour.',
                 'WhatsApp, call හෝ form එක යවන්න — ව්‍යාපාරික වේලාවන්හිදී පැයක් ඇතුළත පිළිතුරු දෙනවා.',
                 'WhatsApp, appel ou formulaire — nous répondons pendant les heures ouvrables.') + f"""
+{staff_bar()}
 <section>
 <div class="contact-grid">
 <div class="cbox"><small>{T('HOTLINE', 'හොට්ලයින්', 'LIGNE DIRECTE')}</small><a href="tel:+94788607143">+94 78 860 7143</a></div>
