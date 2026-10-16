@@ -719,7 +719,7 @@ def staff_bar():
             'ප්‍රවර්ගය, සේවා ආකෘතිය, image/video links සහ tags. එකෙණෙම පෙනේ.',
             'Publiez une réalisation client sur la page Portfolio — nom, zone, catégorie, '
             'services, liens images/vidéos et tags. Publication immédiate.') + '</span>'
-        '<a class="btn btn-navy" href="admin.html">🔐 '
+        '<a class="btn btn-navy" href="admin.html" style="font-size:10px;padding:4px 10px">🔐 '
         + T('Admin — Portfolio Upload', 'Admin — Portfolio Upload', 'Admin — Portfolio Upload')
         + '</a></div>')
 
@@ -731,7 +731,6 @@ def contact():
                 'WhatsApp, call or send the form — we reply during business hours, usually within the hour.',
                 'WhatsApp, call හෝ form එක යවන්න — ව්‍යාපාරික වේලාවන්හිදී පැයක් ඇතුළත පිළිතුරු දෙනවා.',
                 'WhatsApp, appel ou formulaire — nous répondons pendant les heures ouvrables.') + f"""
-{staff_bar()}
 <section>
 <div class="contact-grid">
 <div class="cbox"><small>{T('HOTLINE', 'හොට්ලයින්', 'LIGNE DIRECTE')}</small><a href="tel:+94788607143">+94 78 860 7143</a></div>
@@ -764,6 +763,7 @@ def contact():
 <div class="card"><h3>🇫🇷 {T('France', 'ප්‍රංශය', 'France')}</h3><p>{T('European branch — WhatsApp +33 7 44 28 42 69. Serving travellers and French-speaking clients.', 'යුරෝපීය ශාඛාව — WhatsApp +33 7 44 28 42 69. සංචාරකයන් සහ ප්‍රංශ භාෂාව කතා කරන සේවාලාභීන්ට.', 'Succursale européenne — WhatsApp +33 7 44 28 42 69. Voyageurs et clients francophones.')}</p></div>
 </div>
 </section>
+{staff_bar()}
 """
 
 

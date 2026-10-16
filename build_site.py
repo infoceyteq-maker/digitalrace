@@ -291,11 +291,11 @@ border-radius:50px;padding:5px 16px;font-size:14px}
 .socials{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.socials .social-btn{min-height:44px;padding:7px 8px;gap:7px}.socials .social-name{font-size:10px}.socials .social-icon{flex-basis:23px;width:23px;height:23px}.socials .social-icon svg{width:22px;height:22px}}
 @media(prefers-reduced-motion:reduce){.fab,.fab.wa{animation:none}}
 /* ---- Ceyteq staff entry bar (Contact page) ---- */
-.staffbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;background:#fff;border:1.5px dashed var(--prime);
-border-radius:16px;padding:14px 20px;margin:22px 0 0;box-shadow:0 10px 30px rgba(12,30,33,.06)}
-.staffbar .lbl{color:var(--ink);font-weight:800;font-size:15px;letter-spacing:.3px}
-.staffbar .hint{color:var(--mut2);font-size:13.5px;flex:1;min-width:210px}
-.staffbar .btn{padding:10px 22px;font-size:14.5px}
+.staffbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#fff;border:1.5px dashed var(--prime);
+border-radius:12px;padding:8px 12px;margin:22px 0 0;box-shadow:0 6px 16px rgba(12,30,33,.06)}
+.staffbar .lbl{color:var(--ink);font-weight:800;font-size:11px;letter-spacing:.3px}
+.staffbar .hint{color:var(--mut2);font-size:10px;flex:1;min-width:210px}
+.staffbar .btn{padding:4px 10px;font-size:10px}
 """
 
 JS = """
@@ -503,7 +503,7 @@ fromApi().catch(fromSheet).catch(function(){});
 }catch(e){}})();
 </script>"""
 
-ADMIN_LINK = """<div style="text-align:center;margin-top:28px"><a href="admin.html" style="color:#67787a;font-size:13px;text-decoration:none;border:1px solid #c9d1d1;border-radius:50px;padding:7px 18px;background:#fff"><span class="lang-en">🔐 Admin Login</span><span class="lang-si">🔐 Admin පිවිසුම</span><span class="lang-fr">🔐 Connexion admin</span></a></div>"""
+ADMIN_LINK = """<div style="text-align:center;margin-top:28px"><a href="admin.html" style="color:#67787a;font-size:10px;text-decoration:none;border:1px solid #c9d1d1;border-radius:50px;padding:4px 10px;background:#fff"><span class="lang-en">🔐 Admin Login</span><span class="lang-si">🔐 Admin පිවිසුම</span><span class="lang-fr">🔐 Connexion admin</span></a></div>"""
 
 # The same ten offers the backend seeds (see SEED_FLYERS in server.py). This is only
 # the text of the admin "copy rows" box, so the tabs and newlines are real characters —
